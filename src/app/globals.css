@@ -186,21 +186,30 @@ textarea {
 }
 
 .fe-nav-link {
-  display: inline-block;
-  padding: 9px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 14px;
   color: var(--color-neutral-900);
   font-weight: 600;
   font-size: 14.5px;
   text-decoration: none;
-  border-radius: 8px;
-  border-bottom: 2px solid transparent;
+  border-radius: 999px;
+  background: transparent;
   transition:
     color 0.2s ease,
-    border-color 0.2s ease;
+    background-color 0.2s ease;
 }
-.fe-nav-link:hover {
+.fe-nav-link:hover,
+.fe-nav-link[data-open="true"] {
   color: var(--color-primary-900);
-  border-bottom-color: var(--color-accent-500);
+  background: var(--color-primary-100);
+}
+.fe-nav-link svg {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fe-nav-link[data-open="true"] svg {
+  transform: rotate(180deg);
 }
 
 /* Generic card hover-lift, used across grids of cards site-wide. */

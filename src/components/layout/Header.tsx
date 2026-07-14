@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { navGroups, successStoriesLink } from "@/data/navigation";
 import { useIsMobile } from "@/hooks/useMediaQuery";
@@ -19,6 +20,7 @@ export function Header() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [headerScrolled, setHeaderScrolled] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setHeaderScrolled(document.documentElement.scrollTop > 40);
@@ -80,19 +82,34 @@ export function Header() {
           className="mx-auto flex max-w-[1220px] items-center justify-between gap-4 px-[22px] transition-[padding]"
           style={{ padding: headerScrolled ? "10px 22px" : "16px 22px" }}
         >
-          <Link href="/" className="flex items-center gap-2.5 no-underline">
-            <span className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] bg-primary-900 text-[19px] font-extrabold text-highlight-500">
-              F
-            </span>
-            <span className="flex flex-col leading-[1.05]">
-              <span className="text-lg font-extrabold text-primary-900">Future Education</span>
-              <span className="text-[11px] tracking-[.04em] text-neutral-500">CAREER COUNSELLING · 15+ YEARS</span>
-            </span>
+          <Link href="/" className="flex items-center no-underline">
+            {!logoError ? (
+              <Image
+                src="/logo.png"
+                alt="Future Education Trust"
+                width={180}
+                height={64}
+                priority
+                onError={() => setLogoError(true)}
+                className="w-auto object-contain transition-[height] duration-300"
+                style={{ height: headerScrolled ? "36px" : "48px" }}
+              />
+            ) : (
+              <span className="flex items-center gap-2.5">
+                <span className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] bg-primary-900 text-[19px] font-extrabold text-highlight-500">
+                  F
+                </span>
+                <span className="flex flex-col leading-[1.05]">
+                  <span className="text-lg font-extrabold text-primary-900">Future Education</span>
+                  <span className="text-[11px] tracking-[.04em] text-neutral-500">CAREER COUNSELLING · 15+ YEARS</span>
+                </span>
+              </span>
+            )}
           </Link>
 
           {!isMobile && (
             <>
-              <nav className="flex items-center gap-0.5">
+              <nav className="flex items-center gap-1">
                 {navGroups.map((group) => (
                   <div
                     key={group.key}
@@ -100,22 +117,29 @@ export function Header() {
                     onMouseEnter={() => setOpenMenu(group.key)}
                     onMouseLeave={() => setOpenMenu(null)}
                   >
-                    <Link href={group.href} className="fe-nav-link">
-                      {group.label} ▾
+                    <Link href={group.href} className="fe-nav-link" data-open={openMenu === group.key}>
+                      {group.label}
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                        <path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
                     </Link>
                     {openMenu === group.key && (
                       <div
-                        className="absolute top-full left-0 z-[60] flex min-w-[250px] flex-col gap-0.5 rounded-xl border border-[#E5E7EB] bg-white p-2 shadow-[0_14px_34px_rgba(15,61,38,.14)]"
+                        className="absolute top-full left-0 z-[60] flex min-w-[260px] flex-col gap-0.5 rounded-2xl border border-[#E5E7EB] bg-white p-2 pt-3 shadow-[0_18px_40px_rgba(15,61,38,.16)]"
                         style={{ animation: "feScaleIn .18s cubic-bezier(.16,1,.3,1)" }}
                       >
                         {group.children.map((child) => (
                           <Link
                             key={child.href}
                             href={child.href}
-                            className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-neutral-900 no-underline hover:bg-neutral-100"
+                            className="flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-neutral-900 no-underline hover:bg-primary-100 hover:text-primary-900"
                           >
                             {child.label}
-                            {child.tag && <span className="text-[11px] font-bold text-accent-500">{child.tag}</span>}
+                            {child.tag && (
+                              <span className="rounded-full bg-accent-100 px-2 py-0.5 text-[10.5px] font-bold tracking-wide text-accent-500 uppercase">
+                                {child.tag}
+                              </span>
+                            )}
                           </Link>
                         ))}
                       </div>
@@ -128,7 +152,7 @@ export function Header() {
               </nav>
               <MagneticLink
                 href="/contact"
-                className="whitespace-nowrap rounded-[11px] bg-accent-500 px-5 py-2.5 text-[15px] font-bold text-white no-underline"
+                className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-accent-500 px-5 py-2.5 text-[15px] font-bold text-white no-underline shadow-[0_6px_16px_rgba(169,36,31,.28)] hover:shadow-[0_8px_22px_rgba(169,36,31,.38)]"
               >
                 Enquire Now
               </MagneticLink>
