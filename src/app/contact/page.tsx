@@ -20,7 +20,10 @@ export default function ContactPage() {
         office, open every day of the year.
       </p>
 
-      <div className="grid items-start gap-7.5" style={{ gridTemplateColumns: isMobile ? "1fr" : "1.2fr 0.9fr" }}>
+      <div
+        className="grid items-start gap-7.5"
+        style={{ gridTemplateColumns: isMobile ? "minmax(0, 1fr)" : "minmax(0, 1.2fr) minmax(0, 0.9fr)" }}
+      >
         <div className="order-1 rounded-2xl border border-[#E5E7EB] bg-white p-7">
           <h2 className="mb-4 text-xl font-extrabold text-primary-900">Send an enquiry</h2>
           <LeadForm
