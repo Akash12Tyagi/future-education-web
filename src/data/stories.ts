@@ -1,0 +1,10 @@
+import type { Story } from "@/lib/types";
+
+export const stories: Story[] = [
+  { id: "s1", slug: "ankit-mbbs", name: "Ankit Kumar", course: "MBBS", college: "SRM Institute of Science & Technology", stream: "medical", quote: "I was ready to take a management-quota seat out of panic. My counsellor asked me to wait two weeks for a better round instead — and it paid off.", year: 2025, verified: true, video: false },
+  { id: "s2", slug: "priya-nursing", name: "Priya Sharma", course: "B.Sc Nursing", college: "Dr. M.G.R. Educational & Research Institute", stream: "nursing", quote: "My parents had never dealt with an education consultant before. Having every step explained in plain language, before we paid anything, made the difference.", year: 2025, verified: true, video: false },
+  { id: "s3", slug: "rahul-btech", name: "Rahul Verma", course: "B.Tech (CSE)", college: "IEM, Kolkata", stream: "engineering", quote: "I compared three engineering colleges side by side before deciding. Nobody pushed me toward the one with the highest fee.", year: 2024, verified: true, video: false },
+  { id: "s4", slug: "sneha-mba", name: "Sneha Gupta", course: "MBA", college: "MATS University", stream: "management", quote: "I didn't know I qualified for an education loan without collateral until my counsellor walked me through the paperwork.", year: 2024, verified: true, video: false },
+  { id: "s5", slug: "imran-pgdm", name: "Imran Ansari", course: "PGDM", college: "Suryadatta Group of Institutes", stream: "management", quote: "Choosing between an MBA and a PGDM was confusing until someone actually explained the difference for my career goals.", year: 2023, verified: true, video: false },
+  { id: "s6", slug: "kavya-bed", name: "Kavya Singh", course: "B.Ed", college: "Pimpri Chinchwad Education Trust (PCET)", stream: "education", quote: "First in my family to study beyond Class 12. Every document was handled with me over a phone call, one step at a time.", year: 2025, verified: true, video: false },
+];

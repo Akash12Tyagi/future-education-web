@@ -1,0 +1,246 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary-900: #0f3d26;
+  --color-primary-600: #1f7a42;
+  --color-primary-100: #e5f3ea;
+  --color-accent-500: #a9241f;
+  --color-accent-100: #f8e3e1;
+  --color-highlight-500: #f4c81d;
+  --color-success-500: #0e8074;
+  --color-success-100: #e4f4f1;
+  --color-neutral-900: #14171f;
+  --color-neutral-500: #6b7280;
+  --color-neutral-100: #f7f8f6;
+  --color-neutral-0: #ffffff;
+  --color-border: #e5e7eb;
+}
+
+@theme inline {
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-devanagari: var(--font-devanagari);
+
+  --color-primary-900: var(--color-primary-900);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-100: var(--color-primary-100);
+  --color-accent-500: var(--color-accent-500);
+  --color-accent-100: var(--color-accent-100);
+  --color-highlight-500: var(--color-highlight-500);
+  --color-success-500: var(--color-success-500);
+  --color-success-100: var(--color-success-100);
+  --color-neutral-900: var(--color-neutral-900);
+  --color-neutral-500: var(--color-neutral-500);
+  --color-neutral-100: var(--color-neutral-100);
+  --color-neutral-0: var(--color-neutral-0);
+  --color-border: var(--color-border);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-900);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--color-highlight-500);
+  color: var(--color-neutral-900);
+}
+
+a,
+button {
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+button:active,
+a:active {
+  transform: scale(0.97);
+}
+
+input,
+select,
+textarea {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+@keyframes fe-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fe-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fe-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+@keyframes feRise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes feFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes feScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes feSlideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes feSlideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes feSlideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes feMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.fe-marquee-track {
+  animation: feMarquee 32s linear infinite;
+}
+.fe-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.fe-nav-link {
+  display: inline-block;
+  padding: 9px 12px;
+  color: var(--color-neutral-900);
+  font-weight: 600;
+  font-size: 14.5px;
+  text-decoration: none;
+  border-radius: 8px;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.fe-nav-link:hover {
+  color: var(--color-primary-900);
+  border-bottom-color: var(--color-accent-500);
+}
+
+/* Generic card hover-lift, used across grids of cards site-wide. */
+.fe-card-hover {
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fe-card-hover:hover {
+  box-shadow: 0 14px 30px rgba(15, 61, 38, 0.1);
+  transform: translateY(-6px);
+}
+
+.fe-stream-card {
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fe-stream-card:hover {
+  border-color: var(--color-primary-600);
+  box-shadow: 0 12px 26px rgba(15, 61, 38, 0.12);
+  transform: translateY(-6px);
+}
+
+.fe-image-zoom {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fe-image-zoom-wrap:hover .fe-image-zoom {
+  transform: scale(1.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
