@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import type { BentoItem } from "@/lib/types";
-import { ImageSlot } from "@/components/ui/ImageSlot";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 export function BentoTile({ item, style }: { item: BentoItem; style?: React.CSSProperties }) {
@@ -36,7 +36,13 @@ export function BentoTile({ item, style }: { item: BentoItem; style?: React.CSSP
         ...style,
       }}
     >
-      <ImageSlot placeholder={`${item.title} photo`} className="absolute inset-0" />
+      <Image
+        src={item.image}
+        alt={item.imageAlt}
+        fill
+        sizes={item.big ? "(max-width: 768px) 100vw, 60vw" : "(max-width: 768px) 100vw, 40vw"}
+        className="object-cover"
+      />
       <div
         className="absolute inset-0 flex items-end pointer-events-none"
         style={{

@@ -38,6 +38,8 @@ export interface College {
   isVerifiedPartner: boolean;
   video: boolean;
   website: string;
+  image: string;
+  imageAlt: string;
 }
 
 export interface Story {
@@ -59,6 +61,8 @@ export interface Counsellor {
   role: string;
   specialization: string;
   credentials: string;
+  image: string;
+  imageAlt: string;
 }
 
 export interface Scheme {
@@ -79,11 +83,15 @@ export interface BentoItem {
   title: string;
   body: string;
   big: boolean;
+  image: string;
+  imageAlt: string;
 }
 
 export interface MediaItem {
   kind: string;
   caption: string;
+  image: string;
+  imageAlt: string;
 }
 
 export interface FaqItem {

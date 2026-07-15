@@ -1,9 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { counsellors } from "@/data/counsellors";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
 import { AboutTabs } from "@/components/about/AboutTabs";
-import { ImageSlot } from "@/components/ui/ImageSlot";
 
 export default function AboutCounsellorsPage() {
   const { ref, revealed } = useReveal<HTMLDivElement>();
@@ -19,8 +19,8 @@ export default function AboutCounsellorsPage() {
             className="fe-card-hover rounded-[14px] border border-[#E5E7EB] bg-white p-5.5"
             style={revealStyle(revealed, { delay: i * 70 })}
           >
-            <div className="mb-3.5 aspect-square w-full overflow-hidden rounded-xl">
-              <ImageSlot placeholder="Counsellor photo" radius={12} />
+            <div className="relative mb-3.5 aspect-square w-full overflow-hidden rounded-xl">
+              <Image src={m.image} alt={m.imageAlt} fill sizes="240px" className="object-cover" />
             </div>
             <div className="font-bold text-neutral-900">{m.name}</div>
             <div className="my-0.5 text-[13px] font-semibold text-accent-500">{m.specialization}</div>

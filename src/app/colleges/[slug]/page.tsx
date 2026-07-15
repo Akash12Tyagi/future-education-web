@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { colleges } from "@/data/colleges";
 import { courses, courseOptions } from "@/data/courses";
 import { feeRange, typeLabel } from "@/lib/format";
-import { ImageSlot } from "@/components/ui/ImageSlot";
 import { CompareButton } from "@/components/ui/CompareButton";
 import { LeadForm } from "@/components/lead-form/LeadForm";
 import { useAppState } from "@/context/app-state";
@@ -51,7 +51,7 @@ export default function CollegeProfilePage() {
       </div>
 
       <div className="relative mb-6.5 overflow-hidden rounded-2xl" style={{ aspectRatio: "21/9" }}>
-        <ImageSlot placeholder="Campus banner photo" />
+        <Image src={college.image} alt={college.imageAlt} fill sizes="(max-width: 1080px) 100vw, 1080px" className="object-cover" priority />
       </div>
 
       <div className="grid gap-6.5" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>

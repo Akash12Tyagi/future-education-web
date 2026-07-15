@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { College } from "@/lib/types";
 import { typeLabel } from "@/lib/format";
-import { ImageSlot } from "@/components/ui/ImageSlot";
 import { CompareButton } from "@/components/ui/CompareButton";
 
 interface CollegeCardProps {
@@ -12,8 +12,14 @@ interface CollegeCardProps {
 export function CollegeCard({ college: c, style }: CollegeCardProps) {
   return (
     <div className="fe-card-hover flex flex-col overflow-hidden rounded-[14px] border border-[#E5E7EB] bg-white" style={style}>
-      <div className="fe-image-zoom-wrap aspect-video overflow-hidden">
-        <ImageSlot placeholder="Campus photo" className="fe-image-zoom" />
+      <div className="fe-image-zoom-wrap relative aspect-video overflow-hidden">
+        <Image
+          src={c.image}
+          alt={c.imageAlt}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="fe-image-zoom object-cover"
+        />
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-4">
         <div className="flex items-start justify-between gap-2">

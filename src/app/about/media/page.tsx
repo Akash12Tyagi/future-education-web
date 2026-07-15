@@ -1,11 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import { bentoHighlights } from "@/data/bento";
 import { mediaData } from "@/data/media";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
 import { AboutTabs } from "@/components/about/AboutTabs";
 import { BentoTile } from "@/components/about/BentoTile";
-import { ImageSlot } from "@/components/ui/ImageSlot";
 
 export default function AboutMediaPage() {
   const { ref: galleryRef, revealed: galleryRevealed } = useReveal<HTMLDivElement>();
@@ -45,8 +45,14 @@ export default function AboutMediaPage() {
             className="fe-card-hover overflow-hidden rounded-xl border border-[#E5E7EB] bg-white"
             style={revealStyle(galleryRevealed, { delay: (i % 6) * 60 })}
           >
-            <div className="fe-image-zoom-wrap aspect-[4/3] overflow-hidden">
-              <ImageSlot placeholder={g.kind} className="fe-image-zoom" />
+            <div className="fe-image-zoom-wrap relative aspect-[4/3] overflow-hidden">
+              <Image
+                src={g.image}
+                alt={g.imageAlt}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="fe-image-zoom object-cover"
+              />
             </div>
             <div className="p-3.5 text-[13.5px] text-[#374151]">{g.caption}</div>
           </div>

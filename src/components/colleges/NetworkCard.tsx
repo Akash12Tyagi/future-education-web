@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { College } from "@/lib/types";
 import { typeLabel } from "@/lib/format";
-import { ImageSlot } from "@/components/ui/ImageSlot";
 
 export function NetworkCard({ college: c, style }: { college: College; style?: React.CSSProperties }) {
   return (
@@ -11,7 +11,13 @@ export function NetworkCard({ college: c, style }: { college: College; style?: R
       style={{ flex: "0 0 220px", ...style }}
     >
       <div className="fe-image-zoom-wrap relative aspect-[4/3] overflow-hidden">
-        <ImageSlot placeholder="Campus photo" className="fe-image-zoom" />
+        <Image
+          src={c.image}
+          alt={c.imageAlt}
+          fill
+          sizes="220px"
+          className="fe-image-zoom object-cover"
+        />
         <span className="absolute top-2 right-2 rounded-md bg-white px-2 py-1 text-[11px] font-extrabold text-neutral-900 shadow-[0_2px_6px_rgba(0,0,0,.12)]">
           {c.state}
         </span>

@@ -1,14 +1,17 @@
 import Link from "next/link";
+import Image from "next/image";
 import { AboutTabs } from "@/components/about/AboutTabs";
-import { ImageSlot } from "@/components/ui/ImageSlot";
+import { counsellors } from "@/data/counsellors";
 
 export default function DirectorMessagePage() {
+  const director = counsellors[0];
+
   return (
     <div className="mx-auto max-w-[820px] px-[22px] pt-10 pb-[90px]">
       <AboutTabs />
       <div className="mb-6.5 flex flex-wrap items-center gap-5">
-        <div className="h-24 w-24 flex-none overflow-hidden rounded-2xl">
-          <ImageSlot placeholder="Director photo" radius={16} />
+        <div className="relative h-24 w-24 flex-none overflow-hidden rounded-2xl">
+          <Image src={director.image} alt={director.imageAlt} fill sizes="96px" className="object-cover" />
         </div>
         <div>
           <h1 className="m-0 text-[clamp(24px,3vw,32px)] font-extrabold text-primary-900">

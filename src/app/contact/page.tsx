@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useAppState } from "@/context/app-state";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { LeadForm } from "@/components/lead-form/LeadForm";
 import { courseOptions } from "@/data/courses";
-import { ImageSlot } from "@/components/ui/ImageSlot";
 import { waHref, WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 export default function ContactPage() {
@@ -66,8 +66,14 @@ export default function ContactPage() {
             </div>
             <div className="mt-3.5 text-[13px] text-neutral-500">Office hours: Daily, 10 AM – 8 PM (Sunday by appointment)</div>
           </div>
-          <div className="overflow-hidden rounded-[14px]" style={{ aspectRatio: "16/10" }}>
-            <ImageSlot placeholder="Bokaro office photo" />
+          <div className="relative overflow-hidden rounded-[14px]" style={{ aspectRatio: "16/10" }}>
+            <Image
+              src="/images/office/bokaro-office.jpg"
+              alt="Welcoming reception area of a modern education consultancy office"
+              fill
+              sizes="(max-width: 1080px) 100vw, 460px"
+              className="object-cover"
+            />
           </div>
         </div>
       </div>
