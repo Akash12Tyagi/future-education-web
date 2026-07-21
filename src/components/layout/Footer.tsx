@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { footerGroups } from "@/data/navigation";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
 
@@ -15,11 +16,8 @@ export function Footer() {
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}
       >
         <div className="col-span-full max-w-[340px]" style={revealStyle(revealed, { delay: 0 })}>
-          <div className="mb-3.5 flex items-center gap-2.5">
-            <span className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] bg-highlight-500 text-[19px] font-extrabold text-primary-900">
-              F
-            </span>
-            <span className="text-[17px] font-extrabold text-white">Future Education</span>
+          <div className="mb-3.5">
+            <Image src="/logo.png" alt="Future Education Trust" width={300} height={122} className="h-14 w-auto rounded-md" />
           </div>
           <p className="mb-3 text-sm leading-relaxed">
             Career counselling and admission guidance under the Future Education Trust — 15+ years, 5,000+ partner
