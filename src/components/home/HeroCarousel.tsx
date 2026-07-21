@@ -5,10 +5,10 @@ import Image from "next/image";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 const slides = [
-  { src: "/images/campus/campus-01.jpg", alt: "Modern multi-storey university campus building with landscaped lawns" },
-  { src: "/images/campus/campus-07.jpg", alt: "Deemed university campus with a grand academic building" },
-  { src: "/images/campus/campus-09.jpg", alt: "Hillside technical institute campus surrounded by greenery" },
-  { src: "/images/campus/campus-04.jpg", alt: "Management institute building entrance with manicured gardens" },
+  { src: "/images/campus/hero1.png", alt: "Modern multi-storey university campus building with landscaped lawns" },
+  { src: "/images/campus/image.png", alt: "Deemed university campus with a grand academic building" },
+  { src: "/images/campus/image copy.png", alt: "Hillside technical institute campus surrounded by greenery" },
+  { src: "/images/campus/image copy 2.png", alt: "Management institute building entrance with manicured gardens" },
   { src: "/images/campus/campus-11.jpg", alt: "Institute of engineering and technology campus front view" },
 ];
 
@@ -55,7 +55,7 @@ export function HeroCarousel() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(105deg, rgba(15,61,38,.86) 0%, rgba(15,61,38,.62) 45%, rgba(15,61,38,.48) 100%)",
+            "linear-gradient(105deg, rgba(8,20,14,.90) 0%, rgba(10,28,19,.68) 45%, rgba(12,34,23,.52) 100%)",
         }}
       />
 
