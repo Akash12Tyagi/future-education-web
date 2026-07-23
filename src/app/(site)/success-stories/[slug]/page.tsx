@@ -1,14 +1,28 @@
-"use client";
-
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { stories } from "@/data/stories";
 import { initials } from "@/lib/format";
 import { waHref } from "@/lib/whatsapp";
+import { getStories } from "@/lib/site-data";
+import { buildMetadata } from "@/lib/seo";
 
-export default function StoryDetailPage() {
-  const params = useParams<{ slug: string }>();
-  const story = stories.find((s) => s.slug === params.slug);
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const stories = await getStories();
+  const story = stories.find((s) => s.slug === slug);
+  if (!story) return buildMetadata({ path: `/success-stories/${slug}`, title: "Story not found", description: "This success story could not be found." });
+
+  return buildMetadata({
+    path: `/success-stories/${slug}`,
+    title: `${story.name}'s Story`,
+    description: `${story.name} — ${story.course} at ${story.college}. "${story.quote.slice(0, 140)}"`,
+  });
+}
+
+export default async function StoryDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const stories = await getStories();
+  const story = stories.find((s) => s.slug === slug);
 
   if (!story) {
     return (

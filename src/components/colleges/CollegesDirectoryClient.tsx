@@ -3,13 +3,11 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { colleges } from "@/data/colleges";
-import { courses } from "@/data/courses";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
 import { CollegeCard } from "@/components/colleges/CollegeCard";
 import { NetworkPanel } from "@/components/colleges/NetworkPanel";
 import { waHref } from "@/lib/whatsapp";
-import type { Stream } from "@/lib/types";
+import type { College, Course, Stream } from "@/lib/types";
 
 interface Filters {
   search: string;
@@ -18,13 +16,13 @@ interface Filters {
   type: string;
 }
 
-function streamsOf(courseIds: string[]): Stream[] {
-  return courseIds.map((id) => courses.find((c) => c.id === id)?.stream).filter((s): s is Stream => !!s);
-}
-
 const inputClass = "rounded-[9px] border-[1.5px] border-[#D1D5DB] px-3 py-2.5 text-base outline-none";
 
-export function CollegesDirectoryClient() {
+export function CollegesDirectoryClient({ colleges, courses }: { colleges: College[]; courses: Course[] }) {
+  function streamsOf(courseIds: string[]): Stream[] {
+    return courseIds.map((id) => courses.find((c) => c.id === id)?.stream).filter((s): s is Stream => !!s);
+  }
+
   const searchParams = useSearchParams();
   const [cf, setCf] = useState<Filters>(() => ({
     search: "",
@@ -59,7 +57,7 @@ export function CollegesDirectoryClient() {
         </p>
       </div>
 
-      <NetworkPanel />
+      <NetworkPanel colleges={colleges} />
 
       <div
         className="mb-5.5 grid items-end gap-3 rounded-[14px] border border-[#E5E7EB] bg-white p-4"

@@ -42,6 +42,7 @@ export const navGroups: NavGroup[] = [
       { href: "/admission-consultancy#services", label: "Counselling Services" },
       { href: "/tracker", label: "Application Tracker", tag: "student login" },
       { href: "/admission-consultancy/scholarships", label: "Scholarships & Loan Guidance" },
+      { href: "/downloads", label: "Downloads" },
     ],
   },
   {
@@ -53,11 +54,14 @@ export const navGroups: NavGroup[] = [
       { href: "/about/director-message", label: "Director's Message" },
       { href: "/about/counsellors", label: "Our Counsellors" },
       { href: "/about/media", label: "Media & Recognition" },
+      { href: "/news-events", label: "News & Events" },
     ],
   },
 ];
 
 export const successStoriesLink: NavLink = { href: "/success-stories", label: "Success Stories" };
+export const galleryLink: NavLink = { href: "/gallery", label: "Gallery" };
+export const placementsLink: NavLink = { href: "/placements", label: "Placements" };
 
 export const footerGroups = [
   {
@@ -82,6 +86,7 @@ export const footerGroups = [
       { href: "/admission-consultancy", label: "How It Works" },
       { href: "/admission-consultancy/scholarships", label: "Scholarships & Loans" },
       { href: "/tracker", label: "Application Tracker" },
+      { href: "/downloads", label: "Downloads" },
     ],
   },
   {
@@ -89,7 +94,9 @@ export const footerGroups = [
     links: [
       { href: "/about", label: "About Us" },
       { href: "/about/counsellors", label: "Our Counsellors" },
-      { href: "/about/media", label: "Media & Recognition" },
+      { href: "/gallery", label: "Gallery" },
+      { href: "/news-events", label: "News & Events" },
+      { href: "/placements", label: "Placements" },
       { href: "/contact", label: "Contact" },
     ],
   },

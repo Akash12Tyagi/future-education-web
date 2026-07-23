@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import { colleges } from "@/data/colleges";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
 import { NetworkCard } from "./NetworkCard";
+import type { College } from "@/lib/types";
 
 const stats = [
   { value: "5,000+", label: "Associate Institutes" },
@@ -12,7 +12,7 @@ const stats = [
   { value: "Pan-India", label: "& select overseas", small: true },
 ];
 
-export function NetworkPanel() {
+export function NetworkPanel({ colleges }: { colleges: College[] }) {
   const { ref, revealed } = useReveal<HTMLDivElement>();
   const railRef = useRef<HTMLDivElement>(null);
 

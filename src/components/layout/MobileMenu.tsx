@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEscapeToClose } from "@/hooks/useEscapeToClose";
 
 interface MobileMenuProps {
   open: boolean;
@@ -15,11 +16,16 @@ const links: { href: string; label: string; sub?: boolean; delay: number }[] = [
   { href: "/admission-consultancy", label: "Admission Consultancy", delay: 200 },
   { href: "/admission-consultancy/scholarships", label: "↳ Scholarships & Loans", sub: true, delay: 240 },
   { href: "/tracker", label: "↳ Application Tracker", sub: true, delay: 280 },
+  { href: "/downloads", label: "↳ Downloads", sub: true, delay: 300 },
   { href: "/success-stories", label: "Success Stories", delay: 320 },
-  { href: "/about", label: "About", delay: 360 },
+  { href: "/placements", label: "Placements", delay: 360 },
+  { href: "/gallery", label: "Gallery", delay: 400 },
+  { href: "/about", label: "About", delay: 440 },
+  { href: "/news-events", label: "↳ News & Events", sub: true, delay: 480 },
 ];
 
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
+  useEscapeToClose(open, onClose);
   if (!open) return null;
 
   return (
@@ -27,6 +33,9 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
       className="fixed inset-0 z-[80] bg-[rgba(15,23,31,.5)]"
       style={{ animation: "fe-fade .22s ease" }}
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -35,10 +44,21 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
       >
         <div className="mb-2 flex items-center justify-between">
           <span className="text-[17px] font-extrabold text-primary-900">Menu</span>
-          <button onClick={onClose} className="border-none bg-none text-2xl text-neutral-500">
+          <button onClick={onClose} aria-label="Close menu" className="border-none bg-none text-2xl text-neutral-500">
             ×
           </button>
         </div>
+        <form action="/search" className="mb-2.5 flex gap-1.5" onSubmit={onClose}>
+          <input
+            name="q"
+            type="search"
+            placeholder="Search…"
+            className="flex-1 rounded-lg border-[1.5px] border-[#D1D5DB] bg-white px-3 py-2 text-sm outline-none"
+          />
+          <button type="submit" className="cursor-pointer rounded-lg border-none bg-primary-100 px-3 text-base text-primary-900">
+            🔍
+          </button>
+        </form>
         {links.map((l) => (
           <Link
             key={l.href}

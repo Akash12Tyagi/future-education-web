@@ -42,3 +42,6 @@ next-env.d.ts
 
 # original Claude Design export bundle (reference only, not app source)
 /design-import/
+
+# prisma generated client
+/generated/prisma

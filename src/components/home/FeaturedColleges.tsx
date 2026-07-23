@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { colleges } from "@/data/colleges";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
 import { CollegeCard } from "@/components/colleges/CollegeCard";
+import type { College } from "@/lib/types";
 
-export function FeaturedColleges() {
+export function FeaturedColleges({ colleges }: { colleges: College[] }) {
   const { ref, revealed } = useReveal<HTMLDivElement>();
   const featured = colleges.filter((c) => c.isVerifiedPartner).slice(0, 6);
 

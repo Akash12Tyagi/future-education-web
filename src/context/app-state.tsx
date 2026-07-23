@@ -2,7 +2,8 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { Lang } from "@/data/dict";
-import type { Lead, LeadPayload } from "@/lib/types";
+import type { College, Counsellor, CourseOption, Lead, LeadPayload } from "@/lib/types";
+import { submitLeadToDb } from "@/lib/lead-actions";
 
 const COMPARE_KEY = "fe_compare";
 const STICKY_DISMISSED_KEY = "fe_sticky_dismissed";
@@ -20,6 +21,16 @@ interface AuthState {
 }
 
 interface AppStateValue {
+  // Read-only content fetched once from the database by the (site) layout —
+  // not ephemeral UI state like the rest of this context, but the least
+  // invasive way to reach globally-mounted widgets (CompareTray, CallbackSheet)
+  // and deeply-nested lead forms that have no natural server-component parent
+  // to fetch from directly. Pages that DO have a natural parent (colleges
+  // directory, home sections) receive their own data via props instead.
+  colleges: College[];
+  courseOptions: CourseOption[];
+  counsellors: Counsellor[];
+
   compare: string[];
   addCompare: (id: string) => void;
   removeCompare: (id: string) => void;
@@ -99,7 +110,17 @@ function readDemoStageFromStorage(): number {
 
 const MAX_STAGE = 4;
 
-export function AppStateProvider({ children }: { children: React.ReactNode }) {
+export function AppStateProvider({
+  children,
+  initialColleges,
+  initialCourseOptions,
+  initialCounsellors,
+}: {
+  children: React.ReactNode;
+  initialColleges: College[];
+  initialCourseOptions: CourseOption[];
+  initialCounsellors: Counsellor[];
+}) {
   // These start SSR-safe (empty/false) and sync for real just after mount, in the
   // effect below. Seeding them from storage via a lazy useState initializer instead
   // would make the client's very first render diverge from the server-rendered HTML
@@ -184,6 +205,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       } catch {}
       return next;
     });
+    // Persist to the real database for the admin Leads panel. Fire-and-forget:
+    // the form's success UI is already optimistic (see LeadForm), so a slow or
+    // failed write here shouldn't block or flip the student-facing confirmation.
+    submitLeadToDb(payload).catch((err) => console.error("Failed to persist lead", err));
   }, []);
 
   const toggleLang = useCallback(() => setLang((l) => (l === "en" ? "hi" : "en")), []);
@@ -239,6 +264,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo<AppStateValue>(
     () => ({
+      colleges: initialColleges,
+      courseOptions: initialCourseOptions,
+      counsellors: initialCounsellors,
       compare,
       addCompare,
       removeCompare,
@@ -265,6 +293,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       resetStage,
     }),
     [
+      initialColleges,
+      initialCourseOptions,
+      initialCounsellors,
       compare,
       addCompare,
       removeCompare,

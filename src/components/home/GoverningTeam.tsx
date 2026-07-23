@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { counsellors } from "@/data/counsellors";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
+import type { Counsellor } from "@/lib/types";
 
 const COUNTRY_TOKENS = ["United Kingdom", "UK", "USA", "Canada", "Australia", "Ireland", "New Zealand", "India"];
 
@@ -11,7 +11,7 @@ function extractCountries(text: string): string[] {
   return COUNTRY_TOKENS.filter((c) => text.includes(c));
 }
 
-export function GoverningTeam() {
+export function GoverningTeam({ counsellors }: { counsellors: Counsellor[] }) {
   const { ref, revealed } = useReveal<HTMLDivElement>();
   const team = counsellors.slice(0, 2);
 

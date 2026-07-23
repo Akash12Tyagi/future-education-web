@@ -2,19 +2,63 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import type { BannerSlide } from "@/lib/site-data";
+import { trackEvent } from "@/lib/analytics-actions";
 
-const slides = [
-  { src: "/images/campus/hero1.png", alt: "Modern multi-storey university campus building with landscaped lawns" },
-  { src: "/images/campus/image.png", alt: "Deemed university campus with a grand academic building" },
-  { src: "/images/campus/image copy.png", alt: "Hillside technical institute campus surrounded by greenery" },
-  { src: "/images/campus/image copy 2.png", alt: "Management institute building entrance with manicured gardens" },
-  { src: "/images/campus/campus-11.jpg", alt: "Institute of engineering and technology campus front view" },
+const DEFAULT_SLIDES: BannerSlide[] = [
+  {
+    id: "default-1",
+    image: "/images/campus/hero1.png",
+    imageAlt: "Modern multi-storey university campus building with landscaped lawns",
+    heading: null,
+    subheading: null,
+    ctaLabel: null,
+    ctaHref: null,
+  },
+  {
+    id: "default-2",
+    image: "/images/campus/image.png",
+    imageAlt: "Deemed university campus with a grand academic building",
+    heading: null,
+    subheading: null,
+    ctaLabel: null,
+    ctaHref: null,
+  },
+  {
+    id: "default-3",
+    image: "/images/campus/image copy.png",
+    imageAlt: "Hillside technical institute campus surrounded by greenery",
+    heading: null,
+    subheading: null,
+    ctaLabel: null,
+    ctaHref: null,
+  },
+  {
+    id: "default-4",
+    image: "/images/campus/image copy 2.png",
+    imageAlt: "Management institute building entrance with manicured gardens",
+    heading: null,
+    subheading: null,
+    ctaLabel: null,
+    ctaHref: null,
+  },
+  {
+    id: "default-5",
+    image: "/images/campus/campus-11.jpg",
+    imageAlt: "Institute of engineering and technology campus front view",
+    heading: null,
+    subheading: null,
+    ctaLabel: null,
+    ctaHref: null,
+  },
 ];
 
 const AUTOPLAY_MS = 4500;
 
-export function HeroCarousel() {
+export function HeroCarousel({ slides: providedSlides }: { slides?: BannerSlide[] }) {
+  const slides = providedSlides && providedSlides.length > 0 ? providedSlides : DEFAULT_SLIDES;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
@@ -28,21 +72,22 @@ export function HeroCarousel() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [paused, reducedMotion]);
+  }, [paused, reducedMotion, slides.length]);
 
   const goTo = (i: number) => setIndex((i + slides.length) % slides.length);
+  const active = slides[index];
+  const hasCaption = !!(active.heading || active.ctaLabel);
 
   return (
     <div
       className="absolute inset-0 z-0 overflow-hidden bg-primary-900"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      aria-hidden="true"
     >
       {slides.map((slide, i) => (
         <Image
-          key={slide.src}
-          src={slide.src}
+          key={slide.id}
+          src={slide.image}
           alt=""
           fill
           priority={i === 0}
@@ -77,11 +122,31 @@ export function HeroCarousel() {
         ›
       </button>
 
+      {hasCaption && (
+        <div
+          key={active.id}
+          className="absolute right-4 bottom-14 left-4 max-w-[380px] rounded-[14px] border border-white/20 bg-black/35 p-4 backdrop-blur-sm md:right-auto"
+          style={{ animation: reducedMotion ? undefined : "feFadeUp .5s cubic-bezier(.16,1,.3,1) both" }}
+        >
+          {active.heading && <div className="mb-1 text-base font-extrabold text-white">{active.heading}</div>}
+          {active.subheading && <div className="mb-2.5 text-[13px] text-white/80">{active.subheading}</div>}
+          {active.ctaLabel && active.ctaHref && (
+            <Link
+              href={active.ctaHref}
+              onClick={() => trackEvent("BANNER_CLICK", undefined, active.id).catch(() => {})}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-accent-500 px-3.5 py-2 text-[13px] font-bold text-white no-underline"
+            >
+              {active.ctaLabel} →
+            </Link>
+          )}
+        </div>
+      )}
+
       {/* Pagination dots */}
       <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2">
         {slides.map((slide, i) => (
           <button
-            key={slide.src}
+            key={slide.id}
             type="button"
             onClick={() => goTo(i)}
             aria-label={`Go to slide ${i + 1}`}

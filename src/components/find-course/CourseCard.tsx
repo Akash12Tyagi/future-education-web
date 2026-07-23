@@ -4,7 +4,6 @@ import Link from "next/link";
 import type { Course } from "@/lib/types";
 import { feeRange } from "@/lib/format";
 import { LeadForm } from "@/components/lead-form/LeadForm";
-import { courseOptions } from "@/data/courses";
 import { useAppState } from "@/context/app-state";
 import { revealStyle } from "@/hooks/useReveal";
 
@@ -17,7 +16,7 @@ interface CourseCardProps {
 }
 
 export function CourseCard({ course: c, expanded, onToggle, revealed, delay }: CourseCardProps) {
-  const { recordLead } = useAppState();
+  const { recordLead, courseOptions } = useAppState();
 
   return (
     <div

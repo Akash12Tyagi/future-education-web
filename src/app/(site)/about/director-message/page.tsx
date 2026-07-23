@@ -1,9 +1,21 @@
 import Link from "next/link";
 import Image from "next/image";
 import { AboutTabs } from "@/components/about/AboutTabs";
-import { counsellors } from "@/data/counsellors";
+import { getCounsellors } from "@/lib/site-data";
+import { buildMetadata } from "@/lib/seo";
 
-export default function DirectorMessagePage() {
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata() {
+  return buildMetadata({
+    path: "/about/director-message",
+    title: "Director's Message",
+    description: "A message from the directors of Future Education Trust on honest, personalised admission counselling.",
+  });
+}
+
+export default async function DirectorMessagePage() {
+  const counsellors = await getCounsellors();
   const director = counsellors[0];
 
   return (

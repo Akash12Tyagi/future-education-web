@@ -3,10 +3,10 @@
 import { useAppState } from "@/context/app-state";
 import { MagneticLink } from "@/components/ui/MagneticLink";
 import { LeadForm } from "@/components/lead-form/LeadForm";
-import { courseOptions } from "@/data/courses";
 import { waHref } from "@/lib/whatsapp";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
+import type { BannerSlide } from "@/lib/site-data";
 
 const heroStats = [
   { value: "11,690+", label: "Students counselled" },
@@ -14,13 +14,13 @@ const heroStats = [
   { value: "15 yrs", label: "On the ground" },
 ];
 
-export function Hero() {
-  const { recordLead } = useAppState();
+export function Hero({ banners }: { banners: BannerSlide[] }) {
+  const { recordLead, courseOptions } = useAppState();
   const isMobile = useIsMobile();
 
   return (
     <section className="relative isolate overflow-hidden bg-primary-900">
-      <HeroCarousel />
+      <HeroCarousel slides={banners} />
       <div
         className={
           isMobile

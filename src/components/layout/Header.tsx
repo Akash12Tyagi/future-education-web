@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { navGroups, successStoriesLink } from "@/data/navigation";
+import { navGroups, successStoriesLink, galleryLink, placementsLink } from "@/data/navigation";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { useChatOnline } from "@/hooks/useChatOnline";
 import { useAppState } from "@/context/app-state";
@@ -11,6 +11,7 @@ import { dict } from "@/data/dict";
 import { waHref, WHATSAPP_NUMBER } from "@/lib/whatsapp";
 import { MagneticLink } from "@/components/ui/MagneticLink";
 import { MobileMenu } from "./MobileMenu";
+import { SearchBox } from "./SearchBox";
 
 export function Header() {
   const isMobile = useIsMobile();
@@ -149,7 +150,14 @@ export function Header() {
                 <Link href={successStoriesLink.href} className="fe-nav-link">
                   {successStoriesLink.label}
                 </Link>
+                <Link href={galleryLink.href} className="fe-nav-link">
+                  {galleryLink.label}
+                </Link>
+                <Link href={placementsLink.href} className="fe-nav-link">
+                  {placementsLink.label}
+                </Link>
               </nav>
+              <SearchBox />
               <MagneticLink
                 href="/contact"
                 className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-accent-500 px-5 py-2.5 text-[15px] font-bold text-white no-underline shadow-[0_6px_16px_rgba(169,36,31,.28)] hover:shadow-[0_8px_22px_rgba(169,36,31,.38)]"

@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { useAppState } from "@/context/app-state";
-import { colleges } from "@/data/colleges";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
 export function CompareTray() {
-  const { compare, removeCompare, clearCompare, sheetOpen } = useAppState();
+  const { compare, colleges, removeCompare, clearCompare, sheetOpen } = useAppState();
   const isMobile = useIsMobile();
 
   const items = compare.map((id) => colleges.find((c) => c.id === id)).filter((c): c is NonNullable<typeof c> => !!c);

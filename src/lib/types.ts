@@ -40,6 +40,7 @@ export interface College {
   website: string;
   image: string;
   imageAlt: string;
+  labsAndAchievements?: string | null;
 }
 
 export interface Story {
@@ -57,6 +58,7 @@ export interface Story {
 
 export interface Counsellor {
   id: string;
+  slug: string;
   name: string;
   role: string;
   specialization: string;

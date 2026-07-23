@@ -2,12 +2,11 @@
 
 import Link from "next/link";
 import { useAppState } from "@/context/app-state";
-import { colleges } from "@/data/colleges";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { feeRange, typeLabel } from "@/lib/format";
 
 export default function ComparePage() {
-  const { compare, removeCompare, clearCompare } = useAppState();
+  const { compare, colleges, removeCompare, clearCompare } = useAppState();
   const isMobile = useIsMobile();
 
   const items = compare.map((id) => colleges.find((c) => c.id === id)).filter((c): c is NonNullable<typeof c> => !!c);

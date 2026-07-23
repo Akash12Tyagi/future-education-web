@@ -1,0 +1,574 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Auth / RBAC
+// ---------------------------------------------------------------------------
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  passwordHash  String
+  role          Role      @default(EDITOR)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  mediaAssets   MediaAsset[]
+  auditLogs     AuditLog[]
+
+  @@map("users")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expires      DateTime
+
+  @@map("sessions")
+}
+
+// Required by @auth/prisma-adapter's Adapter interface even though the
+// Credentials-only admin login never exercises OAuth linking or email
+// verification — kept so an OAuth provider can be added later without a
+// schema migration.
+model Account {
+  userId            String
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  @@id([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ---------------------------------------------------------------------------
+// Media Library
+// ---------------------------------------------------------------------------
+
+enum MediaKind {
+  IMAGE
+  VIDEO
+  DOCUMENT
+}
+
+model MediaAsset {
+  id           String    @id @default(cuid())
+  url          String
+  pathname     String
+  filename     String
+  kind         MediaKind
+  mimeType     String
+  size         Int
+  altText      String?
+  folder       String?
+  uploadedById String?
+  uploadedBy   User?     @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  createdAt    DateTime  @default(now())
+
+  banners        Banner[]
+  notices        Notice[]
+  galleryItems   GalleryItem[]
+  courses        Course[]        @relation("CourseBrochure")
+  colleges       College[]       @relation("CollegeImage")
+  counsellors    Counsellor[]    @relation("CounsellorImage")
+  stories        Story[]         @relation("StoryImage")
+  newsEvents     NewsEvent[]     @relation("NewsEventImage")
+  downloads      Download[]
+
+  @@map("media_assets")
+}
+
+// ---------------------------------------------------------------------------
+// Hero Banners
+// ---------------------------------------------------------------------------
+
+model Banner {
+  id        String    @id @default(cuid())
+  heading   String
+  subheading String?
+  ctaLabel  String?
+  ctaHref   String?
+  imageId   String
+  image     MediaAsset @relation(fields: [imageId], references: [id])
+  order     Int        @default(0)
+  active    Boolean    @default(true)
+  startsAt  DateTime?
+  endsAt    DateTime?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("banners")
+  @@index([active, order])
+}
+
+// ---------------------------------------------------------------------------
+// Notices
+// ---------------------------------------------------------------------------
+
+enum NoticeType {
+  POPUP
+  TICKER
+  BANNER
+}
+
+model Notice {
+  id             String     @id @default(cuid())
+  title          String
+  body           String?
+  type           NoticeType
+  linkHref       String?
+  attachmentId   String?
+  attachment     MediaAsset? @relation(fields: [attachmentId], references: [id], onDelete: SetNull)
+  pinned         Boolean     @default(false)
+  active         Boolean     @default(true)
+  publishAt      DateTime    @default(now())
+  expiresAt      DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@map("notices")
+  @@index([type, active, pinned])
+}
+
+// ---------------------------------------------------------------------------
+// Gallery
+// ---------------------------------------------------------------------------
+
+enum GalleryCategory {
+  CAMPUS
+  EVENTS
+  LABS
+  SPORTS
+  OTHER
+}
+
+model GalleryAlbum {
+  id        String          @id @default(cuid())
+  title     String
+  slug      String          @unique
+  category  GalleryCategory
+  order     Int             @default(0)
+  active    Boolean         @default(true)
+  createdAt DateTime        @default(now())
+  items     GalleryItem[]
+
+  @@map("gallery_albums")
+}
+
+model GalleryItem {
+  id        String       @id @default(cuid())
+  albumId   String
+  album     GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  mediaId   String
+  media     MediaAsset   @relation(fields: [mediaId], references: [id])
+  caption   String?
+  order     Int          @default(0)
+  createdAt DateTime     @default(now())
+
+  @@map("gallery_items")
+}
+
+// ---------------------------------------------------------------------------
+// Taxonomy — Streams (backs Courses & Colleges)
+// ---------------------------------------------------------------------------
+
+model Stream {
+  id     String @id @default(cuid())
+  key    String @unique
+  label  String
+  desc   String
+
+  courses       Course[]
+  colleges      CollegeStream[]
+  stories       Story[]
+  scholarships  Scholarship[]
+
+  @@map("streams")
+}
+
+// ---------------------------------------------------------------------------
+// Courses
+// ---------------------------------------------------------------------------
+
+enum CourseType {
+  REGULAR
+  DISTANCE
+}
+
+model Course {
+  id           String      @id @default(cuid())
+  slug         String      @unique
+  name         String
+  streamId     String
+  stream       Stream      @relation(fields: [streamId], references: [id])
+  type         CourseType
+  duration     String
+  durMonths    Int
+  eligibility  String
+  feeMin       Int
+  feeMax       Int
+  outcomes     String[]
+  brochureId   String?
+  brochure     MediaAsset? @relation("CourseBrochure", fields: [brochureId], references: [id], onDelete: SetNull)
+  order        Int         @default(0)
+  active       Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  colleges     CollegeCourse[]
+  stories      Story[]
+
+  @@map("courses")
+}
+
+// ---------------------------------------------------------------------------
+// Colleges (doc's "Departments")
+// ---------------------------------------------------------------------------
+
+enum CollegeType {
+  GOVERNMENT
+  PRIVATE
+  DEEMED
+}
+
+model College {
+  id                String      @id @default(cuid())
+  slug              String      @unique
+  name              String
+  city              String
+  state             String
+  type              CollegeType
+  accreditations    String[]
+  feeMin            Int
+  feeMax            Int
+  isVerifiedPartner Boolean     @default(false)
+  hasVideo          Boolean     @default(false)
+  websiteUrl        String?
+  imageId           String?
+  image             MediaAsset? @relation("CollegeImage", fields: [imageId], references: [id], onDelete: SetNull)
+  imageAlt          String?
+  labsAndAchievements String?
+  order             Int         @default(0)
+  active            Boolean     @default(true)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  courses  CollegeCourse[]
+  streams  CollegeStream[]
+  stories  Story[]
+
+  @@map("colleges")
+}
+
+model CollegeCourse {
+  collegeId String
+  college   College @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@id([collegeId, courseId])
+  @@map("college_courses")
+}
+
+model CollegeStream {
+  collegeId String
+  college   College @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  streamId  String
+  stream    Stream  @relation(fields: [streamId], references: [id], onDelete: Cascade)
+
+  @@id([collegeId, streamId])
+  @@map("college_streams")
+}
+
+// ---------------------------------------------------------------------------
+// Counsellors (doc's "Faculty")
+// ---------------------------------------------------------------------------
+
+model Counsellor {
+  id             String      @id @default(cuid())
+  slug           String      @unique
+  name           String
+  role           String
+  specialization String
+  credentials    String
+  bio            String?
+  experienceYears Int?
+  email          String?
+  phone          String?
+  imageId        String?
+  image          MediaAsset? @relation("CounsellorImage", fields: [imageId], references: [id], onDelete: SetNull)
+  imageAlt       String?
+  order          Int         @default(0)
+  active         Boolean     @default(true)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@map("counsellors")
+}
+
+// ---------------------------------------------------------------------------
+// Placements — Success Stories
+// ---------------------------------------------------------------------------
+
+model Story {
+  id         String      @id @default(cuid())
+  slug       String      @unique
+  name       String
+  courseId   String?
+  course     Course?     @relation(fields: [courseId], references: [id], onDelete: SetNull)
+  collegeId  String?
+  college    College?    @relation(fields: [collegeId], references: [id], onDelete: SetNull)
+  streamId   String?
+  stream     Stream?     @relation(fields: [streamId], references: [id], onDelete: SetNull)
+  quote      String
+  year       Int
+  verified   Boolean     @default(false)
+  videoUrl   String?
+  packageLpa Float?
+  imageId    String?
+  image      MediaAsset? @relation("StoryImage", fields: [imageId], references: [id], onDelete: SetNull)
+  order      Int         @default(0)
+  active     Boolean     @default(true)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@map("stories")
+}
+
+model Recruiter {
+  id        String   @id @default(cuid())
+  name      String
+  logoUrl   String
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@map("recruiters")
+}
+
+// ---------------------------------------------------------------------------
+// Scholarships
+// ---------------------------------------------------------------------------
+
+enum IncomeBracket {
+  BELOW_2_5L
+  BETWEEN_2_5L_5L
+  ABOVE_5L
+}
+
+model Scholarship {
+  id       String         @id @default(cuid())
+  name     String
+  desc     String
+  income   IncomeBracket
+  streamId String?
+  stream   Stream?        @relation(fields: [streamId], references: [id], onDelete: SetNull)
+  order    Int            @default(0)
+  active   Boolean        @default(true)
+
+  @@map("scholarships")
+}
+
+// ---------------------------------------------------------------------------
+// FAQs (used by Admissions)
+// ---------------------------------------------------------------------------
+
+model Faq {
+  id       String  @id @default(cuid())
+  category String  @default("admissions")
+  question String
+  answer   String
+  order    Int     @default(0)
+  active   Boolean @default(true)
+
+  @@map("faqs")
+}
+
+// ---------------------------------------------------------------------------
+// News & Events
+// ---------------------------------------------------------------------------
+
+enum NewsEventType {
+  NEWS
+  EVENT
+}
+
+model NewsEvent {
+  id        String        @id @default(cuid())
+  slug      String        @unique
+  title     String
+  type      NewsEventType
+  body      String
+  eventDate DateTime?
+  imageId   String?
+  image     MediaAsset?   @relation("NewsEventImage", fields: [imageId], references: [id], onDelete: SetNull)
+  featured  Boolean       @default(false)
+  publishAt DateTime      @default(now())
+  active    Boolean       @default(true)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@map("news_events")
+}
+
+// ---------------------------------------------------------------------------
+// Downloads
+// ---------------------------------------------------------------------------
+
+enum DownloadCategory {
+  PROSPECTUS
+  ACADEMIC_CALENDAR
+  FORM
+  OTHER
+}
+
+model Download {
+  id        String           @id @default(cuid())
+  title     String
+  category  DownloadCategory
+  fileId    String
+  file      MediaAsset       @relation(fields: [fileId], references: [id])
+  order     Int              @default(0)
+  active    Boolean          @default(true)
+  createdAt DateTime         @default(now())
+
+  @@map("downloads")
+}
+
+// ---------------------------------------------------------------------------
+// Leads / Enquiries (replaces sessionStorage demo)
+// ---------------------------------------------------------------------------
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CONVERTED
+  CLOSED
+}
+
+model Lead {
+  id             String     @id @default(cuid())
+  name           String
+  phone          String
+  courseInterest String?
+  city           String?
+  level          String?
+  message        String?
+  classYear      String?
+  sourceTag      String?
+  status         LeadStatus @default(NEW)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@map("leads")
+  @@index([status, createdAt])
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  @@map("newsletter_subscribers")
+}
+
+// ---------------------------------------------------------------------------
+// SEO
+// ---------------------------------------------------------------------------
+
+model SeoMeta {
+  id          String   @id @default(cuid())
+  path        String   @unique
+  title       String?
+  description String?
+  ogImageUrl  String?
+  updatedAt   DateTime @updatedAt
+
+  @@map("seo_meta")
+}
+
+// ---------------------------------------------------------------------------
+// Site-wide settings (nav/footer/stats/global fallbacks — flexible JSON)
+// ---------------------------------------------------------------------------
+
+model SiteSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+// ---------------------------------------------------------------------------
+// Analytics
+// ---------------------------------------------------------------------------
+
+enum AnalyticsEventType {
+  PAGE_VIEW
+  BANNER_CLICK
+  ENQUIRY
+}
+
+model AnalyticsEvent {
+  id        String             @id @default(cuid())
+  type      AnalyticsEventType
+  path      String?
+  entityId  String?
+  metadata  Json?
+  createdAt DateTime           @default(now())
+
+  @@map("analytics_events")
+  @@index([type, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Audit log
+// ---------------------------------------------------------------------------
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String?
+  diff       Json?
+  createdAt  DateTime @default(now())
+
+  @@map("audit_logs")
+  @@index([entityType, entityId])
+}

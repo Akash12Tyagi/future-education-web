@@ -2,7 +2,6 @@
 
 import { useAppState } from "@/context/app-state";
 import { LeadForm } from "@/components/lead-form/LeadForm";
-import { courseOptions } from "@/data/courses";
 
 const points = [
   "We never charge students to guide them",
@@ -11,7 +10,7 @@ const points = [
 ];
 
 export function FinalCta() {
-  const { recordLead } = useAppState();
+  const { recordLead, courseOptions } = useAppState();
 
   return (
     <section className="bg-primary-900">

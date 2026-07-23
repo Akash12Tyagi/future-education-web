@@ -1,4 +1,13 @@
 import { MatcherQuiz } from "@/components/matcher/MatcherQuiz";
+import { buildMetadata } from "@/lib/seo";
+
+export async function generateMetadata() {
+  return buildMetadata({
+    path: "/find-your-course/matcher",
+    title: "AI Course Matcher",
+    description: "Answer 6 quick questions and get a personalised course shortlist in 60 seconds — every match explains why it fits.",
+  });
+}
 
 export default function MatcherPage() {
   return (

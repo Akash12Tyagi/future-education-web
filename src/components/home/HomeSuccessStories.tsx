@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { stories } from "@/data/stories";
-import { colleges } from "@/data/colleges";
+import { useAppState } from "@/context/app-state";
 import { initials } from "@/lib/format";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
+import type { Story } from "@/lib/types";
 
-export function HomeSuccessStories() {
+export function HomeSuccessStories({ stories }: { stories: Story[] }) {
+  const { colleges } = useAppState();
   const { ref, revealed } = useReveal<HTMLDivElement>();
   const featured = stories.slice(0, 3);
 

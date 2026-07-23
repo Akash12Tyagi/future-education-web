@@ -1,14 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { faqData } from "@/data/faq";
 
-export function FaqAccordion() {
+export interface FaqEntry {
+  q: string;
+  a: string;
+}
+
+export function FaqAccordion({ faqs }: { faqs: FaqEntry[] }) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
     <div className="flex flex-col gap-2.5">
-      {faqData.map((f, i) => {
+      {faqs.map((f, i) => {
         const open = openIdx === i;
         return (
           <div

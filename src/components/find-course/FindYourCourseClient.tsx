@@ -3,15 +3,14 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { courses } from "@/data/courses";
-import { streamsMeta } from "@/data/streams";
 import { CourseCard } from "@/components/find-course/CourseCard";
 import { useReveal } from "@/hooks/useReveal";
 import { waHref } from "@/lib/whatsapp";
+import type { Course, StreamMeta } from "@/lib/types";
 
 type CourseTypeFilter = "all" | "regular" | "distance";
 
-export function FindYourCourseClient() {
+export function FindYourCourseClient({ courses, streamsMeta }: { courses: Course[]; streamsMeta: StreamMeta[] }) {
   const searchParams = useSearchParams();
   // Deep-linked filters (?stream=medical, ?type=regular) seed initial state once;
   // useSearchParams() is available synchronously on both server and client render.

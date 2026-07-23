@@ -7,18 +7,28 @@ import { ProcessStrip } from "@/components/home/ProcessStrip";
 import { HomeSuccessStories } from "@/components/home/HomeSuccessStories";
 import { GoverningTeam } from "@/components/home/GoverningTeam";
 import { FinalCta } from "@/components/home/FinalCta";
+import { getColleges, getCounsellors, getStories, getActiveBanners } from "@/lib/site-data";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const [colleges, stories, counsellors, banners] = await Promise.all([
+    getColleges(),
+    getStories(),
+    getCounsellors(),
+    getActiveBanners(),
+  ]);
+
   return (
     <div>
-      <Hero />
+      <Hero banners={banners} />
       <TrustStatsBar />
       <MatcherTeaser />
       <PopularStreams />
-      <FeaturedColleges />
+      <FeaturedColleges colleges={colleges} />
       <ProcessStrip />
-      <HomeSuccessStories />
-      <GoverningTeam />
+      <HomeSuccessStories stories={stories} />
+      <GoverningTeam counsellors={counsellors} />
       <FinalCta />
     </div>
   );

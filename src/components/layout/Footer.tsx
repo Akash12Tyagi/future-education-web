@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { footerGroups } from "@/data/navigation";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
+import { NewsletterSignup } from "@/components/global/NewsletterSignup";
 
 export function Footer() {
   const { ref, revealed } = useReveal<HTMLDivElement>();
@@ -23,7 +24,8 @@ export function Footer() {
             Career counselling and admission guidance under the Future Education Trust — 15+ years, 5,000+ partner
             institutes, one honest conversation at a time.
           </p>
-          <div className="text-[13px] leading-relaxed">HE-9, City Centre, Sector-4, Bokaro Steel City, Jharkhand</div>
+          <div className="mb-4 text-[13px] leading-relaxed">HE-9, City Centre, Sector-4, Bokaro Steel City, Jharkhand</div>
+          <NewsletterSignup />
         </div>
 
         {footerGroups.map((group, i) => (

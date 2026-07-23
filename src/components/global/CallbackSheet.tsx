@@ -2,16 +2,20 @@
 
 import { useAppState } from "@/context/app-state";
 import { LeadForm } from "@/components/lead-form/LeadForm";
-import { courseOptions } from "@/data/courses";
+import { useEscapeToClose } from "@/hooks/useEscapeToClose";
 
 export function CallbackSheet() {
-  const { sheetOpen, closeSheet, recordLead } = useAppState();
+  const { sheetOpen, closeSheet, recordLead, courseOptions } = useAppState();
+  useEscapeToClose(sheetOpen, closeSheet);
   if (!sheetOpen) return null;
 
   return (
     <div
       className="fixed inset-0 z-[90] flex items-end justify-center bg-[rgba(15,23,31,.55)]"
       onClick={closeSheet}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="callback-sheet-title"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -19,8 +23,10 @@ export function CallbackSheet() {
         style={{ animation: "fe-fade .25s ease" }}
       >
         <div className="mb-1.5 flex items-center justify-between">
-          <span className="text-lg font-extrabold text-primary-900">Request a callback</span>
-          <button onClick={closeSheet} className="border-none bg-none text-[26px] leading-none text-neutral-500">
+          <span id="callback-sheet-title" className="text-lg font-extrabold text-primary-900">
+            Request a callback
+          </span>
+          <button onClick={closeSheet} aria-label="Close" className="border-none bg-none text-[26px] leading-none text-neutral-500">
             ×
           </button>
         </div>
