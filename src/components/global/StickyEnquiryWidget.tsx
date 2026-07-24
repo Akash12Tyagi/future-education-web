@@ -56,7 +56,7 @@ export function StickyEnquiryWidget() {
   return (
     <div className="fixed right-[22px] bottom-[22px] z-[70]">
       <div
-        className="flex w-[250px] flex-col gap-2.5 rounded-2xl border border-[#E5E7EB] bg-white p-4 shadow-[0_12px_34px_rgba(15,61,38,.16)]"
+        className="flex w-[250px] flex-col gap-2.5 rounded-2xl border border-[#E5E7EB] bg-white p-4 shadow-[0_12px_34px_rgba(27, 37, 89,.16)]"
         style={{ animation: "feFadeUp .35s cubic-bezier(.16,1,.3,1)" }}
       >
         <div className="flex items-center justify-between">

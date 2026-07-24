@@ -33,11 +33,11 @@ export function CollegeCard({ college: c, style }: CollegeCardProps) {
         <div className="text-[13.5px] text-neutral-500">
           {c.city}, {c.state} · {typeLabel(c.type)}
         </div>
-        <div className="text-[12.5px] font-semibold text-[#1F7A42]">{c.acc.join(" · ")}</div>
+        <div className="text-[12.5px] font-semibold text-[#3d6ce7]">{c.acc.join(" · ")}</div>
         <div className="mt-auto flex gap-2 pt-1.5">
           <Link
             href={`/colleges/${c.slug}`}
-            className="flex-1 rounded-[9px] border-[1.5px] border-[#1F7A42] py-2.5 text-center text-[13.5px] font-semibold text-[#1F7A42] no-underline"
+            className="flex-1 rounded-[9px] border-[1.5px] border-[#3d6ce7] py-2.5 text-center text-[13.5px] font-semibold text-[#3d6ce7] no-underline"
           >
             View profile
           </Link>

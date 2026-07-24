@@ -54,6 +54,8 @@ export interface Story {
   year: number;
   verified: boolean;
   video: boolean;
+  image?: string;
+  imageAlt?: string;
 }
 
 export interface Counsellor {

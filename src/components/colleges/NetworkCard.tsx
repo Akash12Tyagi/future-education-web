@@ -23,7 +23,7 @@ export function NetworkCard({ college: c, style }: { college: College; style?: R
         </span>
       </div>
       <div className="flex flex-col gap-1.5 p-3.5">
-        <span className="self-start rounded-full bg-primary-100 px-2.5 py-1 text-[10.5px] font-bold tracking-[.03em] text-[#1F7A42] uppercase">
+        <span className="self-start rounded-full bg-primary-100 px-2.5 py-1 text-[10.5px] font-bold tracking-[.03em] text-[#3d6ce7] uppercase">
           {typeLabel(c.type)}
         </span>
         <div className="text-sm leading-tight font-bold text-neutral-900">{c.name}</div>

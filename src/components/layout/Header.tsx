@@ -32,17 +32,17 @@ export function Header() {
   return (
     <>
       {/* Utility bar */}
-      <div className="bg-primary-900 text-[13.5px] text-[#E5F3EA]">
+      <div className="bg-primary-900 text-[13.5px] text-[#eaf0ff]">
         <div className="mx-auto flex max-w-[1220px] flex-wrap items-center justify-between gap-3 px-[22px] py-2">
           <div className="flex flex-wrap items-center gap-4.5">
-            <a href="tel:+919334649506" className="flex items-center gap-1.5 font-medium text-[#E5F3EA] no-underline">
+            <a href="tel:+919334649506" className="flex items-center gap-1.5 font-medium text-[#eaf0ff] no-underline">
               <span className="opacity-80">☎</span> +91 93346 49506
             </a>
             <a
               href={waHref()}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 font-medium text-[#E5F3EA] no-underline"
+              className="flex items-center gap-1.5 font-medium text-[#eaf0ff] no-underline"
             >
               <span className="inline-block h-2 w-2 rounded-full bg-[#25D366]" /> WhatsApp us
             </a>
@@ -60,7 +60,7 @@ export function Header() {
             </div>
             <button
               onClick={toggleLang}
-              className="cursor-pointer rounded-full border border-white/35 bg-transparent px-2.5 py-[3px] text-[12.5px] font-semibold text-[#E5F3EA]"
+              className="cursor-pointer rounded-full border border-white/35 bg-transparent px-2.5 py-[3px] text-[12.5px] font-semibold text-[#eaf0ff]"
             >
               {t.langLabel}
             </button>
@@ -76,7 +76,7 @@ export function Header() {
           backdropFilter: headerScrolled ? "saturate(180%) blur(14px)" : "none",
           WebkitBackdropFilter: headerScrolled ? "saturate(180%) blur(14px)" : "none",
           borderBottomColor: headerScrolled ? "rgba(229,231,235,.7)" : "#E5E7EB",
-          boxShadow: headerScrolled ? "0 8px 24px rgba(15,61,38,.08)" : "none",
+          boxShadow: headerScrolled ? "0 8px 24px rgba(27, 37, 89,.08)" : "none",
         }}
       >
         <div
@@ -126,7 +126,7 @@ export function Header() {
                     </Link>
                     {openMenu === group.key && (
                       <div
-                        className="absolute top-full left-0 z-[60] flex min-w-[260px] flex-col gap-0.5 rounded-2xl border border-[#E5E7EB] bg-white p-2 pt-3 shadow-[0_18px_40px_rgba(15,61,38,.16)]"
+                        className="absolute top-full left-0 z-[60] flex min-w-[260px] flex-col gap-0.5 rounded-2xl border border-[#E5E7EB] bg-white p-2 pt-3 shadow-[0_18px_40px_rgba(27, 37, 89,.16)]"
                         style={{ animation: "feScaleIn .18s cubic-bezier(.16,1,.3,1)" }}
                       >
                         {group.children.map((child) => (
@@ -160,7 +160,7 @@ export function Header() {
               <SearchBox />
               <MagneticLink
                 href="/contact"
-                className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-accent-500 px-5 py-2.5 text-[15px] font-bold text-white no-underline shadow-[0_6px_16px_rgba(169,36,31,.28)] hover:shadow-[0_8px_22px_rgba(169,36,31,.38)]"
+                className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-accent-500 px-5 py-2.5 text-[15px] font-bold text-white no-underline shadow-[0_6px_16px_rgba(97, 81, 251,.28)] hover:shadow-[0_8px_22px_rgba(97, 81, 251,.38)]"
               >
                 Enquire Now
               </MagneticLink>

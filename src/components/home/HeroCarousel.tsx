@@ -10,7 +10,7 @@ import { trackEvent } from "@/lib/analytics-actions";
 const DEFAULT_SLIDES: BannerSlide[] = [
   {
     id: "default-1",
-    image: "/images/campus/hero1.png",
+    image: "/images/campus/image copy 3.png",
     imageAlt: "Modern multi-storey university campus building with landscaped lawns",
     heading: null,
     subheading: null,
@@ -19,7 +19,7 @@ const DEFAULT_SLIDES: BannerSlide[] = [
   },
   {
     id: "default-2",
-    image: "/images/campus/image.png",
+    image: "/images/campus/image copy 4.png",
     imageAlt: "Deemed university campus with a grand academic building",
     heading: null,
     subheading: null,
@@ -28,7 +28,7 @@ const DEFAULT_SLIDES: BannerSlide[] = [
   },
   {
     id: "default-3",
-    image: "/images/campus/image copy.png",
+    image: "/images/campus/image copy 5.png",
     imageAlt: "Hillside technical institute campus surrounded by greenery",
     heading: null,
     subheading: null,
@@ -37,7 +37,7 @@ const DEFAULT_SLIDES: BannerSlide[] = [
   },
   {
     id: "default-4",
-    image: "/images/campus/image copy 2.png",
+    image: "/images/campus/image copy 6.png",
     imageAlt: "Management institute building entrance with manicured gardens",
     heading: null,
     subheading: null,
@@ -97,11 +97,11 @@ export function HeroCarousel({ slides: providedSlides }: { slides?: BannerSlide[
         />
       ))}
       <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(105deg, rgba(8,20,14,.90) 0%, rgba(10,28,19,.68) 45%, rgba(12,34,23,.52) 100%)",
-        }}
+        // className="absolute inset-0"
+        // style={{
+        //   background:
+        //     "linear-gradient(105deg, rgba(8,20,14,.90) 0%, rgba(10,28,19,.68) 45%, rgba(12,34,23,.52) 100%)",
+        // }}
       />
 
       {/* Arrows */}

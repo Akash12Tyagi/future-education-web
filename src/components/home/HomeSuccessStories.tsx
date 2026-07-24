@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useAppState } from "@/context/app-state";
 import { initials } from "@/lib/format";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
@@ -32,13 +33,19 @@ export function HomeSuccessStories({ stories }: { stories: Story[] }) {
             return (
               <div
                 key={st.id}
-                className="group fe-card-hover flex h-full flex-col gap-5 rounded-[20px] border border-white bg-white p-7.5 shadow-[0_10px_28px_rgba(15,61,38,.07)]"
+                className="group fe-card-hover flex h-full flex-col gap-5 rounded-[20px] border border-white bg-white p-7.5 shadow-[0_10px_28px_rgba(27, 37, 89,.07)]"
                 style={revealStyle(revealed, { delay: i * 80 })}
               >
                 <div className="flex items-center gap-4">
-                  <span className="flex h-16 w-16 flex-none items-center justify-center rounded-2xl bg-primary-900 text-xl font-bold text-highlight-500 transition-transform duration-300 group-hover:scale-105">
-                    {initials(st.name)}
-                  </span>
+                  {st.image ? (
+                    <div className="relative h-16 w-16 flex-none overflow-hidden rounded-2xl transition-transform duration-300 group-hover:scale-105">
+                      <Image src={st.image} alt={st.imageAlt ?? st.name} fill sizes="64px" className="object-cover" />
+                    </div>
+                  ) : (
+                    <span className="flex h-16 w-16 flex-none items-center justify-center rounded-2xl bg-primary-900 text-xl font-bold text-highlight-500 transition-transform duration-300 group-hover:scale-105">
+                      {initials(st.name)}
+                    </span>
+                  )}
                   <div className="min-w-0">
                     <div className="truncate text-[16.5px] font-bold text-neutral-900">{st.name}</div>
                     <div className="text-[13px] font-semibold text-accent-500">{st.course}</div>

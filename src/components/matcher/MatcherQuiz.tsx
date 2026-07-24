@@ -50,7 +50,7 @@ export function MatcherQuiz() {
       <div className="rounded-2xl border border-[#E5E7EB] bg-white px-7 py-14 text-center">
         <div
           className="mx-auto mb-5 h-11 w-11 rounded-full border-4 border-primary-100"
-          style={{ borderTopColor: "#1F7A42", animation: "fe-spin .8s linear infinite" }}
+          style={{ borderTopColor: "#3d6ce7", animation: "fe-spin .8s linear infinite" }}
         />
         <div className="text-lg font-bold text-primary-900">Scoring your matches…</div>
         <p className="mt-2 mb-0 text-neutral-500">Weighing stream, budget, location and program type.</p>
@@ -97,7 +97,7 @@ export function MatcherQuiz() {
                     <div className="mt-3.5 flex flex-wrap gap-2">
                       <Link
                         href="/find-your-course"
-                        className="rounded-[9px] border-[1.5px] border-[#1F7A42] px-3.5 py-2 text-[13.5px] font-semibold text-[#1F7A42] no-underline"
+                        className="rounded-[9px] border-[1.5px] border-[#3d6ce7] px-3.5 py-2 text-[13.5px] font-semibold text-[#3d6ce7] no-underline"
                       >
                         View course
                       </Link>
@@ -124,7 +124,7 @@ export function MatcherQuiz() {
             <div className="flex flex-wrap justify-center gap-2.5">
               <Link
                 href="/find-your-course"
-                className="rounded-[9px] border-[1.5px] border-[#1F7A42] px-5 py-3 font-bold text-[#1F7A42] no-underline"
+                className="rounded-[9px] border-[1.5px] border-[#3d6ce7] px-5 py-3 font-bold text-[#3d6ce7] no-underline"
               >
                 Browse all courses
               </Link>
@@ -156,7 +156,7 @@ export function MatcherQuiz() {
             Skip to browse
           </Link>
         </div>
-        <div className="mb-6.5 h-1.5 overflow-hidden rounded-full bg-[#F0F2EF]">
+        <div className="mb-6.5 h-1.5 overflow-hidden rounded-full bg-[#eef1f7]">
           <div
             className="h-full rounded-full bg-primary-600 transition-[width] duration-400"
             style={{ width: `${progressPct}%` }}
@@ -205,7 +205,7 @@ export function MatcherQuiz() {
               onClick={submit}
               disabled={!selected}
               className="rounded-[10px] border-none px-6 py-3 text-[15px] font-bold text-white"
-              style={{ background: selected ? "var(--color-accent-500)" : "#E5C9C7", cursor: selected ? "pointer" : "not-allowed" }}
+              style={{ background: selected ? "var(--color-accent-500)" : "#dad4fa", cursor: selected ? "pointer" : "not-allowed" }}
             >
               See my matches →
             </button>
@@ -214,7 +214,7 @@ export function MatcherQuiz() {
               onClick={next}
               disabled={!selected}
               className="rounded-[10px] border-none px-6 py-3 text-[15px] font-bold text-white"
-              style={{ background: selected ? "var(--color-accent-500)" : "#E5C9C7", cursor: selected ? "pointer" : "not-allowed" }}
+              style={{ background: selected ? "var(--color-accent-500)" : "#dad4fa", cursor: selected ? "pointer" : "not-allowed" }}
             >
               Next →
             </button>

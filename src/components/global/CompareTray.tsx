@@ -38,7 +38,7 @@ export function CompareTray() {
         >
           Compare Now →
         </Link>
-        <button onClick={clearCompare} className="cursor-pointer border-none bg-none text-[13px] text-[#B9D6C4] underline">
+        <button onClick={clearCompare} className="cursor-pointer border-none bg-none text-[13px] text-[#c7d2fe] underline">
           Clear
         </button>
       </div>

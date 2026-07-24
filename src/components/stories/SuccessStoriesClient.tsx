@@ -142,7 +142,7 @@ export function SuccessStoriesClient({ stories }: { stories: Story[] }) {
           <div className="mb-2 text-lg font-bold text-neutral-900">No stories yet for this filter</div>
           <button
             onClick={resetFilters}
-            className="cursor-pointer rounded-[9px] border-[1.5px] border-[#1F7A42] bg-white px-5 py-2.5 font-bold text-[#1F7A42]"
+            className="cursor-pointer rounded-[9px] border-[1.5px] border-[#3d6ce7] bg-white px-5 py-2.5 font-bold text-[#3d6ce7]"
           >
             Reset filters
           </button>
@@ -150,9 +150,9 @@ export function SuccessStoriesClient({ stories }: { stories: Story[] }) {
       )}
 
       <div className="mt-8.5 flex flex-wrap items-center justify-between gap-5 rounded-2xl bg-primary-900 p-7.5">
-        <div className="text-xl font-extrabold text-[#E5F3EA]">
+        <div className="text-xl font-extrabold text-[#eaf0ff]">
           Start your story.
-          <span className="mt-1 block text-[15px] font-normal text-[#B9D6C4]">
+          <span className="mt-1 block text-[15px] font-normal text-[#c7d2fe]">
             Free counselling — the first step every student above took.
           </span>
         </div>

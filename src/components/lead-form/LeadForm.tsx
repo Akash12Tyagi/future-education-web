@@ -272,7 +272,7 @@ export function LeadForm({
         type="submit"
         disabled={submitting}
         className={`flex w-full items-center justify-center gap-2.5 rounded-[10px] border-none px-[22px] py-3.5 text-base font-bold text-white ${
-          submitting ? "cursor-wait bg-[#8f1e1a]" : "cursor-pointer bg-accent-500"
+          submitting ? "cursor-wait bg-[#4a3fd1]" : "cursor-pointer bg-accent-500"
         }`}
       >
         {submitting && (

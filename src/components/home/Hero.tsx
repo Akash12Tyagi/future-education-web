@@ -64,7 +64,6 @@ export function Hero({ banners }: { banners: BannerSlide[] }) {
               href="/find-your-course/matcher"
               className="inline-flex items-center gap-2.5 rounded-[11px] bg-accent-500 px-[22px] py-[15px] text-base font-bold text-white no-underline"
             >
-              <span aria-hidden>✨</span>
               <span>Find My Course</span>
               <span className="rounded-full bg-white/20 px-2 py-[3px] text-[11px] font-extrabold tracking-[.03em]">60 SEC</span>
             </MagneticLink>
@@ -95,11 +94,11 @@ export function Hero({ banners }: { banners: BannerSlide[] }) {
         </div>
 
         <div className={isMobile ? "w-full" : "w-full max-w-[460px]"} style={!isMobile ? { flex: "1 1 400px" } : undefined}>
-          <div className="rounded-[20px] border border-white/40 bg-white p-9 shadow-[0_24px_60px_rgba(15,61,38,.35)]">
+          <div className="rounded-[20px] border border-white/40 bg-white p-9 shadow-[0_24px_60px_rgba(27, 37, 89,.35)]">
             <div className="mb-1.5 flex flex-wrap items-center justify-between gap-3">
               <div className="text-[21px] font-extrabold text-primary-900">Talk to a counsellor</div>
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-[#EAF6EE] px-3 py-1.5 text-[12.5px] font-bold text-[#1F7A42]">
-                <span className="inline-block h-[7px] w-[7px] rounded-full bg-[#1F7A42]" />
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-[#EAF0FF] px-3 py-1.5 text-[12.5px] font-bold text-[#3d6ce7]">
+                <span className="inline-block h-[7px] w-[7px] rounded-full bg-[#3d6ce7]" />
                 Online now
               </div>
             </div>

@@ -141,7 +141,7 @@ export default function TrackerPage() {
               <span className="text-sm text-neutral-500">category_certificate.pdf</span>
               <span className="rounded-md bg-[#FEF3C7] px-2.5 py-1 text-xs font-bold text-[#B45309]">Pending</span>
             </div>
-            <button className="mt-1.5 cursor-pointer self-start rounded-lg border-[1.5px] border-[#1F7A42] bg-white px-4.5 py-2.5 font-bold text-[#1F7A42]">
+            <button className="mt-1.5 cursor-pointer self-start rounded-lg border-[1.5px] border-[#3d6ce7] bg-white px-4.5 py-2.5 font-bold text-[#3d6ce7]">
               Upload a document
             </button>
           </div>

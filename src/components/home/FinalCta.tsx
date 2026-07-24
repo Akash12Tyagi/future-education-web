@@ -18,15 +18,15 @@ export function FinalCta() {
         className="mx-auto grid max-w-[1220px] items-center gap-10 px-[22px] py-14"
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}
       >
-        <div className="text-[#E5F3EA]">
+        <div className="text-[#eaf0ff]">
           <h2 className="mb-3.5 text-[clamp(24px,3vw,34px)] font-extrabold text-white">
             Talk to a counsellor — free, no obligation
           </h2>
-          <p className="mb-5 max-w-[48ch] text-[17px] text-[#B9D6C4]">
+          <p className="mb-5 max-w-[48ch] text-[17px] text-[#c7d2fe]">
             Share three details. A real counsellor calls you within 24 hours to walk through eligibility, colleges
             and fees for your course.
           </p>
-          <ul className="m-0 flex list-none flex-col gap-2.5 p-0 text-[15px] text-[#E5F3EA]">
+          <ul className="m-0 flex list-none flex-col gap-2.5 p-0 text-[15px] text-[#eaf0ff]">
             {points.map((p) => (
               <li key={p}>✓ {p}</li>
             ))}

@@ -31,7 +31,7 @@ export function MatcherTeaser() {
         <div className="flex min-w-[260px] flex-1 flex-col gap-2.5" style={{ flexBasis: 300 }}>
           {previewQuestions.map((q, i) => (
             <div key={q} className="flex items-center gap-2.5 rounded-xl border border-[#E5E7EB] bg-neutral-100 p-3.5">
-              <span className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-primary-100 text-[13px] font-bold text-[#1F7A42]">
+              <span className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-primary-100 text-[13px] font-bold text-[#3d6ce7]">
                 {i + 1}
               </span>
               <span className="text-sm">{q}</span>

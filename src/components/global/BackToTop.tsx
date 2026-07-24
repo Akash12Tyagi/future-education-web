@@ -24,7 +24,7 @@ export function BackToTop() {
       type="button"
       onClick={() => window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" })}
       aria-label="Back to top"
-      className="fixed bottom-[22px] left-[22px] z-[65] flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#E5E7EB] bg-white text-lg text-primary-900 shadow-[0_8px_24px_rgba(15,61,38,.16)]"
+      className="fixed bottom-[22px] left-[22px] z-[65] flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#E5E7EB] bg-white text-lg text-primary-900 shadow-[0_8px_24px_rgba(27, 37, 89,.16)]"
       style={{ animation: "fe-fade .25s ease" }}
     >
       ↑

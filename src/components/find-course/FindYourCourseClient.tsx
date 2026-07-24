@@ -61,7 +61,7 @@ export function FindYourCourseClient({ courses, streamsMeta }: { courses: Course
       >
         <div>
           <div className="mb-1 text-lg font-extrabold">Answer 6 questions → your shortlist in 60 seconds</div>
-          <div className="text-sm text-[#B9D6C4]">Every match explains why it fits.</div>
+          <div className="text-sm text-[#c7d2fe]">Every match explains why it fits.</div>
         </div>
         <span className="rounded-lg bg-accent-500 px-5 py-2.5 text-[15px] font-bold whitespace-nowrap">
           Start the matcher →
@@ -71,7 +71,7 @@ export function FindYourCourseClient({ courses, streamsMeta }: { courses: Course
       <div className="mb-6.5 flex flex-col gap-4 rounded-[14px] border border-[#E5E7EB] bg-white p-4.5">
         <div className="flex flex-wrap items-center gap-3">
           <span className="text-[13px] font-bold tracking-[.04em] text-neutral-500 uppercase">Mode</span>
-          <div className="inline-flex rounded-[10px] bg-[#F0F2EF] p-1">
+          <div className="inline-flex rounded-[10px] bg-[#eef1f7] p-1">
             <button onClick={() => setCourseType("all")} className={modeBtn(courseType === "all")}>
               All
             </button>
@@ -113,7 +113,7 @@ export function FindYourCourseClient({ courses, streamsMeta }: { courses: Course
           <div className="flex flex-wrap justify-center gap-2.5">
             <button
               onClick={resetFilters}
-              className="cursor-pointer rounded-[9px] border-[1.5px] border-[#1F7A42] bg-white px-5 py-2.5 font-bold text-[#1F7A42]"
+              className="cursor-pointer rounded-[9px] border-[1.5px] border-[#3d6ce7] bg-white px-5 py-2.5 font-bold text-[#3d6ce7]"
             >
               Reset filters
             </button>

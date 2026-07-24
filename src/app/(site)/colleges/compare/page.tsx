@@ -49,7 +49,7 @@ export default function ComparePage() {
                       Attribute
                     </th>
                     {items.map((c) => (
-                      <th key={c.id} className="border-b border-[#E5E7EB] border-l border-l-[#F0F2EF] p-4 text-left align-top">
+                      <th key={c.id} className="border-b border-[#E5E7EB] border-l border-l-[#eef1f7] p-4 text-left align-top">
                         <div className="mb-1.5 text-[15px] font-bold text-primary-900">{c.name}</div>
                         <button
                           onClick={() => removeCompare(c.id)}
@@ -64,11 +64,11 @@ export default function ComparePage() {
                 <tbody>
                   {rows(items[0]).map((_, rowIdx) => (
                     <tr key={rowIdx}>
-                      <td className="sticky left-0 border-b border-[#F0F2EF] bg-neutral-100 p-4 text-[13.5px] font-bold text-[#374151]">
+                      <td className="sticky left-0 border-b border-[#eef1f7] bg-neutral-100 p-4 text-[13.5px] font-bold text-[#374151]">
                         {rows(items[0])[rowIdx].label}
                       </td>
                       {items.map((c) => (
-                        <td key={c.id} className="border-b border-[#F0F2EF] border-l border-l-[#F0F2EF] p-4 text-sm text-neutral-900">
+                        <td key={c.id} className="border-b border-[#eef1f7] border-l border-l-[#eef1f7] p-4 text-sm text-neutral-900">
                           {rows(c)[rowIdx].value}
                         </td>
                       ))}
@@ -91,7 +91,7 @@ export default function ComparePage() {
                     </button>
                   </div>
                   {rows(c).map((r) => (
-                    <div key={r.label} className="flex justify-between gap-3.5 border-b border-[#F0F2EF] px-4 py-2.5 text-sm">
+                    <div key={r.label} className="flex justify-between gap-3.5 border-b border-[#eef1f7] px-4 py-2.5 text-sm">
                       <span className="font-semibold text-neutral-500">{r.label}</span>
                       <span className="text-right text-neutral-900">{r.value}</span>
                     </div>
@@ -101,7 +101,7 @@ export default function ComparePage() {
             </div>
           )}
           <div className="mt-5 flex flex-wrap gap-3">
-            <Link href="/colleges" className="rounded-[9px] border-[1.5px] border-[#1F7A42] px-5 py-3 font-bold text-[#1F7A42] no-underline">
+            <Link href="/colleges" className="rounded-[9px] border-[1.5px] border-[#3d6ce7] px-5 py-3 font-bold text-[#3d6ce7] no-underline">
               + Add another college
             </Link>
             <button onClick={clearCompare} className="cursor-pointer rounded-[9px] border-[1.5px] border-[#D1D5DB] bg-white px-5 py-3 font-semibold text-neutral-500">

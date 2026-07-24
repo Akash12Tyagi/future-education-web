@@ -28,7 +28,7 @@ export function ProcessStrip() {
         ))}
       </div>
       <div className="mt-5.5">
-        <Link href="/admission-consultancy" className="font-bold text-[#1F7A42] no-underline">
+        <Link href="/admission-consultancy" className="font-bold text-[#3d6ce7] no-underline">
           See exactly what&apos;s included →
         </Link>
       </div>

@@ -62,9 +62,9 @@ export function AdmissionConsultancyClient({ faqs }: { faqs: FaqEntry[] }) {
 
       <section className="mx-auto max-w-[1080px] px-[22px] py-12">
         <div className="flex flex-wrap items-center justify-between gap-5 rounded-2xl bg-primary-900 p-7.5">
-          <div className="text-[#E5F3EA]">
+          <div className="text-[#eaf0ff]">
             <div className="mb-2 text-xl font-extrabold text-white">Already signed up? Track your application.</div>
-            <p className="m-0 max-w-[52ch] text-[#B9D6C4]">
+            <p className="m-0 max-w-[52ch] text-[#c7d2fe]">
               See every stage — Enquiry → Shortlist → Documents → Filed → Result — with timestamps. No more
               wondering if you&apos;ve been forgotten.
             </p>

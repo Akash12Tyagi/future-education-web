@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary-900: #0f3d26;
-  --color-primary-600: #1f7a42;
-  --color-primary-100: #e5f3ea;
-  --color-accent-500: #a9241f;
-  --color-accent-100: #f8e3e1;
-  --color-highlight-500: #f4c81d;
+  --color-primary-900: #1b2559;
+  --color-primary-600: #3d6ce7;
+  --color-primary-100: #eaf0ff;
+  --color-accent-500: #6151fb;
+  --color-accent-100: #f3f1ff;
+  --color-highlight-500: #ffb020;
   --color-success-500: #0e8074;
   --color-success-100: #e4f4f1;
   --color-neutral-900: #14171f;
@@ -220,7 +220,7 @@ textarea {
     transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .fe-card-hover:hover {
-  box-shadow: 0 14px 30px rgba(15, 61, 38, 0.1);
+  box-shadow: 0 14px 30px rgba(27, 37, 89, 0.1);
   transform: translateY(-6px);
 }
 
@@ -232,7 +232,7 @@ textarea {
 }
 .fe-stream-card:hover {
   border-color: var(--color-primary-600);
-  box-shadow: 0 12px 26px rgba(15, 61, 38, 0.12);
+  box-shadow: 0 12px 26px rgba(27, 37, 89, 0.12);
   transform: translateY(-6px);
 }
 

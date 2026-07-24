@@ -25,7 +25,7 @@ export function CourseCard({ course: c, expanded, onToggle, revealed, delay }: C
     >
       <div className="flex items-start justify-between gap-2.5">
         <h3 className="m-0 text-xl font-bold text-neutral-900">{c.name}</h3>
-        <span className="rounded-md bg-primary-100 px-2.5 py-1 text-[11.5px] font-bold whitespace-nowrap text-[#1F7A42]">
+        <span className="rounded-md bg-primary-100 px-2.5 py-1 text-[11.5px] font-bold whitespace-nowrap text-[#3d6ce7]">
           {c.streamLabel}
         </span>
       </div>
@@ -41,7 +41,7 @@ export function CourseCard({ course: c, expanded, onToggle, revealed, delay }: C
           <strong className="text-primary-900">{feeRange(c.feeMin, c.feeMax)}</strong>
         </div>
       </div>
-      <Link href={`/colleges?stream=${c.stream}`} className="text-[13.5px] font-bold text-[#1F7A42] no-underline">
+      <Link href={`/colleges?stream=${c.stream}`} className="text-[13.5px] font-bold text-[#3d6ce7] no-underline">
         {c.collegeCount} colleges offer this →
       </Link>
       <div className="mt-0.5 flex gap-2">
@@ -54,7 +54,7 @@ export function CourseCard({ course: c, expanded, onToggle, revealed, delay }: C
       </div>
       {expanded && (
         <div
-          className="mt-1 flex flex-col gap-3 border-t border-[#F0F2EF] pt-3.5"
+          className="mt-1 flex flex-col gap-3 border-t border-[#eef1f7] pt-3.5"
           style={{ animation: "feFadeUp .35s cubic-bezier(.16,1,.3,1)" }}
         >
           <div className="text-[13.5px] text-[#4B5563]">

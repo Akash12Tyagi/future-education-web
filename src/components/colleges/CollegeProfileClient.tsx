@@ -42,14 +42,14 @@ export function CollegeProfileClient({ college, profileCourses }: { college: Col
           <h2 className="mb-3.5 text-xl font-extrabold text-primary-900">Accreditation</h2>
           <div className="mb-4 flex flex-wrap gap-2">
             {college.acc.map((a) => (
-              <span key={a} className="rounded-lg bg-primary-100 px-3 py-1.5 text-[13px] font-semibold text-[#1F7A42]">
+              <span key={a} className="rounded-lg bg-primary-100 px-3 py-1.5 text-[13px] font-semibold text-[#3d6ce7]">
                 {a}
               </span>
             ))}
           </div>
           {college.website && (
             <div className="mb-6.5 text-[13.5px] text-neutral-500">
-              Official website: <strong className="text-[#1F7A42]">{college.website}</strong>
+              Official website: <strong className="text-[#3d6ce7]">{college.website}</strong>
             </div>
           )}
           <h2 className="mb-3.5 text-xl font-extrabold text-primary-900">Courses offered</h2>

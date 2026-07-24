@@ -16,7 +16,7 @@ export function PopularStreams() {
           <Link
             key={st.key}
             href={`/find-your-course?stream=${st.key}`}
-            className="fe-stream-card block rounded-[14px] border border-[#E5E7EB] border-t-[3px] border-t-[#1F7A42] bg-white p-5 no-underline"
+            className="fe-stream-card block rounded-[14px] border border-[#E5E7EB] border-t-[3px] border-t-[#3d6ce7] bg-white p-5 no-underline"
             style={revealStyle(revealed, { delay: i * 60 })}
           >
             <div className="mb-1.5 text-[17px] font-bold text-primary-900">{st.label}</div>

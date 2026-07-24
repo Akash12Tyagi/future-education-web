@@ -1,5 +1,6 @@
 import { Hero } from "@/components/home/Hero";
 import { TrustStatsBar } from "@/components/home/TrustStatsBar";
+import { AboutTeaser } from "@/components/home/AboutTeaser";
 import { MatcherTeaser } from "@/components/home/MatcherTeaser";
 import { PopularStreams } from "@/components/home/PopularStreams";
 import { FeaturedColleges } from "@/components/home/FeaturedColleges";
@@ -23,6 +24,7 @@ export default async function Home() {
     <div>
       <Hero banners={banners} />
       <TrustStatsBar />
+      <AboutTeaser />
       <MatcherTeaser />
       <PopularStreams />
       <FeaturedColleges colleges={colleges} />

@@ -33,8 +33,8 @@ export function AboutStoryClient() {
         {timelineData.map((t, i) => (
           <div key={t.year} className="flex gap-4.5" style={revealStyle(revealed, { delay: i * 90 })}>
             <div className="flex flex-col items-center">
-              <div className="mt-1.5 h-3.5 w-3.5 flex-none rounded-full bg-[#1F7A42]" />
-              <div className="w-0.5 flex-1 bg-[#D5E5DB]" style={{ minHeight: 30 }} />
+              <div className="mt-1.5 h-3.5 w-3.5 flex-none rounded-full bg-[#3d6ce7]" />
+              <div className="w-0.5 flex-1 bg-[#d6def0]" style={{ minHeight: 30 }} />
             </div>
             <div className="pb-6.5">
               <div className="text-[15px] font-extrabold text-accent-500">{t.year}</div>

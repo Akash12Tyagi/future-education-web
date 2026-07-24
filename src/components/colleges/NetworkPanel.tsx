@@ -65,7 +65,7 @@ export function NetworkPanel({ colleges }: { colleges: College[] }) {
         ))}
       </div>
 
-      <div className="mt-6.5 border-t border-[#F0F2EF] pt-5.5">
+      <div className="mt-6.5 border-t border-[#eef1f7] pt-5.5">
         <div className="mb-3 text-xs font-bold tracking-[.06em] text-neutral-400 uppercase">Our associate institutes</div>
         <div
           className="overflow-hidden"

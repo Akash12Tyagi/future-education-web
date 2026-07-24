@@ -71,7 +71,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
             href={waHref()}
             target="_blank"
             rel="noreferrer"
-            className="rounded-[10px] border-[1.5px] border-[#1F7A42] px-5 py-2.5 font-bold text-[#1F7A42] no-underline"
+            className="rounded-[10px] border-[1.5px] border-[#3d6ce7] px-5 py-2.5 font-bold text-[#3d6ce7] no-underline"
           >
             Share on WhatsApp
           </a>

@@ -26,7 +26,7 @@ export function FaqAccordion({ faqs }: { faqs: FaqEntry[] }) {
             >
               {f.q}
               <span
-                className="flex-none text-xl text-[#1F7A42] transition-transform duration-300"
+                className="flex-none text-xl text-[#3d6ce7] transition-transform duration-300"
                 style={{ transform: open ? "rotate(45deg)" : "rotate(0deg)" }}
               >
                 +

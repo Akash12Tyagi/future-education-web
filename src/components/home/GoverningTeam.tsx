@@ -34,7 +34,7 @@ export function GoverningTeam({ counsellors }: { counsellors: Counsellor[] }) {
             return (
               <div
                 key={m.id}
-                className="group fe-card-hover flex h-full flex-col overflow-hidden rounded-[20px] border border-[#E5E7EB] bg-gradient-to-b from-white to-primary-100/30 shadow-[0_10px_30px_rgba(15,61,38,.08)]"
+                className="group fe-card-hover flex h-full flex-col overflow-hidden rounded-[20px] border border-[#E5E7EB] bg-gradient-to-b from-white to-primary-100/30 shadow-[0_10px_30px_rgba(27, 37, 89,.08)]"
                 style={revealStyle(revealed, { delay: i * 90 })}
               >
                 <div className="relative aspect-[4/5] w-full flex-none overflow-hidden">

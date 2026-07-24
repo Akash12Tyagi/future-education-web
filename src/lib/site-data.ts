@@ -176,7 +176,7 @@ export async function getStories(): Promise<Story[]> {
   const stories = await prisma.story.findMany({
     where: { active: true },
     orderBy: { order: "asc" },
-    include: { course: true, college: true, stream: true },
+    include: { course: true, college: true, stream: true, image: true },
   });
   return stories.map((s) => ({
     id: s.id,
@@ -189,6 +189,8 @@ export async function getStories(): Promise<Story[]> {
     year: s.year,
     verified: s.verified,
     video: !!s.videoUrl,
+    image: s.image?.url,
+    imageAlt: s.image?.altText ?? s.name,
   }));
 }
 

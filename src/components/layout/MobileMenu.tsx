@@ -67,7 +67,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             className={
               l.sub
                 ? "border-none py-2.5 pr-2 pl-4.5 text-[14.5px] font-medium text-[#4B5563] no-underline"
-                : "border-b border-[#F0F2EF] py-3.5 px-2 text-base font-bold text-primary-900 no-underline"
+                : "border-b border-[#eef1f7] py-3.5 px-2 text-base font-bold text-primary-900 no-underline"
             }
             style={{ animation: `feSlideInFromRight .3s cubic-bezier(.16,1,.3,1) ${l.delay}ms both` }}
           >

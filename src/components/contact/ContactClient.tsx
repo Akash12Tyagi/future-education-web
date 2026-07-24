@@ -34,19 +34,19 @@ export function ContactClient() {
           />
         </div>
         <div className="order-2 flex flex-col gap-4">
-          <div className="rounded-[14px] bg-primary-900 p-5.5 text-[#E5F3EA]">
+          <div className="rounded-[14px] bg-primary-900 p-5.5 text-[#eaf0ff]">
             <div className="mb-3.5 text-base font-extrabold text-white">Talk to us now</div>
             <div className="flex flex-col gap-3 text-[15px]">
               <a href={waHref()} target="_blank" rel="noreferrer" className="flex items-center gap-2.5 text-white no-underline">
                 <span className="h-2.5 w-2.5 rounded-full bg-[#25D366]" /> WhatsApp: +91 {WHATSAPP_NUMBER.slice(2)}
               </a>
-              <a href="tel:+919334649506" className="text-[#E5F3EA] no-underline">
+              <a href="tel:+919334649506" className="text-[#eaf0ff] no-underline">
                 ☎ +91 93346 49506
               </a>
-              <a href="tel:+919835398833" className="text-[#E5F3EA] no-underline">
+              <a href="tel:+919835398833" className="text-[#eaf0ff] no-underline">
                 ☎ +91 98353 98833
               </a>
-              <a href="tel:+916542233033" className="text-[#E5F3EA] no-underline">
+              <a href="tel:+916542233033" className="text-[#eaf0ff] no-underline">
                 ☎ 06542-233033 (landline)
               </a>
             </div>

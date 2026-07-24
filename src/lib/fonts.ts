@@ -1,15 +1,15 @@
-import { Plus_Jakarta_Sans, Archivo_Black, Noto_Sans_Devanagari } from "next/font/google";
+import { Roboto, Noto_Sans_Devanagari } from "next/font/google";
 
-export const bodyFont = Plus_Jakarta_Sans({
+export const bodyFont = Roboto({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "700"],
   variable: "--font-body",
   display: "swap",
 });
 
-export const displayFont = Archivo_Black({
+export const displayFont = Roboto({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["700", "900"],
   variable: "--font-display",
   display: "swap",
 });

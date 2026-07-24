@@ -55,7 +55,7 @@ export function BentoTile({ item, style }: { item: BentoItem; style?: React.CSSP
         <div>
           <div className="mb-2.5 bg-accent-500" style={{ width: item.big ? 34 : 28, height: 3 }} />
           <div
-            className="mb-1.5 font-bold tracking-[.04em] text-[#B9D6C4] uppercase"
+            className="mb-1.5 font-bold tracking-[.04em] text-[#c7d2fe] uppercase"
             style={{ fontSize: item.big ? 12 : 11.5 }}
           >
             {item.tag}
@@ -63,7 +63,7 @@ export function BentoTile({ item, style }: { item: BentoItem; style?: React.CSSP
           <div className="mb-1.5 font-extrabold text-white" style={{ fontSize: item.big ? 22 : 18 }}>
             {item.title}
           </div>
-          <div className="leading-snug text-[#E5F3EA]" style={{ fontSize: item.big ? 14.5 : 13.5, maxWidth: item.big ? "46ch" : undefined }}>
+          <div className="leading-snug text-[#eaf0ff]" style={{ fontSize: item.big ? 14.5 : 13.5, maxWidth: item.big ? "46ch" : undefined }}>
             {item.body}
           </div>
         </div>

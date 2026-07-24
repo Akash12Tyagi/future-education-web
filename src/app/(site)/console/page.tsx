@@ -30,7 +30,7 @@ export default function ConsolePage() {
             </span>
             {/* Intentionally a no-op: the public "online" indicator always reflects
                 real staffed hours and is never faked, even from this internal tool. */}
-            <button className="cursor-pointer rounded-lg border-[1.5px] border-[#1F7A42] bg-white px-3.5 py-2 font-bold text-[#1F7A42]">
+            <button className="cursor-pointer rounded-lg border-[1.5px] border-[#3d6ce7] bg-white px-3.5 py-2 font-bold text-[#3d6ce7]">
               Toggle
             </button>
           </div>
