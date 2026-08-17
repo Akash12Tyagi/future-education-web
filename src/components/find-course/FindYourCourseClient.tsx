@@ -94,17 +94,24 @@ export function FindYourCourseClient({ courses, streamsMeta }: { courses: Course
       </div>
 
       {filtered.length > 0 ? (
-        <div ref={ref} className="grid gap-4.5" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}>
-          {filtered.map((c, i) => (
-            <CourseCard
-              key={c.id}
-              course={c}
-              expanded={expandedId === c.id}
-              onToggle={(id) => setExpandedId((prev) => (prev === id ? null : id))}
-              revealed={revealed}
-              delay={(i % 6) * 60}
-            />
-          ))}
+        <div className="relative">
+          <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+            <div className="absolute -left-16 top-0 h-72 w-72 rounded-full bg-primary-600/10 blur-3xl" />
+            <div className="absolute right-0 top-32 h-80 w-80 rounded-full bg-accent-500/10 blur-3xl" />
+            <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-highlight-500/10 blur-3xl" />
+          </div>
+          <div ref={ref} className="grid grid-cols-1 items-stretch gap-4.5 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((c, i) => (
+              <CourseCard
+                key={c.id}
+                course={c}
+                expanded={expandedId === c.id}
+                onToggle={(id) => setExpandedId((prev) => (prev === id ? null : id))}
+                revealed={revealed}
+                delay={(i % 6) * 60}
+              />
+            ))}
+          </div>
         </div>
       ) : (
         <div className="rounded-[14px] border border-dashed border-[#D1D5DB] bg-white p-10 text-center">

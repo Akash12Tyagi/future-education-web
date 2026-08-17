@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { navGroups, successStoriesLink, galleryLink, placementsLink } from "@/data/navigation";
+import { useEffect, useRef, useState } from "react";
+import { navGroups, successStoriesLink, galleryLink } from "@/data/navigation";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { useChatOnline } from "@/hooks/useChatOnline";
 import { useAppState } from "@/context/app-state";
+import { useEscapeToClose } from "@/hooks/useEscapeToClose";
 import { dict } from "@/data/dict";
 import { waHref, WHATSAPP_NUMBER } from "@/lib/whatsapp";
 import { MagneticLink } from "@/components/ui/MagneticLink";
+import { MegaMenu } from "./MegaMenu";
 import { MobileMenu } from "./MobileMenu";
-import { SearchBox } from "./SearchBox";
 
 export function Header() {
   const isMobile = useIsMobile();
@@ -22,12 +23,29 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [headerScrolled, setHeaderScrolled] = useState(false);
   const [logoError, setLogoError] = useState(false);
+  const navRowRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const activeGroup = navGroups.find((group) => group.key === openMenu) ?? null;
 
   useEffect(() => {
     const onScroll = () => setHeaderScrolled(document.documentElement.scrollTop > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!openMenu) return;
+    const onPointerDown = (e: MouseEvent) => {
+      const target = e.target as Node;
+      const insideNav = navRowRef.current?.contains(target);
+      const insidePanel = panelRef.current?.contains(target);
+      if (!insideNav && !insidePanel) setOpenMenu(null);
+    };
+    document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
+  }, [openMenu]);
+
+  useEscapeToClose(!!openMenu, () => setOpenMenu(null));
 
   return (
     <>
@@ -80,6 +98,7 @@ export function Header() {
         }}
       >
         <div
+          ref={navRowRef}
           className="mx-auto flex max-w-[1220px] items-center justify-between gap-4 px-[22px] transition-[padding]"
           style={{ padding: headerScrolled ? "10px 22px" : "16px 22px" }}
         >
@@ -112,52 +131,30 @@ export function Header() {
             <>
               <nav className="flex items-center gap-1">
                 {navGroups.map((group) => (
-                  <div
+                  <Link
                     key={group.key}
-                    className="relative"
-                    onMouseEnter={() => setOpenMenu(group.key)}
-                    onMouseLeave={() => setOpenMenu(null)}
+                    href={group.href}
+                    className="fe-nav-link"
+                    data-open={openMenu === group.key}
+                    aria-expanded={openMenu === group.key}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenMenu((prev) => (prev === group.key ? null : group.key));
+                    }}
                   >
-                    <Link href={group.href} className="fe-nav-link" data-open={openMenu === group.key}>
-                      {group.label}
-                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                        <path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </Link>
-                    {openMenu === group.key && (
-                      <div
-                        className="absolute top-full left-0 z-[60] flex min-w-[260px] flex-col gap-0.5 rounded-2xl border border-[#E5E7EB] bg-white p-2 pt-3 shadow-[0_18px_40px_rgba(27, 37, 89,.16)]"
-                        style={{ animation: "feScaleIn .18s cubic-bezier(.16,1,.3,1)" }}
-                      >
-                        {group.children.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className="flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-neutral-900 no-underline hover:bg-primary-100 hover:text-primary-900"
-                          >
-                            {child.label}
-                            {child.tag && (
-                              <span className="rounded-full bg-accent-100 px-2 py-0.5 text-[10.5px] font-bold tracking-wide text-accent-500 uppercase">
-                                {child.tag}
-                              </span>
-                            )}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                    {group.label}
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                      <path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
                 ))}
-                <Link href={successStoriesLink.href} className="fe-nav-link">
+                <Link href={successStoriesLink.href} className="fe-nav-link" onClick={() => setOpenMenu(null)}>
                   {successStoriesLink.label}
                 </Link>
-                <Link href={galleryLink.href} className="fe-nav-link">
+                <Link href={galleryLink.href} className="fe-nav-link" onClick={() => setOpenMenu(null)}>
                   {galleryLink.label}
                 </Link>
-                <Link href={placementsLink.href} className="fe-nav-link">
-                  {placementsLink.label}
-                </Link>
               </nav>
-              <SearchBox />
               <MagneticLink
                 href="/contact"
                 className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-accent-500 px-5 py-2.5 text-[15px] font-bold text-white no-underline shadow-[0_6px_16px_rgba(97, 81, 251,.28)] hover:shadow-[0_8px_22px_rgba(97, 81, 251,.38)]"
@@ -197,6 +194,17 @@ export function Header() {
             </div>
           )}
         </div>
+
+        {!isMobile && activeGroup && (
+          <div className="absolute top-full left-0 z-[60] w-full px-[22px] pt-3" style={{ animation: "feMegaIn .24s cubic-bezier(.16,1,.3,1) both" }}>
+            <div
+              ref={panelRef}
+              className="mx-auto max-w-[1180px] overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white shadow-[0_24px_60px_rgba(27,37,89,.14)]"
+            >
+              <MegaMenu group={activeGroup} onNavigate={() => setOpenMenu(null)} />
+            </div>
+          </div>
+        )}
       </header>
 
       {isMobile && <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />}
