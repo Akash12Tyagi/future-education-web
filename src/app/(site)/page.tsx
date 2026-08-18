@@ -5,6 +5,7 @@ import { MatcherTeaser } from "@/components/home/MatcherTeaser";
 import { PopularStreams } from "@/components/home/PopularStreams";
 import { FeaturedColleges } from "@/components/home/FeaturedColleges";
 import { ProcessStrip } from "@/components/home/ProcessStrip";
+import { AdmissionJourney } from "@/components/home/AdmissionJourney";
 import { HomeSuccessStories } from "@/components/home/HomeSuccessStories";
 import { GoverningTeam } from "@/components/home/GoverningTeam";
 import { FinalCta } from "@/components/home/FinalCta";
@@ -29,6 +30,7 @@ export default async function Home() {
       <PopularStreams />
       <FeaturedColleges colleges={colleges} />
       <ProcessStrip />
+      <AdmissionJourney />
       <HomeSuccessStories stories={stories} />
       <GoverningTeam counsellors={counsellors} />
       <FinalCta />
