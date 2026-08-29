@@ -253,11 +253,12 @@ async function seedStories(
     const overrideSlug = storyCourseSlugOverrides[s.slug];
     const courseId = overrideSlug ? (courseIdBySlug.get(overrideSlug) ?? null) : (courseIdByName.get(s.course.toLowerCase()) ?? null);
     const streamId = streamIdByKey.get(s.stream) ?? null;
+    const imageId = s.image ? await getOrCreateLocalImageAsset(s.image, s.imageAlt ?? s.name, "stories") : null;
 
     await prisma.story.upsert({
       where: { slug: s.slug },
-      update: { name: s.name, courseId, collegeId, streamId, quote: s.quote, year: s.year, verified: s.verified, order: i },
-      create: { slug: s.slug, name: s.name, courseId, collegeId, streamId, quote: s.quote, year: s.year, verified: s.verified, order: i },
+      update: { name: s.name, courseId, collegeId, streamId, quote: s.quote, year: s.year, verified: s.verified, order: i, imageId },
+      create: { slug: s.slug, name: s.name, courseId, collegeId, streamId, quote: s.quote, year: s.year, verified: s.verified, order: i, imageId },
     });
   }
 }
