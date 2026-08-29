@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { outcomeHighlights } from "@/data/outcomes";
 
 export function OutcomeCarousel() {
@@ -41,18 +42,24 @@ export function OutcomeCarousel() {
           </div>
         </div>
         <div className="flex flex-none items-center gap-4.5">
-          <div
-            className="flex items-center justify-center rounded-2xl text-center"
-            style={{
-              width: 150,
-              aspectRatio: "3/4",
-              backgroundImage:
-                "repeating-linear-gradient(135deg, #eaf0ff, #eaf0ff 10px, #f5f8ff 10px, #f5f8ff 20px)",
-              padding: 10,
-            }}
-          >
-            <span className="font-mono text-[10.5px] text-[#3d6ce7]">student photo</span>
-          </div>
+          {active.image ? (
+            <div className="relative flex-none overflow-hidden rounded-2xl" style={{ width: 150, aspectRatio: "3/4" }}>
+              <Image src={active.image} alt={active.imageAlt ?? active.name} fill sizes="150px" className="object-cover" />
+            </div>
+          ) : (
+            <div
+              className="flex items-center justify-center rounded-2xl text-center"
+              style={{
+                width: 150,
+                aspectRatio: "3/4",
+                backgroundImage:
+                  "repeating-linear-gradient(135deg, #eaf0ff, #eaf0ff 10px, #f5f8ff 10px, #f5f8ff 20px)",
+                padding: 10,
+              }}
+            >
+              <span className="font-mono text-[10.5px] text-[#3d6ce7]">student photo</span>
+            </div>
+          )}
           <div>
             <div className="text-[15px] font-bold text-neutral-900">{active.name}</div>
             <div className="text-[13px] text-neutral-500">{active.college}</div>

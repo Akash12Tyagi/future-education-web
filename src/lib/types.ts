@@ -124,6 +124,8 @@ export interface OutcomeHighlight {
   points: string[];
   pill1: string;
   pill2: string;
+  image?: string;
+  imageAlt?: string;
 }
 
 export interface StatTarget {
