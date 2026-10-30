@@ -27,12 +27,26 @@ const staticRoutes = [
   "/success-stories",
 ];
 
+type SlugRow = { slug: string; updatedAt: Date };
+
+// The sitemap is prerendered during `next build`, where the database may be
+// unreachable. Fall back to static routes so the build succeeds; the hourly
+// revalidation fills in CMS entries once the deployed app can reach the DB.
+async function fetchDynamicRows(): Promise<[SlugRow[], SlugRow[], SlugRow[]]> {
+  try {
+    return await Promise.all([
+      prisma.college.findMany({ where: { active: true }, select: { slug: true, updatedAt: true } }),
+      prisma.story.findMany({ where: { active: true }, select: { slug: true, updatedAt: true } }),
+      prisma.counsellor.findMany({ where: { active: true }, select: { slug: true, updatedAt: true } }),
+    ]);
+  } catch (error) {
+    console.error("sitemap: failed to load CMS entries, serving static routes only", error);
+    return [[], [], []];
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [colleges, stories, counsellors] = await Promise.all([
-    prisma.college.findMany({ where: { active: true }, select: { slug: true, updatedAt: true } }),
-    prisma.story.findMany({ where: { active: true }, select: { slug: true, updatedAt: true } }),
-    prisma.counsellor.findMany({ where: { active: true }, select: { slug: true, updatedAt: true } }),
-  ]);
+  const [colleges, stories, counsellors] = await fetchDynamicRows();
 
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((path) => ({
     url: `${siteUrl}${path}`,
