@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
 import { CollegeCard } from "@/components/colleges/CollegeCard";
+import { SectionHeading } from "@/components/home/SectionHeading";
 import type { College } from "@/lib/types";
 
 export function FeaturedColleges({ colleges }: { colleges: College[] }) {
@@ -10,17 +11,16 @@ export function FeaturedColleges({ colleges }: { colleges: College[] }) {
   const featured = colleges.filter((c) => c.isVerifiedPartner).slice(0, 6);
 
   return (
-    <section className="border-y border-[#E5E7EB] bg-white">
-      <div className="mx-auto max-w-[1220px] px-[22px] py-14">
-        <div className="mb-6.5 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h2 className="mb-1.5 text-[clamp(22px,2.6vw,30px)] font-extrabold text-primary-900">
-              Featured partner institutes
-            </h2>
-            <p className="m-0 text-neutral-500">A cross-section of our 5,000+ associate institutes and universities.</p>
-          </div>
-          <Link href="/colleges" className="font-bold whitespace-nowrap text-accent-500 no-underline">
-            Browse all 5,000+ →
+    <section className="bg-white py-16 md:py-20">
+      <div className="mx-auto max-w-7xl px-4 md:px-6">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <SectionHeading
+            eyebrow="Partner institutes"
+            title="Colleges we work with"
+            intro="A cross-section of our 5,000+ associate institutes and universities."
+          />
+          <Link href="/colleges" className="text-base font-semibold whitespace-nowrap text-primary-900 no-underline">
+            Browse all colleges ›
           </Link>
         </div>
         <div ref={ref} className="grid gap-4.5" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}>

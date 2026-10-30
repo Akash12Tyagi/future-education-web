@@ -25,10 +25,12 @@ const organizationJsonLd = {
   description:
     "Admission counselling and career-guidance trust for MBBS, BDS, Engineering, Nursing, Management and more.",
   url: siteUrl,
-  telephone: "+91-9334649506",
+  telephone: ["+91-9334649506", "+91-9835398833", "+91-6542-233033"],
+  email: "info@futureeducationonline.com",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "HE-9, City Centre, Sector-4",
+    streetAddress: "HE 9, City Centre, Sector 4",
+    postalCode: "827004",
     addressLocality: "Bokaro Steel City",
     addressRegion: "Jharkhand",
     addressCountry: "IN",

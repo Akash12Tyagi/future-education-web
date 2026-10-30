@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { slugify } from "@/lib/format";
+import { adminAction } from "@/lib/admin-action";
 
 const counsellorSchema = z.object({
   slug: z.string().min(1),
@@ -24,7 +26,8 @@ const counsellorSchema = z.object({
 
 function parseFormData(formData: FormData) {
   return counsellorSchema.parse({
-    slug: formData.get("slug"),
+    // Slug is optional in the form — derived from the name when left blank.
+    slug: String(formData.get("slug") || "").trim() || slugify(String(formData.get("name") ?? "")),
     name: formData.get("name"),
     role: formData.get("role"),
     specialization: formData.get("specialization"),
@@ -46,12 +49,15 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createCounsellor(
+export const createCounsellor = adminAction(async function createCounsellor(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
   const session = await requireAdmin();
   const data = parseFormData(formData);
+  if (await prisma.counsellor.findUnique({ where: { slug: data.slug }, select: { id: true } })) {
+    return { error: `Another counsellor already uses the slug "${data.slug}" — enter a different slug.` };
+  }
 
   const counsellor = await prisma.counsellor.create({
     data: { ...data, imageId: data.imageId || null },
@@ -63,15 +69,19 @@ export async function createCounsellor(
 
   revalidatePath("/admin/faculty");
   redirect("/admin/faculty");
-}
+}, "Counsellor created");
 
-export async function updateCounsellor(
+export const updateCounsellor = adminAction(async function updateCounsellor(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
   const session = await requireAdmin();
   const data = parseFormData(formData);
+  const clash = await prisma.counsellor.findUnique({ where: { slug: data.slug }, select: { id: true } });
+  if (clash && clash.id !== id) {
+    return { error: `Another counsellor already uses the slug "${data.slug}" — enter a different slug.` };
+  }
 
   await prisma.counsellor.update({
     where: { id },
@@ -84,13 +94,13 @@ export async function updateCounsellor(
 
   revalidatePath("/admin/faculty");
   redirect("/admin/faculty");
-}
+}, "Changes saved");
 
-export async function deleteCounsellor(id: string) {
+export const deleteCounsellor = adminAction(async function deleteCounsellor(id: string) {
   const session = await requireAdmin();
   await prisma.counsellor.delete({ where: { id } });
   await prisma.auditLog.create({
     data: { userId: session.user.id, action: "delete", entityType: "Counsellor", entityId: id },
   });
   revalidatePath("/admin/faculty");
-}
+});

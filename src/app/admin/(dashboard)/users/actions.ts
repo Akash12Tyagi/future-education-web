@@ -7,6 +7,7 @@ import { hash } from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { Role } from "@/generated/prisma/enums";
+import { adminAction } from "@/lib/admin-action";
 
 const createUserSchema = z.object({
   name: z.string().min(1),
@@ -25,7 +26,7 @@ async function requireSuperAdmin() {
   return session;
 }
 
-export async function createUser(
+export const createUser = adminAction(async function createUser(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -52,9 +53,9 @@ export async function createUser(
 
   revalidatePath("/admin/users");
   redirect("/admin/users");
-}
+}, "User created");
 
-export async function updateUserRole(id: string, formData: FormData) {
+export const updateUserRole = adminAction(async function updateUserRole(id: string, formData: FormData) {
   const session = await requireSuperAdmin();
   const parsed = updateRoleSchema.safeParse({ role: formData.get("role") });
   if (!parsed.success) return;
@@ -76,9 +77,9 @@ export async function updateUserRole(id: string, formData: FormData) {
     data: { userId: session.user.id, action: "update", entityType: "User", entityId: id, diff: { role: parsed.data.role } },
   });
   revalidatePath("/admin/users");
-}
+});
 
-export async function deleteUser(id: string) {
+export const deleteUser = adminAction(async function deleteUser(id: string) {
   const session = await requireSuperAdmin();
   if (session.user.id === id) throw new Error("You cannot delete your own account.");
 
@@ -87,4 +88,4 @@ export async function deleteUser(id: string) {
     data: { userId: session.user.id, action: "delete", entityType: "User", entityId: id },
   });
   revalidatePath("/admin/users");
-}
+});

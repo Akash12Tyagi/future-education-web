@@ -4,8 +4,9 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { LeadStatus } from "@/generated/prisma/enums";
+import { adminAction } from "@/lib/admin-action";
 
-export async function updateLeadStatus(id: string, formData: FormData) {
+export const updateLeadStatus = adminAction(async function updateLeadStatus(id: string, formData: FormData) {
   const session = await auth();
   if (!session?.user) throw new Error("Not authenticated.");
 
@@ -17,4 +18,4 @@ export async function updateLeadStatus(id: string, formData: FormData) {
     data: { userId: session.user.id, action: "update", entityType: "Lead", entityId: id, diff: { status } },
   });
   revalidatePath("/admin/leads");
-}
+});

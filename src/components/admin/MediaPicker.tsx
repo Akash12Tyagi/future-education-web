@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { uploadMediaAsset, type UploadMediaState } from "@/lib/media-actions";
 import { Select } from "@/components/admin/FormField";
+import { toast } from "@/components/admin/Toaster";
 
 export interface MediaOption {
   id: string;
@@ -10,16 +11,22 @@ export interface MediaOption {
   filename: string;
 }
 
+function isImageFile(o: MediaOption) {
+  return /\.(jpe?g|png|webp|gif|avif|svg)$/i.test(o.filename);
+}
+
 export function MediaPicker({
   name,
   assets,
   defaultValue,
   folder = "uploads",
+  accept = "image/*,application/pdf,video/*",
 }: {
   name: string;
   assets: MediaOption[];
   defaultValue?: string | null;
   folder?: string;
+  accept?: string;
 }) {
   const [options, setOptions] = useState(assets);
   const [selectedId, setSelectedId] = useState(defaultValue ?? "");
@@ -35,6 +42,10 @@ export function MediaPicker({
     setOptions((prev) => (prev.some((o) => o.id === newAsset.id) ? prev : [...prev, newAsset]));
     setSelectedId(newAsset.id);
   }
+  useEffect(() => {
+    if (state.error) toast.error(`Upload failed: ${state.error}`);
+    else if (state.asset) toast.success(`Uploaded ${state.asset.filename}`);
+  }, [state]);
 
   const selected = options.find((o) => o.id === selectedId);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -55,8 +66,19 @@ export function MediaPicker({
       </Select>
 
       {selected ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={selected.url} alt="" className="h-24 w-24 rounded-lg border border-[#E5E7EB] object-cover" />
+        isImageFile(selected) ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={selected.url} alt="" className="h-24 w-24 rounded-lg border border-[#E5E7EB] object-cover" />
+        ) : (
+          <a
+            href={selected.url}
+            target="_blank"
+            rel="noreferrer"
+            className="self-start rounded-lg border border-[#E5E7EB] bg-neutral-100 px-3 py-2 text-[13px] font-bold text-primary-600 no-underline"
+          >
+            📄 {selected.filename} — open
+          </a>
+        )
       ) : null}
 
       {/* Not a nested <form> — this control lives inside the entity's own
@@ -66,7 +88,7 @@ export function MediaPicker({
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*,application/pdf,video/*"
+          accept={accept}
           className="text-[13px]"
         />
         <button

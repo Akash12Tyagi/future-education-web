@@ -27,7 +27,7 @@ export function AboutTeaser() {
           />
           <div className="relative flex items-stretch gap-4" style={revealStyle(revealed, { dist: 16 })}>
             <div className="flex w-[42%] flex-col gap-4">
-              <div className="relative aspect-square overflow-hidden rounded-2xl shadow-[0_14px_34px_rgba(27,37,89,.16)]">
+              <div className="relative aspect-square overflow-hidden rounded-2xl shadow-[0_14px_34px_rgba(0,88,38,.16)]">
                 <Image
                   src="/images/office/bokaro-office.jpg"
                   alt="Future Education's Bokaro office"
@@ -36,7 +36,7 @@ export function AboutTeaser() {
                   className="object-cover"
                 />
               </div>
-              <div className="relative aspect-square overflow-hidden rounded-2xl shadow-[0_14px_34px_rgba(27,37,89,.16)]">
+              <div className="relative aspect-square overflow-hidden rounded-2xl shadow-[0_14px_34px_rgba(0,88,38,.16)]">
                 <Image
                   src="/images/team/counsellor-01.jpg"
                   alt="Anil Kumar Singh, Director, Future Education Trust"
@@ -46,7 +46,7 @@ export function AboutTeaser() {
                 />
               </div>
             </div>
-            <div className="relative flex-1 overflow-hidden rounded-2xl shadow-[0_18px_44px_rgba(27,37,89,.2)]">
+            <div className="relative flex-1 overflow-hidden rounded-2xl shadow-[0_18px_44px_rgba(0,88,38,.2)]">
               <Image
                 src="/images/campus/campus-11.jpg"
                 alt="One of Future Education's 5,000+ partner campuses"

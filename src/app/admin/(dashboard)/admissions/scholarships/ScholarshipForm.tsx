@@ -2,6 +2,8 @@
 
 import { useActionState } from "react";
 import { FormField, TextInput, TextArea, Select, SubmitButton } from "@/components/admin/FormField";
+import { useActionToast } from "@/components/admin/Toaster";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 
 export interface ScholarshipFormValues {
   name: string;
@@ -24,9 +26,10 @@ export function ScholarshipForm({
   streams: { id: string; label: string }[];
 }) {
   const [state, formAction, pending] = useActionState(action, undefined);
+  useActionToast(state);
 
   return (
-    <form action={formAction} className="flex max-w-[560px] flex-col gap-4">
+    <form onSubmit={submitKeepingValues(formAction)} className="flex max-w-[560px] flex-col gap-4">
       <FormField label="Scheme name" name="name">
         <TextInput name="name" defaultValue={initial?.name} required />
       </FormField>

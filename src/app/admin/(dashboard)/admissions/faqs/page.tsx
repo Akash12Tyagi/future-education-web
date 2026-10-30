@@ -4,6 +4,7 @@ import { AdminCard } from "@/components/admin/AdminCard";
 import { DataTable } from "@/components/admin/DataTable";
 import { DeleteButton } from "@/components/admin/FormField";
 import { deleteFaq } from "./actions";
+import { ActionForm } from "@/components/admin/ActionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -37,9 +38,13 @@ export default async function AdminFaqsPage() {
                   <Link href={`/admin/admissions/faqs/${f.id}`} className="text-[13px] font-bold text-primary-600">
                     Edit
                   </Link>
-                  <form action={deleteFaq.bind(null, f.id)}>
+                  <ActionForm
+                    action={deleteFaq.bind(null, f.id)}
+                    confirm="Delete this FAQ? This can't be undone."
+                    success="FAQ deleted"
+                  >
                     <DeleteButton />
-                  </form>
+                  </ActionForm>
                 </div>
               ),
             },

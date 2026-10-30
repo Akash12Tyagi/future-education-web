@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { adminAction } from "@/lib/admin-action";
 
 const recruiterSchema = z.object({
   name: z.string().min(1),
@@ -28,7 +29,7 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createRecruiter(
+export const createRecruiter = adminAction(async function createRecruiter(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -43,9 +44,9 @@ export async function createRecruiter(
   revalidatePath("/admin/placements/recruiters");
   revalidatePath("/placements");
   redirect("/admin/placements/recruiters");
-}
+}, "Recruiter created");
 
-export async function updateRecruiter(
+export const updateRecruiter = adminAction(async function updateRecruiter(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -61,9 +62,9 @@ export async function updateRecruiter(
   revalidatePath("/admin/placements/recruiters");
   revalidatePath("/placements");
   redirect("/admin/placements/recruiters");
-}
+}, "Changes saved");
 
-export async function deleteRecruiter(id: string) {
+export const deleteRecruiter = adminAction(async function deleteRecruiter(id: string) {
   const session = await requireAdmin();
   await prisma.recruiter.delete({ where: { id } });
   await prisma.auditLog.create({
@@ -71,4 +72,4 @@ export async function deleteRecruiter(id: string) {
   });
   revalidatePath("/admin/placements/recruiters");
   revalidatePath("/placements");
-}
+});

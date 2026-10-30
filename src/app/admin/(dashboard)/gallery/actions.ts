@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { GalleryCategory } from "@/generated/prisma/enums";
+import { adminAction } from "@/lib/admin-action";
 
 const albumSchema = z.object({
   title: z.string().min(1),
@@ -20,7 +21,7 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createAlbum(
+export const createAlbum = adminAction(async function createAlbum(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -39,9 +40,9 @@ export async function createAlbum(
 
   revalidatePath("/admin/gallery");
   redirect("/admin/gallery");
-}
+}, "Album created");
 
-export async function updateAlbum(
+export const updateAlbum = adminAction(async function updateAlbum(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -62,18 +63,18 @@ export async function updateAlbum(
   revalidatePath("/admin/gallery");
   revalidatePath(`/admin/gallery/${id}`);
   return undefined;
-}
+}, "Changes saved");
 
-export async function deleteAlbum(id: string) {
+export const deleteAlbum = adminAction(async function deleteAlbum(id: string) {
   const session = await requireAdmin();
   await prisma.galleryAlbum.delete({ where: { id } });
   await prisma.auditLog.create({
     data: { userId: session.user.id, action: "delete", entityType: "GalleryAlbum", entityId: id },
   });
   revalidatePath("/admin/gallery");
-}
+});
 
-export async function addGalleryItem(albumId: string, formData: FormData) {
+export const addGalleryItem = adminAction(async function addGalleryItem(albumId: string, formData: FormData) {
   const session = await requireAdmin();
   const mediaId = formData.get("mediaId") as string;
   const caption = (formData.get("caption") as string) || null;
@@ -84,13 +85,13 @@ export async function addGalleryItem(albumId: string, formData: FormData) {
     data: { userId: session.user.id, action: "create", entityType: "GalleryItem", entityId: albumId },
   });
   revalidatePath(`/admin/gallery/${albumId}`);
-}
+});
 
-export async function deleteGalleryItem(albumId: string, itemId: string) {
+export const deleteGalleryItem = adminAction(async function deleteGalleryItem(albumId: string, itemId: string) {
   const session = await requireAdmin();
   await prisma.galleryItem.delete({ where: { id: itemId } });
   await prisma.auditLog.create({
     data: { userId: session.user.id, action: "delete", entityType: "GalleryItem", entityId: itemId },
   });
   revalidatePath(`/admin/gallery/${albumId}`);
-}
+});

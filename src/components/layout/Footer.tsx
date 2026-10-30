@@ -25,7 +25,11 @@ export function Footer() {
             institutes, one honest conversation at a time.
           </p>
           <div className="text-[13px] leading-relaxed text-[#6B7280]">
-            HE-9, City Centre, Sector-4, Bokaro Steel City, Jharkhand
+            HE 9, City Centre, Sector 4, Bokaro Steel City, Jharkhand 827004, India.
+            <br />
+            <a href="mailto:info@futureeducationonline.com" className="text-[#6B7280] no-underline hover:text-primary-600">
+              info@futureeducationonline.com
+            </a>
           </div>
         </div>
 
@@ -54,9 +58,9 @@ export function Footer() {
       </div>
       <div className="border-t border-[#E5E7EB]">
         <div className="mx-auto flex max-w-[1220px] flex-wrap items-center justify-center gap-2 px-[22px] py-4.5 text-center text-[13px] text-[#6B7280]">
-          <span>© 2026 Future Education Trust. Open daily, 10 AM – 8 PM (Sunday by appointment).</span>
+          <span>© 2026 Future Education Trust. Open daily, 10 AM – 6 PM (Sunday by appointment).</span>
           <span className="hidden sm:inline">·</span>
-          <span>+91 93346 49506 · +91 98353 98833</span>
+          <span>☎ +91 93346 49506, 98353 98833 · Call or WhatsApp us</span>
         </div>
       </div>
     </footer>

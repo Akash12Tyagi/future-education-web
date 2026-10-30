@@ -13,27 +13,29 @@ export function FinalCta() {
   const { recordLead, courseOptions } = useAppState();
 
   return (
-    <section className="bg-primary-900">
+    <section className="bg-[#f3f7f4]">
       <div
-        className="mx-auto grid max-w-[1220px] items-center gap-10 px-[22px] py-14"
+        className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 md:px-6 md:py-20"
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}
       >
-        <div className="text-[#eaf0ff]">
-          <h2 className="mb-3.5 text-[clamp(24px,3vw,34px)] font-extrabold text-white">
+        <div>
+          <h2 className="m-0 mb-4 text-[clamp(28px,4vw,46px)] leading-tight font-bold tracking-tight text-primary-900">
             Talk to a counsellor — free, no obligation
           </h2>
-          <p className="mb-5 max-w-[48ch] text-[17px] text-[#c7d2fe]">
+          <p className="mb-6 max-w-[48ch] text-base leading-relaxed text-neutral-500">
             Share three details. A real counsellor calls you within 24 hours to walk through eligibility, colleges
             and fees for your course.
           </p>
-          <ul className="m-0 flex list-none flex-col gap-2.5 p-0 text-[15px] text-[#eaf0ff]">
+          <ul className="m-0 flex list-none flex-col gap-2.5 p-0 text-[15px] text-neutral-900">
             {points.map((p) => (
-              <li key={p}>✓ {p}</li>
+              <li key={p}>
+                <span className="text-primary-600">✓</span> {p}
+              </li>
             ))}
           </ul>
         </div>
-        <div className="rounded-[18px] bg-white p-6.5">
-          <div className="mb-4 text-lg font-extrabold text-primary-900">Get a free callback</div>
+        <div className="rounded-2xl border border-[#E5E7EB] bg-white p-6.5">
+          <div className="mb-4 text-lg font-bold text-primary-900">Get a free callback</div>
           <LeadForm
             variant="micro"
             sourceTag="home_final_cta"

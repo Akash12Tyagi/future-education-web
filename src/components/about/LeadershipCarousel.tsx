@@ -40,7 +40,7 @@ export function LeadershipCarousel({
   const next = () => setIdx((i) => (i + 1) % people.length);
 
   return (
-    <div className="rounded-3xl p-[clamp(20px,3vw,36px)]" style={{ background: "#000" }}>
+    <div className="rounded-3xl p-[clamp(20px,3vw,36px)]" style={{ background: "var(--color-primary-900)" }}>
       <div className="mb-1.5 text-[12.5px] font-bold tracking-[.08em] uppercase" style={{ color: "rgba(255,255,255,.6)" }}>
         {eyebrow}
       </div>
@@ -62,11 +62,11 @@ export function LeadershipCarousel({
               className="object-cover"
             />
           </div>
-          <div className="flex flex-1 flex-col p-7 md:p-9" style={{ background: "#000" }}>
+          <div className="flex flex-1 flex-col p-7 md:p-9" style={{ background: "var(--color-primary-900)" }}>
             <div className="mb-4 flex items-start justify-between gap-4">
               <div>
                 <h2 className="m-0 text-[clamp(22px,2.6vw,30px)] font-extrabold text-white">{active.name}</h2>
-                <div className="mt-1 text-[15px] font-semibold" style={{ color: "#ffb020" }}>{active.role}</div>
+                <div className="mt-1 text-[15px] font-semibold" style={{ color: "#ede809" }}>{active.role}</div>
               </div>
               {hasMultiple && (
                 <div className="flex flex-none items-center gap-2">
@@ -131,7 +131,7 @@ export function LeadershipCarousel({
                 <div className="relative aspect-4/5 w-full">
                   <Image src={p.image} alt={p.imageAlt} fill sizes="190px" className="object-cover" />
                 </div>
-                <div className="p-3.5" style={{ background: isActive ? "#6151fb" : "#000" }}>
+                <div className="p-3.5" style={{ background: isActive ? "#c2161a" : "#000" }}>
                   <div className="text-[14.5px] font-bold text-white">{p.name}</div>
                   <div className="mt-0.5 text-[12.5px]" style={{ color: "rgba(255,255,255,.7)" }}>
                     {p.role}

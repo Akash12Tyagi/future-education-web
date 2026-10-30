@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { CourseType } from "@/generated/prisma/enums";
+import { adminAction } from "@/lib/admin-action";
 
 const courseSchema = z.object({
   slug: z.string().min(1),
@@ -17,6 +18,8 @@ const courseSchema = z.object({
   eligibility: z.string().min(1),
   feeMin: z.coerce.number().int().nonnegative(),
   feeMax: z.coerce.number().int().nonnegative(),
+  minPct: z.coerce.number().int().min(0).max(100),
+  abroad: z.coerce.boolean(),
   outcomes: z.string().transform((v) =>
     v
       .split(",")
@@ -39,6 +42,8 @@ function parseFormData(formData: FormData) {
     eligibility: formData.get("eligibility"),
     feeMin: formData.get("feeMin"),
     feeMax: formData.get("feeMax"),
+    minPct: formData.get("minPct") || 0,
+    abroad: formData.get("abroad") === "on",
     outcomes: formData.get("outcomes") ?? "",
     brochureId: formData.get("brochureId") || undefined,
     order: formData.get("order") || 0,
@@ -52,7 +57,7 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createCourse(
+export const createCourse = adminAction(async function createCourse(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -69,9 +74,9 @@ export async function createCourse(
 
   revalidatePath("/admin/courses");
   redirect("/admin/courses");
-}
+}, "Course created");
 
-export async function updateCourse(
+export const updateCourse = adminAction(async function updateCourse(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -90,13 +95,13 @@ export async function updateCourse(
 
   revalidatePath("/admin/courses");
   redirect("/admin/courses");
-}
+}, "Changes saved");
 
-export async function deleteCourse(id: string) {
+export const deleteCourse = adminAction(async function deleteCourse(id: string) {
   const session = await requireAdmin();
   await prisma.course.delete({ where: { id } });
   await prisma.auditLog.create({
     data: { userId: session.user.id, action: "delete", entityType: "Course", entityId: id },
   });
   revalidatePath("/admin/courses");
-}
+});

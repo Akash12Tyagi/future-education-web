@@ -35,6 +35,8 @@ export default async function EditCoursePage({ params }: { params: Promise<{ id:
             eligibility: course.eligibility,
             feeMin: course.feeMin,
             feeMax: course.feeMax,
+            minPct: course.minPct,
+            abroad: course.abroad,
             outcomes: course.outcomes,
             brochureId: course.brochureId,
             order: course.order,

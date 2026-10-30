@@ -110,7 +110,8 @@ async function seedStreams() {
   for (const [i, s] of streamsMeta.entries()) {
     const row = await prisma.stream.upsert({
       where: { key: s.key },
-      update: { label: s.label, desc: s.desc },
+      // Create-only: streams are admin-managed once seeded, so re-seeding must not undo edits.
+      update: {},
       create: { key: s.key, label: s.label, desc: s.desc },
     });
     idByKey.set(s.key, row.id);
@@ -126,18 +127,8 @@ async function seedCourses(streamIdByKey: Map<string, string>) {
     if (!streamId) throw new Error(`Unknown stream key: ${c.stream}`);
     const row = await prisma.course.upsert({
       where: { slug: c.slug },
-      update: {
-        name: c.name,
-        streamId,
-        type: courseTypeMap[c.type],
-        duration: c.duration,
-        durMonths: c.durMonths,
-        eligibility: c.eligibility,
-        feeMin: c.feeMin,
-        feeMax: c.feeMax,
-        outcomes: c.outcomes,
-        order: i,
-      },
+      // Create-only: courses are admin-managed once seeded, so re-seeding must not undo edits.
+      update: {},
       create: {
         slug: c.slug,
         name: c.name,

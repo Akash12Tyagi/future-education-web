@@ -1,15 +1,13 @@
 "use client";
 
+import { ActionForm } from "@/components/admin/ActionForm";
 import { updateLeadStatus } from "./actions";
 
 const statuses = ["NEW", "CONTACTED", "QUALIFIED", "CONVERTED", "CLOSED"];
 
 export function StatusSelect({ leadId, status }: { leadId: string; status: string }) {
   return (
-    <form
-      action={(formData) => updateLeadStatus(leadId, formData)}
-      onChange={(e) => (e.currentTarget as HTMLFormElement).requestSubmit()}
-    >
+    <ActionForm action={(formData) => updateLeadStatus(leadId, formData)} success="Lead status updated" submitOnChange>
       <select
         name="status"
         defaultValue={status}
@@ -21,6 +19,6 @@ export function StatusSelect({ leadId, status }: { leadId: string; status: strin
           </option>
         ))}
       </select>
-    </form>
+    </ActionForm>
   );
 }

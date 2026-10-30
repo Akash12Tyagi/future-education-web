@@ -4,6 +4,7 @@ import { AdminCard } from "@/components/admin/AdminCard";
 import { DataTable } from "@/components/admin/DataTable";
 import { DeleteButton } from "@/components/admin/FormField";
 import { deleteDownload } from "./actions";
+import { ActionForm } from "@/components/admin/ActionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -38,9 +39,13 @@ export default async function AdminDownloadsPage() {
                   <Link href={`/admin/downloads/${d.id}`} className="text-[13px] font-bold text-primary-600">
                     Edit
                   </Link>
-                  <form action={deleteDownload.bind(null, d.id)}>
+                  <ActionForm
+                    action={deleteDownload.bind(null, d.id)}
+                    confirm="Delete this download? This can't be undone."
+                    success="Download deleted"
+                  >
                     <DeleteButton />
-                  </form>
+                  </ActionForm>
                 </div>
               ),
             },

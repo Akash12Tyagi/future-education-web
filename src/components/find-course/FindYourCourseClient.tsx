@@ -7,10 +7,19 @@ import { CourseCard } from "@/components/find-course/CourseCard";
 import { useReveal } from "@/hooks/useReveal";
 import { waHref } from "@/lib/whatsapp";
 import type { Course, StreamMeta } from "@/lib/types";
+import type { CourseCategory } from "@/lib/site-data";
 
 type CourseTypeFilter = "all" | "regular" | "distance";
 
-export function FindYourCourseClient({ courses, streamsMeta }: { courses: Course[]; streamsMeta: StreamMeta[] }) {
+export function FindYourCourseClient({
+  courses,
+  streamsMeta,
+  categories,
+}: {
+  courses: Course[];
+  streamsMeta: StreamMeta[];
+  categories: CourseCategory[];
+}) {
   const searchParams = useSearchParams();
   // Deep-linked filters (?stream=medical, ?type=regular) seed initial state once;
   // useSearchParams() is available synchronously on both server and client render.
@@ -57,21 +66,40 @@ export function FindYourCourseClient({ courses, streamsMeta }: { courses: Course
 
       <Link
         href="/find-your-course/matcher"
-        className="mb-7.5 flex flex-wrap items-center justify-between gap-4 rounded-[14px] bg-primary-900 px-6 py-5 text-white no-underline"
+        className="mb-5 flex flex-wrap items-center justify-between gap-4 rounded-[14px] bg-primary-900 px-6 py-5 text-white no-underline"
       >
         <div>
-          <div className="mb-1 text-lg font-extrabold">Answer 6 questions → your shortlist in 60 seconds</div>
-          <div className="text-sm text-[#c7d2fe]">Every match explains why it fits.</div>
+          <div className="mb-1 text-lg font-extrabold">Answer 5 questions → your shortlist in 60 seconds…</div>
+          <div className="text-sm text-[#bfe0ca]">Every match explains why it fits.</div>
         </div>
         <span className="rounded-lg bg-accent-500 px-5 py-2.5 text-[15px] font-bold whitespace-nowrap">
           Start the matcher →
         </span>
       </Link>
 
+      <section aria-labelledby="course-overview" className="mb-7.5">
+        <h2 id="course-overview" className="mb-3.5 text-xl font-extrabold text-primary-900">
+          Overview — pick your field
+        </h2>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((cat) => (
+            <Link
+              key={cat.key}
+              href={`/find-your-course/matcher?category=${cat.key}`}
+              className="fe-card-hover flex flex-col gap-1 rounded-xl border border-[#E5E7EB] bg-white p-4 no-underline"
+            >
+              <span className="text-[15.5px] font-bold text-neutral-900">{cat.label}</span>
+              <span className="text-[13px] leading-snug text-neutral-500">{cat.examples}</span>
+              <span className="mt-1.5 text-[13px] font-bold text-accent-500">Find my match →</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <div className="mb-6.5 flex flex-col gap-4 rounded-[14px] border border-[#E5E7EB] bg-white p-4.5">
         <div className="flex flex-wrap items-center gap-3">
           <span className="text-[13px] font-bold tracking-[.04em] text-neutral-500 uppercase">Mode</span>
-          <div className="inline-flex rounded-[10px] bg-[#eef1f7] p-1">
+          <div className="inline-flex rounded-[10px] bg-[#eef4ef] p-1">
             <button onClick={() => setCourseType("all")} className={modeBtn(courseType === "all")}>
               All
             </button>
@@ -120,7 +148,7 @@ export function FindYourCourseClient({ courses, streamsMeta }: { courses: Course
           <div className="flex flex-wrap justify-center gap-2.5">
             <button
               onClick={resetFilters}
-              className="cursor-pointer rounded-[9px] border-[1.5px] border-[#3d6ce7] bg-white px-5 py-2.5 font-bold text-[#3d6ce7]"
+              className="cursor-pointer rounded-[9px] border-[1.5px] border-[#0b7a3b] bg-white px-5 py-2.5 font-bold text-[#0b7a3b]"
             >
               Reset filters
             </button>

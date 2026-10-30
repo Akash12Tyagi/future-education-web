@@ -3,6 +3,8 @@
 import { useActionState } from "react";
 import { FormField, TextInput, TextArea, SubmitButton } from "@/components/admin/FormField";
 import { MediaPicker, type MediaOption } from "@/components/admin/MediaPicker";
+import { useActionToast } from "@/components/admin/Toaster";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 
 export interface CounsellorFormValues {
   slug: string;
@@ -32,15 +34,16 @@ export function CounsellorForm({
   mediaAssets: MediaOption[];
 }) {
   const [state, formAction, pending] = useActionState(action, undefined);
+  useActionToast(state);
 
   return (
-    <form action={formAction} className="flex max-w-[640px] flex-col gap-4">
+    <form onSubmit={submitKeepingValues(formAction)} className="flex max-w-[640px] flex-col gap-4">
       <div className="grid grid-cols-2 gap-4">
         <FormField label="Name" name="name">
           <TextInput name="name" defaultValue={initial?.name} required />
         </FormField>
-        <FormField label="Slug" name="slug">
-          <TextInput name="slug" defaultValue={initial?.slug} required />
+        <FormField label="Slug (optional — auto from name)" name="slug">
+          <TextInput name="slug" defaultValue={initial?.slug} placeholder="e.g. anil-kumar-singh" />
         </FormField>
         <FormField label="Role" name="role">
           <TextInput name="role" defaultValue={initial?.role} required />

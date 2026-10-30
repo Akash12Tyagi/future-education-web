@@ -17,4 +17,4 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - All data (courses, colleges, stories, schemes, etc.) lives in `src/data/` as static fixtures — there is no backend yet.
 - Leads, the compare list, and the demo application-tracker state are mocked client-side (`src/context/app-state.tsx`), persisted to `localStorage`/`sessionStorage` for the current browser only.
-- `src/app/tracker` accepts any 10-digit mobile number and any 4-digit OTP (demo login, no real auth).
+- `src/app/(site)/tracker` looks up a real enquiry by mobile number + student first name; the stage shown follows the lead status set in Admin → Leads & Enquiries.

@@ -240,6 +240,10 @@ model Course {
   eligibility  String
   feeMin       Int
   feeMax       Int
+  /// Minimum Class 12 / qualifying-exam % typically required (0 = entrance-based). Used by the course matcher.
+  minPct       Int         @default(0)
+  /// Programme is studied outside India. Used by the course matcher.
+  abroad       Boolean     @default(false)
   outcomes     String[]
   brochureId   String?
   brochure     MediaAsset? @relation("CourseBrochure", fields: [brochureId], references: [id], onDelete: SetNull)

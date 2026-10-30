@@ -2,6 +2,8 @@
 
 import { useActionState } from "react";
 import { FormField, TextInput, TextArea, SubmitButton } from "@/components/admin/FormField";
+import { useActionToast } from "@/components/admin/Toaster";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 
 export interface SeoFormValues {
   path: string;
@@ -14,9 +16,10 @@ type FormAction = (prev: { error?: string } | undefined, formData: FormData) => 
 
 export function SeoForm({ action, initial, lockPath }: { action: FormAction; initial?: SeoFormValues; lockPath?: boolean }) {
   const [state, formAction, pending] = useActionState(action, undefined);
+  useActionToast(state);
 
   return (
-    <form action={formAction} className="flex max-w-[560px] flex-col gap-4">
+    <form onSubmit={submitKeepingValues(formAction)} className="flex max-w-[560px] flex-col gap-4">
       <FormField label="Path (e.g. /colleges/sviet)" name="path">
         <TextInput name="path" defaultValue={initial?.path} placeholder="/some/path" required readOnly={lockPath} />
       </FormField>

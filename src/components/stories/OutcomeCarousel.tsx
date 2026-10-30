@@ -53,11 +53,11 @@ export function OutcomeCarousel() {
                 width: 150,
                 aspectRatio: "3/4",
                 backgroundImage:
-                  "repeating-linear-gradient(135deg, #eaf0ff, #eaf0ff 10px, #f5f8ff 10px, #f5f8ff 20px)",
+                  "repeating-linear-gradient(135deg, #e8f4ec, #e8f4ec 10px, #f3f8f4 10px, #f3f8f4 20px)",
                 padding: 10,
               }}
             >
-              <span className="font-mono text-[10.5px] text-[#3d6ce7]">student photo</span>
+              <span className="font-mono text-[10.5px] text-[#0b7a3b]">student photo</span>
             </div>
           )}
           <div>

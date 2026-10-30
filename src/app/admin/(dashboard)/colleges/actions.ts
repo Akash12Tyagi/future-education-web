@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { CollegeType } from "@/generated/prisma/enums";
+import { adminAction } from "@/lib/admin-action";
 
 const collegeSchema = z.object({
   slug: z.string().min(1),
@@ -63,7 +64,7 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createCollege(
+export const createCollege = adminAction(async function createCollege(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -98,9 +99,9 @@ export async function createCollege(
 
   revalidatePath("/admin/colleges");
   redirect("/admin/colleges");
-}
+}, "College created");
 
-export async function updateCollege(
+export const updateCollege = adminAction(async function updateCollege(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -140,13 +141,13 @@ export async function updateCollege(
 
   revalidatePath("/admin/colleges");
   redirect("/admin/colleges");
-}
+}, "Changes saved");
 
-export async function deleteCollege(id: string) {
+export const deleteCollege = adminAction(async function deleteCollege(id: string) {
   const session = await requireAdmin();
   await prisma.college.delete({ where: { id } });
   await prisma.auditLog.create({
     data: { userId: session.user.id, action: "delete", entityType: "College", entityId: id },
   });
   revalidatePath("/admin/colleges");
-}
+});

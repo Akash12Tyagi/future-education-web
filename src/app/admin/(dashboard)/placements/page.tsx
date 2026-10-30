@@ -4,6 +4,7 @@ import { AdminCard } from "@/components/admin/AdminCard";
 import { DataTable } from "@/components/admin/DataTable";
 import { DeleteButton } from "@/components/admin/FormField";
 import { deleteStory } from "./actions";
+import { ActionForm } from "@/components/admin/ActionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ export default async function AdminPlacementsPage() {
   return (
     <div>
       <div className="mb-5 flex items-center justify-between">
-        <h1 className="text-[clamp(22px,2.6vw,28px)] font-extrabold text-primary-900">Placements (Success Stories)</h1>
+        <h1 className="text-[clamp(22px,2.6vw,28px)] font-extrabold text-primary-900">Success Stories</h1>
         <div className="flex gap-2.5">
           <Link
             href="/admin/placements/recruiters"
@@ -50,9 +51,13 @@ export default async function AdminPlacementsPage() {
                   <Link href={`/admin/placements/${s.id}`} className="text-[13px] font-bold text-primary-600">
                     Edit
                   </Link>
-                  <form action={deleteStory.bind(null, s.id)}>
+                  <ActionForm
+                    action={deleteStory.bind(null, s.id)}
+                    confirm="Delete this success story? This can't be undone."
+                    success="Success story deleted"
+                  >
                     <DeleteButton />
-                  </form>
+                  </ActionForm>
                 </div>
               ),
             },

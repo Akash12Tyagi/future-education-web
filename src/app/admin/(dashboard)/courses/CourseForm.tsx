@@ -3,6 +3,8 @@
 import { useActionState } from "react";
 import { FormField, TextInput, Select, TextArea, SubmitButton } from "@/components/admin/FormField";
 import { MediaPicker, type MediaOption } from "@/components/admin/MediaPicker";
+import { useActionToast } from "@/components/admin/Toaster";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 
 export interface CourseFormValues {
   slug: string;
@@ -14,6 +16,8 @@ export interface CourseFormValues {
   eligibility: string;
   feeMin: number;
   feeMax: number;
+  minPct: number;
+  abroad: boolean;
   outcomes: string[];
   brochureId: string | null;
   order: number;
@@ -34,9 +38,10 @@ export function CourseForm({
   mediaAssets: MediaOption[];
 }) {
   const [state, formAction, pending] = useActionState(action, undefined);
+  useActionToast(state);
 
   return (
-    <form action={formAction} className="flex max-w-[640px] flex-col gap-4">
+    <form onSubmit={submitKeepingValues(formAction)} className="flex max-w-[640px] flex-col gap-4">
       <div className="grid grid-cols-2 gap-4">
         <FormField label="Name" name="name">
           <TextInput name="name" defaultValue={initial?.name} required />
@@ -71,6 +76,9 @@ export function CourseForm({
         <FormField label="Fee max (₹)" name="feeMax">
           <TextInput name="feeMax" type="number" defaultValue={initial?.feeMax} required />
         </FormField>
+        <FormField label="Minimum Class 12 % (0 = entrance-based)" name="minPct">
+          <TextInput name="minPct" type="number" min={0} max={100} defaultValue={initial?.minPct ?? 0} />
+        </FormField>
         <FormField label="Display order" name="order">
           <TextInput name="order" type="number" defaultValue={initial?.order ?? 0} />
         </FormField>
@@ -87,6 +95,11 @@ export function CourseForm({
       <FormField label="Brochure (PDF)" name="brochureId">
         <MediaPicker name="brochureId" assets={mediaAssets} defaultValue={initial?.brochureId} folder="brochures" />
       </FormField>
+
+      <label className="flex items-center gap-2 text-[13.5px] font-semibold">
+        <input type="checkbox" name="abroad" defaultChecked={initial?.abroad ?? false} />
+        Studied abroad (shown to students who prefer to study abroad in the course matcher)
+      </label>
 
       <label className="flex items-center gap-2 text-[13.5px] font-semibold">
         <input type="checkbox" name="active" defaultChecked={initial?.active ?? true} />

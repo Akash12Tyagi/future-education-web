@@ -4,6 +4,7 @@ import { AdminCard } from "@/components/admin/AdminCard";
 import { DataTable } from "@/components/admin/DataTable";
 import { DeleteButton } from "@/components/admin/FormField";
 import { deleteCounsellor } from "./actions";
+import { ActionForm } from "@/components/admin/ActionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -13,12 +14,12 @@ export default async function AdminFacultyPage() {
   return (
     <div>
       <div className="mb-5 flex items-center justify-between">
-        <h1 className="text-[clamp(22px,2.6vw,28px)] font-extrabold text-primary-900">Faculty (Counsellors)</h1>
+        <h1 className="text-[clamp(22px,2.6vw,28px)] font-extrabold text-primary-900">Counsellors</h1>
         <Link
           href="/admin/faculty/new"
           className="rounded-lg border-none bg-primary-900 px-4 py-2.5 text-sm font-bold text-white"
         >
-          + Add faculty
+          + Add counsellor
         </Link>
       </div>
 
@@ -37,9 +38,13 @@ export default async function AdminFacultyPage() {
                   <Link href={`/admin/faculty/${c.id}`} className="text-[13px] font-bold text-primary-600">
                     Edit
                   </Link>
-                  <form action={deleteCounsellor.bind(null, c.id)}>
+                  <ActionForm
+                    action={deleteCounsellor.bind(null, c.id)}
+                    confirm="Delete this counsellor? This can't be undone."
+                    success="Counsellor deleted"
+                  >
                     <DeleteButton />
-                  </form>
+                  </ActionForm>
                 </div>
               ),
             },

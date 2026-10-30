@@ -22,7 +22,7 @@ function ArrowIcon({ className = "" }: { className?: string }) {
 function MegaColumn({ column, onNavigate }: { column: MegaMenuColumn; onNavigate: () => void }) {
   return (
     <div>
-      <div className="mb-4 text-[12px] font-bold tracking-[.08em] text-highlight-500 uppercase">{column.heading}</div>
+      <div className="mb-4 text-[12px] font-bold tracking-[.08em] text-accent-500 uppercase">{column.heading}</div>
       <ul className="flex flex-col">
         {column.links.map((link) => (
           <li key={link.href}>
@@ -66,7 +66,7 @@ function PromoCard({ promo, onNavigate }: { promo: MegaMenuPromo; onNavigate: ()
       </div>
 
       <div className="relative z-10 max-w-[58%]">
-        <div className="mb-3 text-[11.5px] font-bold tracking-[.08em] text-highlight-500 uppercase">{promo.eyebrow}</div>
+        <div className="mb-3 text-[11.5px] font-bold tracking-[.08em] text-accent-500 uppercase">{promo.eyebrow}</div>
         <h3 className="font-display text-[26px] leading-[1.15] font-extrabold text-neutral-900">
           {promo.title.map((line, i) => (
             <span key={i} className="block">
@@ -77,7 +77,7 @@ function PromoCard({ promo, onNavigate }: { promo: MegaMenuPromo; onNavigate: ()
         <p className="mt-3 text-[13.5px] leading-relaxed text-neutral-500">{promo.description}</p>
       </div>
 
-      <span className="relative z-10 mt-6 flex items-center gap-1.5 text-[14px] font-bold text-highlight-500">
+      <span className="relative z-10 mt-6 flex items-center gap-1.5 text-[14px] font-bold text-accent-500">
         {promo.ctaLabel}
         <ArrowIcon className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
       </span>

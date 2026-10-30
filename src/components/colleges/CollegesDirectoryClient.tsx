@@ -129,7 +129,7 @@ export function CollegesDirectoryClient({ colleges, courses }: { colleges: Colle
           <div className="flex flex-wrap justify-center gap-2.5">
             <button
               onClick={resetCf}
-              className="cursor-pointer rounded-[9px] border-[1.5px] border-[#3d6ce7] bg-white px-5 py-2.5 font-bold text-[#3d6ce7]"
+              className="cursor-pointer rounded-[9px] border-[1.5px] border-[#0b7a3b] bg-white px-5 py-2.5 font-bold text-[#0b7a3b]"
             >
               Reset filters
             </button>

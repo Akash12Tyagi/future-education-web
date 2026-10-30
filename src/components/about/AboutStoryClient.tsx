@@ -60,8 +60,8 @@ export function AboutStoryClient() {
                     </span>
                   ) : (
                     <div
-                      className="mt-1.5 h-3.5 w-3.5 flex-none rounded-full bg-[#3d6ce7] transition-transform duration-300 ease-out group-hover:scale-125 group-hover:bg-[#1e4bb5]"
-                      style={{ boxShadow: "0 0 0 4px rgba(61,108,231,0.15)" }}
+                      className="mt-1.5 h-3.5 w-3.5 flex-none rounded-full bg-[#0b7a3b] transition-transform duration-300 ease-out group-hover:scale-125 group-hover:bg-[#1e4bb5]"
+                      style={{ boxShadow: "0 0 0 4px rgba(11,122,59,0.15)" }}
                     />
                   )}
                   <div className="w-0.5 flex-1 bg-[#d6def0]" style={{ minHeight: 30 }} />
@@ -84,7 +84,7 @@ export function AboutStoryClient() {
             </div>
             <div>
               <div className="text-[12.5px] text-neutral-500">Head office</div>
-              <strong>City Centre, Sector-4, Bokaro Steel City</strong>
+              <strong>HE 9, City Centre, Sector 4, Bokaro Steel City</strong>
             </div>
             <div>
               <div className="text-[12.5px] text-neutral-500">Counselling experience</div>

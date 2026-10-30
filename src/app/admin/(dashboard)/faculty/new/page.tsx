@@ -13,7 +13,7 @@ export default async function NewFacultyPage() {
 
   return (
     <div>
-      <h1 className="mb-5 text-[clamp(22px,2.6vw,28px)] font-extrabold text-primary-900">Add faculty</h1>
+      <h1 className="mb-5 text-[clamp(22px,2.6vw,28px)] font-extrabold text-primary-900">Add counsellor</h1>
       <AdminCard>
         <CounsellorForm action={createCounsellor} mediaAssets={mediaAssets} />
       </AdminCard>

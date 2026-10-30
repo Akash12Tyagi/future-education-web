@@ -2,6 +2,8 @@
 
 import { useActionState } from "react";
 import { FormField, TextInput, SubmitButton } from "@/components/admin/FormField";
+import { useActionToast } from "@/components/admin/Toaster";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 
 export interface RecruiterFormValues {
   name: string;
@@ -14,9 +16,10 @@ type FormAction = (prev: { error?: string } | undefined, formData: FormData) => 
 
 export function RecruiterForm({ action, initial }: { action: FormAction; initial?: RecruiterFormValues }) {
   const [state, formAction, pending] = useActionState(action, undefined);
+  useActionToast(state);
 
   return (
-    <form action={formAction} className="flex max-w-[480px] flex-col gap-4">
+    <form onSubmit={submitKeepingValues(formAction)} className="flex max-w-[480px] flex-col gap-4">
       <FormField label="Company name" name="name">
         <TextInput name="name" defaultValue={initial?.name} required />
       </FormField>

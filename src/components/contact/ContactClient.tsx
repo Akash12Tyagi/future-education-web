@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useAppState } from "@/context/app-state";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { LeadForm } from "@/components/lead-form/LeadForm";
-import { waHref, WHATSAPP_NUMBER } from "@/lib/whatsapp";
+import { waHref } from "@/lib/whatsapp";
 
 export function ContactClient() {
   const { recordLead, courseOptions } = useAppState();
@@ -34,36 +34,38 @@ export function ContactClient() {
           />
         </div>
         <div className="order-2 flex flex-col gap-4">
-          <div className="rounded-[14px] bg-primary-900 p-5.5 text-[#eaf0ff]">
+          <div className="rounded-[14px] bg-primary-900 p-5.5 text-[#e8f4ec]">
             <div className="mb-3.5 text-base font-extrabold text-white">Talk to us now</div>
             <div className="flex flex-col gap-3 text-[15px]">
               <a href={waHref()} target="_blank" rel="noreferrer" className="flex items-center gap-2.5 text-white no-underline">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#25D366]" /> WhatsApp: +91 {WHATSAPP_NUMBER.slice(2)}
+                <span className="h-2.5 w-2.5 rounded-full bg-[#25D366]" /> WhatsApp: +91 93346 49506, 98353 98833
               </a>
-              <a href="tel:+919334649506" className="text-[#eaf0ff] no-underline">
+              <a href="tel:+919334649506" className="text-[#e8f4ec] no-underline">
                 ☎ +91 93346 49506
               </a>
-              <a href="tel:+919835398833" className="text-[#eaf0ff] no-underline">
+              <a href="tel:+919835398833" className="text-[#e8f4ec] no-underline">
                 ☎ +91 98353 98833
               </a>
-              <a href="tel:+916542233033" className="text-[#eaf0ff] no-underline">
-                ☎ 06542-233033 (landline)
+              <a href="tel:+916542233033" className="text-[#e8f4ec] no-underline">
+                ☎ 06542-233033, 233033 (Landline)
               </a>
             </div>
           </div>
           <div className="rounded-[14px] border border-[#E5E7EB] bg-white p-5.5">
-            <div className="mb-3 text-[15px] font-extrabold text-primary-900">Our offices</div>
+            <div className="mb-3 text-[15px] font-extrabold text-primary-900">Our Office Address</div>
             <div className="mb-3.5 text-sm leading-relaxed text-[#4B5563]">
               <strong className="text-neutral-900">Bokaro Steel City (Head Office)</strong>
               <br />
-              HE-9, City Centre, Sector-4, Bokaro Steel City, Jharkhand
+              HE 9, City Centre, Sector 4, Bokaro Steel City, Jharkhand 827004, India.
             </div>
             <div className="text-sm leading-relaxed text-[#4B5563]">
               <strong className="text-neutral-900">Email</strong>
               <br />
-              infofutureeducation@gmail.com
+              <a href="mailto:info@futureeducationonline.com" className="text-primary-600 no-underline">
+                info@futureeducationonline.com
+              </a>
             </div>
-            <div className="mt-3.5 text-[13px] text-neutral-500">Office hours: Daily, 10 AM – 8 PM (Sunday by appointment)</div>
+            <div className="mt-3.5 text-[13px] text-neutral-500">Office hours: Daily, 10 AM – 6 PM (Sunday by appointment)</div>
           </div>
           <div className="relative overflow-hidden rounded-[14px]" style={{ aspectRatio: "16/10" }}>
             <Image

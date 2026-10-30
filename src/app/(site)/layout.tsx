@@ -23,9 +23,9 @@ export default async function SiteLayout({ children }: Readonly<{ children: Reac
 
   return (
     <AppStateProvider initialColleges={colleges} initialCourseOptions={courseOptions} initialCounsellors={counsellors}>
+      <NoticeTicker notices={notices} />
       <AnnouncementBanner notices={notices} />
       <Header />
-      <NoticeTicker notices={notices} />
       <main className="flex-1">{children}</main>
       <Footer />
       <StickyEnquiryWidget />

@@ -4,6 +4,7 @@ import { AdminCard } from "@/components/admin/AdminCard";
 import { DataTable } from "@/components/admin/DataTable";
 import { DeleteButton } from "@/components/admin/FormField";
 import { deleteSeoOverride } from "./actions";
+import { ActionForm } from "@/components/admin/ActionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -41,9 +42,13 @@ export default async function AdminSeoPage() {
                   <Link href={`/admin/seo/${o.id}`} className="text-[13px] font-bold text-primary-600">
                     Edit
                   </Link>
-                  <form action={deleteSeoOverride.bind(null, o.id, o.path)}>
+                  <ActionForm
+                    action={deleteSeoOverride.bind(null, o.id, o.path)}
+                    confirm="Delete this SEO override? This can't be undone."
+                    success="SEO override deleted"
+                  >
                     <DeleteButton />
-                  </form>
+                  </ActionForm>
                 </div>
               ),
             },

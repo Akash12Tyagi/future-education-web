@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { IncomeBracket } from "@/generated/prisma/enums";
+import { adminAction } from "@/lib/admin-action";
 
 const scholarshipSchema = z.object({
   name: z.string().min(1),
@@ -33,7 +34,7 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createScholarship(
+export const createScholarship = adminAction(async function createScholarship(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -48,9 +49,9 @@ export async function createScholarship(
   revalidatePath("/admin/admissions/scholarships");
   revalidatePath("/admission-consultancy/scholarships");
   redirect("/admin/admissions/scholarships");
-}
+}, "Scholarship created");
 
-export async function updateScholarship(
+export const updateScholarship = adminAction(async function updateScholarship(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -66,9 +67,9 @@ export async function updateScholarship(
   revalidatePath("/admin/admissions/scholarships");
   revalidatePath("/admission-consultancy/scholarships");
   redirect("/admin/admissions/scholarships");
-}
+}, "Changes saved");
 
-export async function deleteScholarship(id: string) {
+export const deleteScholarship = adminAction(async function deleteScholarship(id: string) {
   const session = await requireAdmin();
   await prisma.scholarship.delete({ where: { id } });
   await prisma.auditLog.create({
@@ -76,4 +77,4 @@ export async function deleteScholarship(id: string) {
   });
   revalidatePath("/admin/admissions/scholarships");
   revalidatePath("/admission-consultancy/scholarships");
-}
+});

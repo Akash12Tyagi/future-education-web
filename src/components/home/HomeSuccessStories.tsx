@@ -33,7 +33,7 @@ export function HomeSuccessStories({ stories }: { stories: Story[] }) {
             return (
               <div
                 key={st.id}
-                className="group fe-card-hover flex h-full flex-col gap-5 rounded-[20px] border border-white bg-white p-7.5 shadow-[0_10px_28px_rgba(27, 37, 89,.07)]"
+                className="group fe-card-hover flex h-full flex-col gap-5 rounded-[20px] border border-white bg-white p-7.5 shadow-[0_10px_28px_rgba(0,88,38,.07)]"
                 style={revealStyle(revealed, { delay: i * 80 })}
               >
                 <div className="flex items-center gap-4">

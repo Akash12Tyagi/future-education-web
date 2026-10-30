@@ -6,6 +6,7 @@ import { FormField, TextInput, SubmitButton, DeleteButton } from "@/components/a
 import { MediaPicker } from "@/components/admin/MediaPicker";
 import { AlbumForm } from "../AlbumForm";
 import { updateAlbum, addGalleryItem, deleteGalleryItem } from "../actions";
+import { ActionForm } from "@/components/admin/ActionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -49,9 +50,13 @@ export default async function EditAlbumPage({ params }: { params: Promise<{ id: 
               {
                 header: "Actions",
                 render: (item) => (
-                  <form action={deleteGalleryItem.bind(null, album.id, item.id)}>
+                  <ActionForm
+                    action={deleteGalleryItem.bind(null, album.id, item.id)}
+                    confirm="Delete this photo/video? This can't be undone."
+                    success="Photo/video deleted"
+                  >
                     <DeleteButton />
-                  </form>
+                  </ActionForm>
                 ),
               },
             ]}
@@ -59,7 +64,7 @@ export default async function EditAlbumPage({ params }: { params: Promise<{ id: 
         </AdminCard>
 
         <AdminCard>
-          <form action={addGalleryItem.bind(null, album.id)} className="flex flex-col gap-4">
+          <ActionForm action={addGalleryItem.bind(null, album.id)} success="Added to album" className="flex flex-col gap-4">
             <FormField label="Image or video" name="mediaId">
               <MediaPicker name="mediaId" assets={mediaAssets} folder="gallery" />
             </FormField>
@@ -69,7 +74,7 @@ export default async function EditAlbumPage({ params }: { params: Promise<{ id: 
             <div>
               <SubmitButton>Add to album</SubmitButton>
             </div>
-          </form>
+          </ActionForm>
         </AdminCard>
       </div>
     </div>

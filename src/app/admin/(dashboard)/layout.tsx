@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { adminNavGroups } from "@/lib/admin-nav";
 import { signOutAction } from "./sign-out-action";
+import { Toaster } from "@/components/admin/Toaster";
 
 export default async function AdminDashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const session = await auth();
@@ -56,6 +57,7 @@ export default async function AdminDashboardLayout({ children }: Readonly<{ chil
         </header>
         <main className="flex-1 px-6 py-6">{children}</main>
       </div>
+      <Toaster />
     </div>
   );
 }

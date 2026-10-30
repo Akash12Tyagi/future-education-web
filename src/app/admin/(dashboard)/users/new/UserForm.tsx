@@ -3,12 +3,15 @@
 import { useActionState } from "react";
 import { createUser } from "../actions";
 import { FormField, TextInput, Select, SubmitButton } from "@/components/admin/FormField";
+import { useActionToast } from "@/components/admin/Toaster";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 
 export function UserForm() {
   const [state, formAction, pending] = useActionState(createUser, undefined);
+  useActionToast(state);
 
   return (
-    <form action={formAction} className="flex max-w-[480px] flex-col gap-4">
+    <form onSubmit={submitKeepingValues(formAction)} className="flex max-w-[480px] flex-col gap-4">
       <FormField label="Name" name="name">
         <TextInput name="name" required />
       </FormField>

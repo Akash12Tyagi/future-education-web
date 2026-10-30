@@ -6,6 +6,7 @@ import { DataTable } from "@/components/admin/DataTable";
 import { DeleteButton } from "@/components/admin/FormField";
 import { UserRoleSelect } from "./UserRoleSelect";
 import { deleteUser } from "./actions";
+import { ActionForm } from "@/components/admin/ActionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -61,9 +62,13 @@ export default async function AdminUsersPage() {
               header: "Actions",
               render: (u) =>
                 isSuperAdmin && u.id !== session?.user.id ? (
-                  <form action={deleteUser.bind(null, u.id)}>
+                  <ActionForm
+                    action={deleteUser.bind(null, u.id)}
+                    confirm="Delete this user? This can't be undone."
+                    success="User deleted"
+                  >
                     <DeleteButton />
-                  </form>
+                  </ActionForm>
                 ) : (
                   <span className="text-xs text-neutral-500">—</span>
                 ),

@@ -4,6 +4,7 @@ import { AdminCard } from "@/components/admin/AdminCard";
 import { DataTable } from "@/components/admin/DataTable";
 import { DeleteButton } from "@/components/admin/FormField";
 import { deleteNewsEvent } from "./actions";
+import { ActionForm } from "@/components/admin/ActionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -38,9 +39,13 @@ export default async function AdminNewsPage() {
                   <Link href={`/admin/news/${n.id}`} className="text-[13px] font-bold text-primary-600">
                     Edit
                   </Link>
-                  <form action={deleteNewsEvent.bind(null, n.id)}>
+                  <ActionForm
+                    action={deleteNewsEvent.bind(null, n.id)}
+                    confirm="Delete this news item? This can't be undone."
+                    success="News item deleted"
+                  >
                     <DeleteButton />
-                  </form>
+                  </ActionForm>
                 </div>
               ),
             },

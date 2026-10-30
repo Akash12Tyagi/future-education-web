@@ -4,6 +4,7 @@ import { AdminCard } from "@/components/admin/AdminCard";
 import { DataTable } from "@/components/admin/DataTable";
 import { DeleteButton } from "@/components/admin/FormField";
 import { deleteScholarship } from "./actions";
+import { ActionForm } from "@/components/admin/ActionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -38,9 +39,13 @@ export default async function AdminScholarshipsPage() {
                   <Link href={`/admin/admissions/scholarships/${s.id}`} className="text-[13px] font-bold text-primary-600">
                     Edit
                   </Link>
-                  <form action={deleteScholarship.bind(null, s.id)}>
+                  <ActionForm
+                    action={deleteScholarship.bind(null, s.id)}
+                    confirm="Delete this scholarship? This can't be undone."
+                    success="Scholarship deleted"
+                  >
                     <DeleteButton />
-                  </form>
+                  </ActionForm>
                 </div>
               ),
             },

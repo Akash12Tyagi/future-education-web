@@ -4,6 +4,7 @@ import { AdminCard } from "@/components/admin/AdminCard";
 import { DataTable } from "@/components/admin/DataTable";
 import { DeleteButton } from "@/components/admin/FormField";
 import { deleteAlbum } from "./actions";
+import { ActionForm } from "@/components/admin/ActionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -41,9 +42,13 @@ export default async function AdminGalleryPage() {
                   <Link href={`/admin/gallery/${a.id}`} className="text-[13px] font-bold text-primary-600">
                     Manage
                   </Link>
-                  <form action={deleteAlbum.bind(null, a.id)}>
+                  <ActionForm
+                    action={deleteAlbum.bind(null, a.id)}
+                    confirm="Delete this album? This can't be undone. Its photos and videos will be removed from the album too."
+                    success="Album deleted"
+                  >
                     <DeleteButton />
-                  </form>
+                  </ActionForm>
                 </div>
               ),
             },

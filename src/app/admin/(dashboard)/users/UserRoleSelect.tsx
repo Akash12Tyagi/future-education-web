@@ -1,15 +1,13 @@
 "use client";
 
+import { ActionForm } from "@/components/admin/ActionForm";
 import { updateUserRole } from "./actions";
 
 const roles = ["EDITOR", "ADMIN", "SUPER_ADMIN"];
 
 export function UserRoleSelect({ userId, role, disabled }: { userId: string; role: string; disabled?: boolean }) {
   return (
-    <form
-      action={(formData) => updateUserRole(userId, formData)}
-      onChange={(e) => (e.currentTarget as HTMLFormElement).requestSubmit()}
-    >
+    <ActionForm action={(formData) => updateUserRole(userId, formData)} success="Role updated" submitOnChange>
       <select
         name="role"
         defaultValue={role}
@@ -22,6 +20,6 @@ export function UserRoleSelect({ userId, role, disabled }: { userId: string; rol
           </option>
         ))}
       </select>
-    </form>
+    </ActionForm>
   );
 }

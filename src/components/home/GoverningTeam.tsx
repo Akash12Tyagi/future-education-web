@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useReveal, revealStyle } from "@/hooks/useReveal";
+import { SectionHeading } from "@/components/home/SectionHeading";
 import { CounsellorCard } from "@/components/home/CounsellorCard";
 import type { Counsellor } from "@/lib/types";
 
@@ -12,22 +14,24 @@ function extractCountries(text: string): string[] {
 
 export function GoverningTeam({ counsellors }: { counsellors: Counsellor[] }) {
   const { ref, revealed } = useReveal<HTMLDivElement>();
-  const team = counsellors.slice(0, 2);
+  const team = counsellors.slice(0, 4);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white to-primary-100/40">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-24 -left-24 h-[340px] w-[340px] rounded-full bg-primary-600/10 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-20 -bottom-28 h-[380px] w-[380px] rounded-full bg-highlight-500/15 blur-3xl"
-      />
-      <div className="relative mx-auto max-w-[1000px] px-[22px] py-14">
-        <h2 className="mb-1.5 text-[clamp(22px,2.6vw,30px)] font-extrabold text-primary-900">The people guiding you</h2>
-        <p className="mb-8 text-neutral-500">Named counsellors with real credentials — not an anonymous call centre.</p>
-        <div ref={ref} className="grid grid-cols-1 justify-items-center gap-10 sm:grid-cols-2">
+    <section className="border-t border-[#E5E7EB] bg-white py-16 md:py-20">
+      <div className="mx-auto max-w-7xl px-4 md:px-6">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <SectionHeading
+            eyebrow="Our counsellors"
+            title="The people guiding you"
+            intro="Named counsellors with real credentials — not an anonymous call centre."
+          />
+          {counsellors.length > 0 && (
+            <Link href="/about/counsellors" className="text-base font-semibold whitespace-nowrap text-primary-900 no-underline">
+              Meet all counsellors ›
+            </Link>
+          )}
+        </div>
+        <div ref={ref} className="grid grid-cols-1 justify-items-center gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {team.map((m, i) => (
             <CounsellorCard
               key={m.id}

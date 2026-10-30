@@ -2,12 +2,13 @@
 
 import { useActionState } from "react";
 import { authenticate } from "./actions";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState(authenticate, undefined);
 
   return (
-    <form action={formAction} className="flex flex-col gap-3.5">
+    <form onSubmit={submitKeepingValues(formAction)} className="flex flex-col gap-3.5">
       <div className="flex flex-col gap-1.5">
         <label htmlFor="email" className="text-[13.5px] font-bold text-[#374151]">
           Email

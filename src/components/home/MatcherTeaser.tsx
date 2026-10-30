@@ -1,9 +1,10 @@
 import Link from "next/link";
 
 const previewQuestions = [
-  "Which stream interests you?",
-  "What's your budget range?",
-  "Preferred location & program type?",
+  "Which course are you looking for?",
+  "How did (or will) you score in Class 12?",
+  "What total budget can your family plan for?",
+  "Where would you prefer to study?",
 ];
 
 export function MatcherTeaser() {
@@ -15,10 +16,10 @@ export function MatcherTeaser() {
             FLAGSHIP · AI COURSE MATCHER
           </div>
           <h2 className="mb-3 text-[clamp(24px,3vw,32px)] font-extrabold text-primary-900">
-            Answer 6 questions → get your shortlist in 60 seconds
+            Answer 5 questions → get your shortlist in 60 seconds
           </h2>
           <p className="mb-5.5 max-w-[56ch] text-base text-[#4B5563]">
-            Every match shows <strong>why</strong> it fits — your stream, budget and location. No black box, no
+            Every match shows <strong>why</strong> it fits — your course, Class 12 score, budget and location. No black box, no
             &quot;best fit&quot; without a reason. Then compare or talk to a real counsellor.
           </p>
           <Link
@@ -31,7 +32,7 @@ export function MatcherTeaser() {
         <div className="flex min-w-[260px] flex-1 flex-col gap-2.5" style={{ flexBasis: 300 }}>
           {previewQuestions.map((q, i) => (
             <div key={q} className="flex items-center gap-2.5 rounded-xl border border-[#E5E7EB] bg-neutral-100 p-3.5">
-              <span className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-primary-100 text-[13px] font-bold text-[#3d6ce7]">
+              <span className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-primary-100 text-[13px] font-bold text-[#0b7a3b]">
                 {i + 1}
               </span>
               <span className="text-sm">{q}</span>

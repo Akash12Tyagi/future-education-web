@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { HIDDEN_DEFAULT_BANNERS_KEY, getHiddenDefaultBannerIds } from "@/lib/site-data";
+import { adminAction } from "@/lib/admin-action";
 
 const bannerSchema = z.object({
   heading: z.string().min(1),
@@ -38,7 +40,7 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createBanner(
+export const createBanner = adminAction(async function createBanner(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -60,9 +62,9 @@ export async function createBanner(
   revalidatePath("/admin/banners");
   revalidatePath("/");
   redirect("/admin/banners");
-}
+}, "Banner created");
 
-export async function updateBanner(
+export const updateBanner = adminAction(async function updateBanner(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -86,9 +88,39 @@ export async function updateBanner(
   revalidatePath("/admin/banners");
   revalidatePath("/");
   redirect("/admin/banners");
-}
+}, "Changes saved");
 
-export async function deleteBanner(id: string) {
+export const toggleBannerActive = adminAction(async function toggleBannerActive(id: string) {
+  const session = await requireAdmin();
+  const banner = await prisma.banner.findUniqueOrThrow({ where: { id }, select: { active: true } });
+  await prisma.banner.update({ where: { id }, data: { active: !banner.active } });
+  await prisma.auditLog.create({
+    data: { userId: session.user.id, action: banner.active ? "hide" : "show", entityType: "Banner", entityId: id },
+  });
+  revalidatePath("/admin/banners");
+  revalidatePath("/");
+});
+
+export const toggleDefaultBanner = adminAction(async function toggleDefaultBanner(defaultId: string) {
+  const session = await requireAdmin();
+  const hidden = new Set(await getHiddenDefaultBannerIds());
+  const wasHidden = hidden.has(defaultId);
+  if (wasHidden) hidden.delete(defaultId);
+  else hidden.add(defaultId);
+  const value = [...hidden];
+  await prisma.siteSetting.upsert({
+    where: { key: HIDDEN_DEFAULT_BANNERS_KEY },
+    create: { key: HIDDEN_DEFAULT_BANNERS_KEY, value },
+    update: { value },
+  });
+  await prisma.auditLog.create({
+    data: { userId: session.user.id, action: wasHidden ? "show" : "hide", entityType: "DefaultBanner", entityId: defaultId },
+  });
+  revalidatePath("/admin/banners");
+  revalidatePath("/");
+});
+
+export const deleteBanner = adminAction(async function deleteBanner(id: string) {
   const session = await requireAdmin();
   await prisma.banner.delete({ where: { id } });
   await prisma.auditLog.create({
@@ -96,4 +128,4 @@ export async function deleteBanner(id: string) {
   });
   revalidatePath("/admin/banners");
   revalidatePath("/");
-}
+});

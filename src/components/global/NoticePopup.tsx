@@ -54,6 +54,10 @@ export function NoticePopup({ notices }: { notices: PublicNotice[] }) {
           </button>
         </div>
         {popup.body && <p className="m-0 mb-4.5 text-sm leading-relaxed text-neutral-500">{popup.body}</p>}
+        {popup.attachmentUrl && popup.attachmentIsImage && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={popup.attachmentUrl} alt={popup.title} className="mb-4.5 max-h-[50vh] w-full rounded-xl object-contain" />
+        )}
         <div className="flex flex-wrap gap-2.5">
           {popup.linkHref && (
             <a
@@ -70,7 +74,7 @@ export function NoticePopup({ notices }: { notices: PublicNotice[] }) {
               rel="noreferrer"
               className="rounded-lg border-[1.5px] border-primary-600 px-4 py-2.5 text-sm font-bold text-primary-600 no-underline"
             >
-              View PDF
+              {popup.attachmentIsImage ? "Open full image" : "View PDF"}
             </a>
           )}
         </div>

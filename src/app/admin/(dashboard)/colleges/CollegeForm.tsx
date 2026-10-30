@@ -3,6 +3,8 @@
 import { useActionState } from "react";
 import { FormField, TextInput, Select, TextArea, SubmitButton } from "@/components/admin/FormField";
 import { MediaPicker, type MediaOption } from "@/components/admin/MediaPicker";
+import { useActionToast } from "@/components/admin/Toaster";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 
 export interface CollegeFormValues {
   id?: string;
@@ -39,9 +41,10 @@ export function CollegeForm({
   mediaAssets: MediaOption[];
 }) {
   const [state, formAction, pending] = useActionState(action, undefined);
+  useActionToast(state);
 
   return (
-    <form action={formAction} className="flex max-w-[640px] flex-col gap-4">
+    <form onSubmit={submitKeepingValues(formAction)} className="flex max-w-[640px] flex-col gap-4">
       <div className="grid grid-cols-2 gap-4">
         <FormField label="Name" name="name">
           <TextInput name="name" defaultValue={initial?.name} required />

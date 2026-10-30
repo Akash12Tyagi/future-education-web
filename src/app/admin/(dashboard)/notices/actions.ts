@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { NoticeType } from "@/generated/prisma/enums";
+import { adminAction } from "@/lib/admin-action";
 
 const noticeSchema = z.object({
   title: z.string().min(1),
@@ -39,7 +40,7 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createNotice(
+export const createNotice = adminAction(async function createNotice(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -62,9 +63,9 @@ export async function createNotice(
   revalidatePath("/admin/notices");
   revalidatePath("/");
   redirect("/admin/notices");
-}
+}, "Notice created");
 
-export async function updateNotice(
+export const updateNotice = adminAction(async function updateNotice(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -89,9 +90,9 @@ export async function updateNotice(
   revalidatePath("/admin/notices");
   revalidatePath("/");
   redirect("/admin/notices");
-}
+}, "Changes saved");
 
-export async function deleteNotice(id: string) {
+export const deleteNotice = adminAction(async function deleteNotice(id: string) {
   const session = await requireAdmin();
   await prisma.notice.delete({ where: { id } });
   await prisma.auditLog.create({
@@ -99,4 +100,4 @@ export async function deleteNotice(id: string) {
   });
   revalidatePath("/admin/notices");
   revalidatePath("/");
-}
+});

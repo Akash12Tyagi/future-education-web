@@ -4,6 +4,7 @@ import { AdminCard } from "@/components/admin/AdminCard";
 import { DataTable } from "@/components/admin/DataTable";
 import { DeleteButton } from "@/components/admin/FormField";
 import { deleteCollege } from "./actions";
+import { ActionForm } from "@/components/admin/ActionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -52,9 +53,13 @@ export default async function AdminCollegesPage() {
                   <Link href={`/admin/colleges/${c.id}`} className="text-[13px] font-bold text-primary-600">
                     Edit
                   </Link>
-                  <form action={deleteCollege.bind(null, c.id)}>
+                  <ActionForm
+                    action={deleteCollege.bind(null, c.id)}
+                    confirm="Delete this college? This can't be undone."
+                    success="College deleted"
+                  >
                     <DeleteButton />
-                  </form>
+                  </ActionForm>
                 </div>
               ),
             },

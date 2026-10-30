@@ -29,11 +29,11 @@ export function CounsellorCard({
 }: CounsellorCardProps) {
   return (
     <article
-      className="group fe-card-hover flex h-full w-full max-w-[440px] flex-col overflow-hidden rounded-[20px] bg-gradient-to-b from-white to-[rgba(97,81,251,0.04)] transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1"
+      className="group fe-card-hover flex h-full w-full max-w-[440px] flex-col overflow-hidden rounded-[20px] bg-gradient-to-b from-white to-[rgba(194,22,26,0.04)] transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1"
       style={{
         ...style,
-        border: "1px solid rgba(80,70,180,0.1)",
-        boxShadow: "0 8px 24px rgba(80,70,180,0.08)",
+        border: "1px solid rgba(0,88,38,0.1)",
+        boxShadow: "0 8px 24px rgba(0,88,38,0.08)",
       }}
     >
       <div className="relative h-65 w-full flex-none overflow-hidden sm:h-70 lg:h-75">
@@ -59,9 +59,9 @@ export function CounsellorCard({
                 key={c}
                 className="rounded-full px-2.5 py-1 text-[11.5px] font-semibold"
                 style={{
-                  color: "#6151fb",
-                  background: "rgba(97,81,251,0.06)",
-                  border: "1px solid rgba(97,81,251,0.18)",
+                  color: "#c2161a",
+                  background: "rgba(194,22,26,0.06)",
+                  border: "1px solid rgba(194,22,26,0.18)",
                 }}
               >
                 {c}
@@ -69,7 +69,7 @@ export function CounsellorCard({
             ))}
           </div>
         )}
-        <div className="mt-auto flex justify-start border-t border-[rgba(80,70,180,0.08)] pt-4.5">
+        <div className="mt-auto flex justify-start border-t border-[rgba(0,88,38,0.08)] pt-4.5">
           <Link
             href={ctaHref}
             className="group/cta inline-flex items-center gap-2 rounded-[10px] bg-accent-500 px-5 py-3 text-[14.5px] font-bold text-white no-underline transition-colors duration-200 hover:bg-[#4f3fe0]"

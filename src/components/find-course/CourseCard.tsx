@@ -24,7 +24,7 @@ export function CourseCard({ course: c, expanded, onToggle, revealed, delay }: C
         <div className="flex flex-1 flex-col gap-3">
           <div className="flex items-start justify-between gap-2.5">
             <h3 className="m-0 text-xl font-bold text-neutral-900">{c.name}</h3>
-            <span className="rounded-md border border-primary-600/15 bg-primary-600/10 px-2.5 py-1 text-[11.5px] font-bold whitespace-nowrap text-[#3d6ce7]">
+            <span className="rounded-md border border-primary-600/15 bg-primary-600/10 px-2.5 py-1 text-[11.5px] font-bold whitespace-nowrap text-[#0b7a3b]">
               {c.streamLabel}
             </span>
           </div>
@@ -40,21 +40,21 @@ export function CourseCard({ course: c, expanded, onToggle, revealed, delay }: C
               <strong className="text-primary-900">{feeRange(c.feeMin, c.feeMax)}</strong>
             </div>
           </div>
-          <Link href={`/colleges?stream=${c.stream}`} className="text-[13.5px] font-bold text-[#3d6ce7] no-underline">
+          <Link href={`/colleges?stream=${c.stream}`} className="text-[13.5px] font-bold text-[#0b7a3b] no-underline">
             {c.collegeCount} colleges offer this →
           </Link>
         </div>
         <div className="mt-4 flex gap-2">
           <button
             onClick={() => onToggle(c.id)}
-            className="flex-1 cursor-pointer rounded-[9px] border-none bg-accent-500 py-2.5 text-sm font-bold text-white transition-[filter,box-shadow] duration-200 hover:brightness-105 hover:shadow-[0_8px_18px_rgba(97,81,251,.28)]"
+            className="flex-1 cursor-pointer rounded-[9px] border-none bg-accent-500 py-2.5 text-sm font-bold text-white transition-[filter,box-shadow] duration-200 hover:brightness-105 hover:shadow-[0_8px_18px_rgba(194,22,26,.28)]"
           >
             {expanded ? "Close" : "Enquire"}
           </button>
         </div>
         {expanded && (
           <div
-            className="mt-1 flex flex-col gap-3 border-t border-[#eef1f7] pt-3.5"
+            className="mt-1 flex flex-col gap-3 border-t border-[#eef4ef] pt-3.5"
             style={{ animation: "feFadeUp .35s cubic-bezier(.16,1,.3,1)" }}
           >
             <div className="text-[13.5px] text-[#4B5563]">

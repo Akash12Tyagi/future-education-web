@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { NewsEventType } from "@/generated/prisma/enums";
+import { adminAction } from "@/lib/admin-action";
 
 const newsEventSchema = z.object({
   slug: z.string().min(1),
@@ -39,7 +40,7 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createNewsEvent(
+export const createNewsEvent = adminAction(async function createNewsEvent(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -62,9 +63,9 @@ export async function createNewsEvent(
   revalidatePath("/admin/news");
   revalidatePath("/news-events");
   redirect("/admin/news");
-}
+}, "News item created");
 
-export async function updateNewsEvent(
+export const updateNewsEvent = adminAction(async function updateNewsEvent(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -89,9 +90,9 @@ export async function updateNewsEvent(
   revalidatePath("/admin/news");
   revalidatePath("/news-events");
   redirect("/admin/news");
-}
+}, "Changes saved");
 
-export async function deleteNewsEvent(id: string) {
+export const deleteNewsEvent = adminAction(async function deleteNewsEvent(id: string) {
   const session = await requireAdmin();
   await prisma.newsEvent.delete({ where: { id } });
   await prisma.auditLog.create({
@@ -99,4 +100,4 @@ export async function deleteNewsEvent(id: string) {
   });
   revalidatePath("/admin/news");
   revalidatePath("/news-events");
-}
+});

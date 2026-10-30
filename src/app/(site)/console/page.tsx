@@ -12,7 +12,7 @@ export default function ConsolePage() {
 
   return (
     <div className="mx-auto max-w-[1080px] px-[22px] pt-10 pb-[90px]">
-      <div className="mb-3 inline-block rounded-md bg-[#FEF3C7] px-2.5 py-1.5 text-xs font-bold text-[#92400E]">
+      <div className="mb-3 inline-block rounded-md bg-[#fbf9c4] px-2.5 py-1.5 text-xs font-bold text-[#92400E]">
         INTERNAL TOOL · counsellor / admin only
       </div>
       <h1 className="mb-6.5 text-[clamp(26px,3.2vw,34px)] font-extrabold text-primary-900">Counsellor console</h1>
@@ -30,7 +30,7 @@ export default function ConsolePage() {
             </span>
             {/* Intentionally a no-op: the public "online" indicator always reflects
                 real staffed hours and is never faked, even from this internal tool. */}
-            <button className="cursor-pointer rounded-lg border-[1.5px] border-[#3d6ce7] bg-white px-3.5 py-2 font-bold text-[#3d6ce7]">
+            <button className="cursor-pointer rounded-lg border-[1.5px] border-[#0b7a3b] bg-white px-3.5 py-2 font-bold text-[#0b7a3b]">
               Toggle
             </button>
           </div>
@@ -66,7 +66,7 @@ export default function ConsolePage() {
                     {l.courseInterest} · source: {l.sourceTag} · {l.at}
                   </div>
                 </div>
-                <span className="self-center rounded-md bg-[#FEF3C7] px-2.5 py-1 text-xs font-bold text-[#B45309]">
+                <span className="self-center rounded-md bg-[#fbf9c4] px-2.5 py-1 text-xs font-bold text-[#B45309]">
                   {l.status}
                 </span>
               </div>

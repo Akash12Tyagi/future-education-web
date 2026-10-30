@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { adminAction } from "@/lib/admin-action";
 
 const seoSchema = z.object({
   path: z.string().min(1).startsWith("/"),
@@ -28,7 +29,7 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createSeoOverride(
+export const createSeoOverride = adminAction(async function createSeoOverride(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -46,9 +47,9 @@ export async function createSeoOverride(
   revalidatePath("/admin/seo");
   revalidatePath(data.path);
   redirect("/admin/seo");
-}
+}, "SEO override created");
 
-export async function updateSeoOverride(
+export const updateSeoOverride = adminAction(async function updateSeoOverride(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -64,9 +65,9 @@ export async function updateSeoOverride(
   revalidatePath("/admin/seo");
   revalidatePath(data.path);
   redirect("/admin/seo");
-}
+}, "Changes saved");
 
-export async function deleteSeoOverride(id: string, path: string) {
+export const deleteSeoOverride = adminAction(async function deleteSeoOverride(id: string, path: string) {
   const session = await requireAdmin();
   await prisma.seoMeta.delete({ where: { id } });
   await prisma.auditLog.create({
@@ -74,4 +75,4 @@ export async function deleteSeoOverride(id: string, path: string) {
   });
   revalidatePath("/admin/seo");
   revalidatePath(path);
-}
+});

@@ -5,20 +5,15 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { navGroups, successStoriesLink, galleryLink } from "@/data/navigation";
 import { useIsMobile } from "@/hooks/useMediaQuery";
-import { useChatOnline } from "@/hooks/useChatOnline";
-import { useAppState } from "@/context/app-state";
 import { useEscapeToClose } from "@/hooks/useEscapeToClose";
-import { dict } from "@/data/dict";
 import { waHref, WHATSAPP_NUMBER } from "@/lib/whatsapp";
 import { MagneticLink } from "@/components/ui/MagneticLink";
 import { MegaMenu } from "./MegaMenu";
 import { MobileMenu } from "./MobileMenu";
+import { TopBar } from "./TopBar";
 
 export function Header() {
   const isMobile = useIsMobile();
-  const chatOnline = useChatOnline();
-  const { lang, toggleLang } = useAppState();
-  const t = dict[lang];
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [headerScrolled, setHeaderScrolled] = useState(false);
@@ -49,42 +44,7 @@ export function Header() {
 
   return (
     <>
-      {/* Utility bar */}
-      <div className="bg-primary-900 text-[13.5px] text-[#eaf0ff]">
-        <div className="mx-auto flex max-w-[1220px] flex-wrap items-center justify-between gap-3 px-[22px] py-2">
-          <div className="flex flex-wrap items-center gap-4.5">
-            <a href="tel:+919334649506" className="flex items-center gap-1.5 font-medium text-[#eaf0ff] no-underline">
-              <span className="opacity-80">☎</span> +91 93346 49506
-            </a>
-            <a
-              href={waHref()}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1.5 font-medium text-[#eaf0ff] no-underline"
-            >
-              <span className="inline-block h-2 w-2 rounded-full bg-[#25D366]" /> WhatsApp us
-            </a>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5">
-              <span
-                className="inline-block h-2 w-2 rounded-full"
-                style={{
-                  background: chatOnline ? "#25D366" : "#9CA3AF",
-                  animation: chatOnline ? "fe-pulse 1.8s infinite" : undefined,
-                }}
-              />
-              <span className="opacity-85">{chatOnline ? "Counsellors online" : "Offline · leave a callback"}</span>
-            </div>
-            <button
-              onClick={toggleLang}
-              className="cursor-pointer rounded-full border border-white/35 bg-transparent px-2.5 py-[3px] text-[12.5px] font-semibold text-[#eaf0ff]"
-            >
-              {t.langLabel}
-            </button>
-          </div>
-        </div>
-      </div>
+      <TopBar />
 
       {/* Main header */}
       <header
@@ -94,7 +54,7 @@ export function Header() {
           backdropFilter: headerScrolled ? "saturate(180%) blur(14px)" : "none",
           WebkitBackdropFilter: headerScrolled ? "saturate(180%) blur(14px)" : "none",
           borderBottomColor: headerScrolled ? "rgba(229,231,235,.7)" : "#E5E7EB",
-          boxShadow: headerScrolled ? "0 8px 24px rgba(27, 37, 89,.08)" : "none",
+          boxShadow: headerScrolled ? "0 8px 24px rgba(0,88,38,.08)" : "none",
         }}
       >
         <div
@@ -157,7 +117,7 @@ export function Header() {
               </nav>
               <MagneticLink
                 href="/contact"
-                className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-accent-500 px-5 py-2.5 text-[15px] font-bold text-white no-underline shadow-[0_6px_16px_rgba(97, 81, 251,.28)] hover:shadow-[0_8px_22px_rgba(97, 81, 251,.38)]"
+                className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-accent-500 px-5 py-2.5 text-[15px] font-bold text-white no-underline shadow-[0_6px_16px_rgba(194,22,26,.28)] hover:shadow-[0_8px_22px_rgba(194,22,26,.38)]"
               >
                 Enquire Now
               </MagneticLink>
@@ -199,7 +159,7 @@ export function Header() {
           <div className="absolute top-full left-0 z-[60] w-full px-[22px] pt-3" style={{ animation: "feMegaIn .24s cubic-bezier(.16,1,.3,1) both" }}>
             <div
               ref={panelRef}
-              className="mx-auto max-w-[1180px] overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white shadow-[0_24px_60px_rgba(27,37,89,.14)]"
+              className="mx-auto max-w-[1180px] overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white shadow-[0_24px_60px_rgba(0,88,38,.14)]"
             >
               <MegaMenu group={activeGroup} onNavigate={() => setOpenMenu(null)} />
             </div>

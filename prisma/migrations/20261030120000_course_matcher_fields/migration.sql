@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "courses" ADD COLUMN     "abroad" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "minPct" INTEGER NOT NULL DEFAULT 0;

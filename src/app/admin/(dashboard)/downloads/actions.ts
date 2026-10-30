@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { DownloadCategory } from "@/generated/prisma/enums";
+import { adminAction } from "@/lib/admin-action";
 
 const downloadSchema = z.object({
   title: z.string().min(1),
@@ -31,7 +32,7 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createDownload(
+export const createDownload = adminAction(async function createDownload(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -46,9 +47,9 @@ export async function createDownload(
   revalidatePath("/admin/downloads");
   revalidatePath("/downloads");
   redirect("/admin/downloads");
-}
+}, "Download created");
 
-export async function updateDownload(
+export const updateDownload = adminAction(async function updateDownload(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -64,9 +65,9 @@ export async function updateDownload(
   revalidatePath("/admin/downloads");
   revalidatePath("/downloads");
   redirect("/admin/downloads");
-}
+}, "Changes saved");
 
-export async function deleteDownload(id: string) {
+export const deleteDownload = adminAction(async function deleteDownload(id: string) {
   const session = await requireAdmin();
   await prisma.download.delete({ where: { id } });
   await prisma.auditLog.create({
@@ -74,4 +75,4 @@ export async function deleteDownload(id: string) {
   });
   revalidatePath("/admin/downloads");
   revalidatePath("/downloads");
-}
+});

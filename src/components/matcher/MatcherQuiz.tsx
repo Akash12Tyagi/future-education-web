@@ -1,16 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
-import { matcherSteps } from "@/data/matcher-steps";
-import { runMatcher, type MatcherAnswers } from "@/lib/matcher";
+import { useSearchParams } from "next/navigation";
+import { buildMatcherSteps } from "@/data/matcher-steps";
+import { findCategory, runMatcher, type MatcherAnswers } from "@/lib/matcher";
 import { waHref } from "@/lib/whatsapp";
+import type { MatcherCategory } from "@/lib/site-data";
 
 type Phase = "quiz" | "loading" | "results";
 
-export function MatcherQuiz() {
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<MatcherAnswers>({});
+export function MatcherQuiz({ categories }: { categories: MatcherCategory[] }) {
+  const searchParams = useSearchParams();
+  const matcherSteps = useMemo(() => buildMatcherSteps(categories), [categories]);
+  // A category picked on the Find Your Course overview (?category=btech)
+  // pre-answers step 1, so the student starts on the score question.
+  const presetCategory = findCategory(categories, searchParams.get("category") ?? undefined)?.key;
+  const [step, setStep] = useState(presetCategory ? 1 : 0);
+  const [answers, setAnswers] = useState<MatcherAnswers>(presetCategory ? { category: presetCategory } : {});
   const [phase, setPhase] = useState<Phase>("quiz");
   const [dir, setDir] = useState(1);
   const [tick, setTick] = useState(0);
@@ -40,7 +47,7 @@ export function MatcherQuiz() {
   const submit = () => {
     setPhase("loading");
     setTimeout(() => {
-      setResults(runMatcher(answers));
+      setResults(runMatcher(answers, categories));
       setPhase("results");
     }, 1100);
   };
@@ -50,10 +57,10 @@ export function MatcherQuiz() {
       <div className="rounded-2xl border border-[#E5E7EB] bg-white px-7 py-14 text-center">
         <div
           className="mx-auto mb-5 h-11 w-11 rounded-full border-4 border-primary-100"
-          style={{ borderTopColor: "#3d6ce7", animation: "fe-spin .8s linear infinite" }}
+          style={{ borderTopColor: "#0b7a3b", animation: "fe-spin .8s linear infinite" }}
         />
         <div className="text-lg font-bold text-primary-900">Scoring your matches…</div>
-        <p className="mt-2 mb-0 text-neutral-500">Weighing stream, budget, location and program type.</p>
+        <p className="mt-2 mb-0 text-neutral-500">Weighing course, Class 12 score, budget and location.</p>
       </div>
     );
   }
@@ -61,13 +68,19 @@ export function MatcherQuiz() {
   if (phase === "results" && results) {
     return (
       <div style={{ animation: "feFadeUp .5s cubic-bezier(.16,1,.3,1)" }}>
-        {results.hasStrongMatch ? (
+        {results.matches.length > 0 ? (
           <>
             <div className="mb-2">
               <span className="rounded-full bg-accent-100 px-2.5 py-1.5 text-xs font-bold text-accent-500">YOUR MATCHES</span>
             </div>
-            <h1 className="mb-1.5 text-[clamp(26px,3.2vw,34px)] font-extrabold text-primary-900">Here&apos;s what fits you</h1>
-            <p className="mb-6 text-neutral-500">Ranked by our matcher. Each card shows exactly why.</p>
+            <h1 className="mb-1.5 text-[clamp(26px,3.2vw,34px)] font-extrabold text-primary-900">
+              {results.hasStrongMatch ? "Here’s what fits you" : "Your closest options"}
+            </h1>
+            <p className="mb-6 text-neutral-500">
+              {results.hasStrongMatch
+                ? `Your top ${results.matches.length} ranked by our matcher. Each card shows exactly why.`
+                : "Nothing fits every answer exactly — these come closest. A counsellor can help you close the gap."}
+            </p>
             <div className="flex flex-col gap-4">
               {results.matches.map((m, i) => (
                 <div
@@ -81,11 +94,18 @@ export function MatcherQuiz() {
                   <div className="min-w-[220px] flex-1">
                     <div className="flex flex-wrap items-center gap-2.5">
                       <h3 className="m-0 text-[19px] font-bold text-neutral-900">{m.courseName}</h3>
-                      <span className="rounded-md bg-accent-100 px-2 py-1 text-[11px] font-bold text-accent-500">AI Match</span>
+                      <span
+                        className={`rounded-md px-2 py-1 text-[11px] font-bold ${
+                          m.withinBudget ? "bg-[#E7F6EC] text-success-500" : "bg-accent-100 text-accent-500"
+                        }`}
+                      >
+                        {m.withinBudget ? "Within budget" : "Above budget"}
+                      </span>
                     </div>
-                    <div className="my-1 mb-3 text-sm text-neutral-500">
-                      {m.collegeName} {m.city && <>· {m.city}</>} · {m.feeRange}
+                    <div className="my-1 text-sm text-neutral-500">
+                      {m.categoryLabel} · {m.duration} · {m.feeRange} total (indicative)
                     </div>
+                    <div className="mb-3 text-[13px] text-neutral-500">Eligibility: {m.eligibility}</div>
                     <div className="flex flex-col gap-1.5">
                       {m.reasons.map((r) => (
                         <div key={r} className="flex items-start gap-2 text-[13.5px] text-success-500">
@@ -93,16 +113,41 @@ export function MatcherQuiz() {
                           <span className="text-[#374151]">{r}</span>
                         </div>
                       ))}
+                      {m.cautions.map((r) => (
+                        <div key={r} className="flex items-start gap-2 text-[13.5px] text-accent-500">
+                          <span>!</span>
+                          <span className="text-[#374151]">{r}</span>
+                        </div>
+                      ))}
                     </div>
+                    {m.colleges.length > 0 && (
+                      <div className="mt-3.5 rounded-[10px] bg-[#F7FAF8] p-3">
+                        <div className="mb-1.5 text-[12px] font-bold tracking-wide text-neutral-500 uppercase">
+                          Partner colleges for this course
+                        </div>
+                        <ul className="m-0 flex list-none flex-col gap-1.5 p-0">
+                          {m.colleges.map((c) => (
+                            <li key={c.slug} className="flex flex-wrap items-baseline justify-between gap-x-3 text-[13.5px]">
+                              <Link href={`/colleges/${c.slug}`} className="font-semibold text-primary-900 no-underline hover:underline">
+                                {c.name}
+                              </Link>
+                              <span className={c.withinBudget ? "text-neutral-500" : "text-accent-500"}>
+                                {c.place} · {c.feeRange}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                     <div className="mt-3.5 flex flex-wrap gap-2">
                       <Link
-                        href="/find-your-course"
-                        className="rounded-[9px] border-[1.5px] border-[#3d6ce7] px-3.5 py-2 text-[13.5px] font-semibold text-[#3d6ce7] no-underline"
+                        href={`/find-your-course?stream=${m.categoryKey}`}
+                        className="rounded-[9px] border-[1.5px] border-[#0b7a3b] px-3.5 py-2 text-[13.5px] font-semibold text-[#0b7a3b] no-underline"
                       >
-                        View course
+                        View courses
                       </Link>
                       <a
-                        href={waHref()}
+                        href={waHref(`Hi Future Education, I'd like guidance on ${m.courseName}.`)}
                         target="_blank"
                         rel="noreferrer"
                         className="rounded-[9px] bg-accent-500 px-3.5 py-2.5 text-[13.5px] font-bold text-white no-underline"
@@ -117,14 +162,15 @@ export function MatcherQuiz() {
           </>
         ) : (
           <div className="rounded-2xl border border-[#E5E7EB] bg-white p-9 text-center">
-            <div className="mb-2 text-xl font-extrabold text-primary-900">No single strong match — but you&apos;re not stuck</div>
+            <div className="mb-2 text-xl font-extrabold text-primary-900">No exact match yet — but you&apos;re not stuck</div>
             <p className="mx-auto mb-5 max-w-[52ch] text-neutral-500">
-              Your answers span a few directions. Browse the full course list, or let a counsellor talk it through with you.
+              Programmes in this field usually need a higher Class 12 score. A counsellor can suggest bridge courses,
+              diplomas with lateral entry, or related fields that fit you.
             </p>
             <div className="flex flex-wrap justify-center gap-2.5">
               <Link
                 href="/find-your-course"
-                className="rounded-[9px] border-[1.5px] border-[#3d6ce7] px-5 py-3 font-bold text-[#3d6ce7] no-underline"
+                className="rounded-[9px] border-[1.5px] border-[#0b7a3b] px-5 py-3 font-bold text-[#0b7a3b] no-underline"
               >
                 Browse all courses
               </Link>
@@ -156,7 +202,7 @@ export function MatcherQuiz() {
             Skip to browse
           </Link>
         </div>
-        <div className="mb-6.5 h-1.5 overflow-hidden rounded-full bg-[#eef1f7]">
+        <div className="mb-6.5 h-1.5 overflow-hidden rounded-full bg-[#eef4ef]">
           <div
             className="h-full rounded-full bg-primary-600 transition-[width] duration-400"
             style={{ width: `${progressPct}%` }}
@@ -164,7 +210,7 @@ export function MatcherQuiz() {
         </div>
         <h2 className="mb-5.5 text-[clamp(22px,2.8vw,28px)] font-extrabold text-primary-900">{cfg.q}</h2>
         <div className="flex flex-col gap-3">
-          {cfg.opts.map(([val, label]) => {
+          {cfg.opts.map(([val, label, hint]) => {
             const active = answers[cfg.key as keyof MatcherAnswers] === val;
             return (
               <button
@@ -183,7 +229,10 @@ export function MatcherQuiz() {
                     background: active ? "var(--color-accent-500)" : "#fff",
                   }}
                 />
-                {label}
+                <span>
+                  {label}
+                  {hint && <span className="mt-0.5 block text-[12.5px] font-normal text-neutral-500">{hint}</span>}
+                </span>
               </button>
             );
           })}
@@ -205,7 +254,7 @@ export function MatcherQuiz() {
               onClick={submit}
               disabled={!selected}
               className="rounded-[10px] border-none px-6 py-3 text-[15px] font-bold text-white"
-              style={{ background: selected ? "var(--color-accent-500)" : "#dad4fa", cursor: selected ? "pointer" : "not-allowed" }}
+              style={{ background: selected ? "var(--color-accent-500)" : "#f6caca", cursor: selected ? "pointer" : "not-allowed" }}
             >
               See my matches →
             </button>
@@ -214,7 +263,7 @@ export function MatcherQuiz() {
               onClick={next}
               disabled={!selected}
               className="rounded-[10px] border-none px-6 py-3 text-[15px] font-bold text-white"
-              style={{ background: selected ? "var(--color-accent-500)" : "#dad4fa", cursor: selected ? "pointer" : "not-allowed" }}
+              style={{ background: selected ? "var(--color-accent-500)" : "#f6caca", cursor: selected ? "pointer" : "not-allowed" }}
             >
               Next →
             </button>

@@ -19,6 +19,10 @@ export default async function AdminLeadsPage() {
           Export to Excel (CSV)
         </a>
       </div>
+      <p className="mb-4 text-[13.5px] text-neutral-500">
+        The status you set here is what students see on the public Application Tracker: NEW = Enquiry received,
+        CONTACTED = Counselling done, QUALIFIED = Shortlist &amp; documents, CONVERTED = Admission confirmed.
+      </p>
 
       <AdminCard>
         <DataTable

@@ -1,6 +1,7 @@
 import type { Course, CourseOption } from "@/lib/types";
 
-export const courses: Course[] = [
+// Seed data only (prisma/seed.ts). The matcher fields are set from Admin → Courses.
+export const courses: Omit<Course, "minPct" | "abroad">[] = [
   { id: "c1", slug: "mbbs", name: "MBBS", stream: "medical", streamLabel: "Medical", type: "regular", duration: "4 years", durMonths: 48, eligibility: "10+2 with Physics, Chemistry & Biology · NEET-UG qualified", feeMin: 500000, feeMax: 1500000, outcomes: ["Physician", "Medical Officer", "Junior Resident"], collegeCount: 45 },
   { id: "c2", slug: "bds", name: "BDS", stream: "medical", streamLabel: "Medical", type: "regular", duration: "4 years", durMonths: 48, eligibility: "10+2 with PCB · NEET-UG qualified", feeMin: 300000, feeMax: 900000, outcomes: ["Dental Surgeon", "Orthodontist (with further study)"], collegeCount: 25 },
   { id: "c3", slug: "md-ms", name: "MD / MS", stream: "medical", streamLabel: "Medical", type: "regular", duration: "2 years", durMonths: 24, eligibility: "MBBS with NEET-PG qualification", feeMin: 800000, feeMax: 2000000, outcomes: ["Specialist Physician", "Surgeon"], collegeCount: 15 },

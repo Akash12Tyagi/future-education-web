@@ -3,6 +3,8 @@
 import { useActionState } from "react";
 import { FormField, TextInput, TextArea, Select, SubmitButton } from "@/components/admin/FormField";
 import { MediaPicker, type MediaOption } from "@/components/admin/MediaPicker";
+import { useActionToast } from "@/components/admin/Toaster";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 
 export interface NoticeFormValues {
   title: string;
@@ -33,9 +35,10 @@ export function NoticeForm({
   mediaAssets: MediaOption[];
 }) {
   const [state, formAction, pending] = useActionState(action, undefined);
+  useActionToast(state);
 
   return (
-    <form action={formAction} className="flex max-w-[560px] flex-col gap-4">
+    <form onSubmit={submitKeepingValues(formAction)} className="flex max-w-[560px] flex-col gap-4">
       <FormField label="Title" name="title">
         <TextInput name="title" defaultValue={initial?.title} required />
       </FormField>
@@ -62,9 +65,19 @@ export function NoticeForm({
         </FormField>
       </div>
 
-      <FormField label="PDF attachment (optional)" name="attachmentId">
-        <MediaPicker name="attachmentId" assets={mediaAssets} defaultValue={initial?.attachmentId} folder="notices" />
+      <FormField label="Attachment — PDF or JPG/PNG image (optional)" name="attachmentId">
+        <MediaPicker
+          name="attachmentId"
+          assets={mediaAssets}
+          defaultValue={initial?.attachmentId}
+          folder="notices"
+          accept="application/pdf,image/jpeg,image/png,image/webp"
+        />
       </FormField>
+      <p className="-mt-2 m-0 text-[12.5px] text-neutral-500">
+        Choose a file and press <strong>Upload</strong>. Scrolling-ticker notices appear at the very top of every page;
+        visitors click the notice to open the attached PDF or image.
+      </p>
 
       <div className="flex gap-5">
         <label className="flex items-center gap-2 text-[13.5px] font-semibold">

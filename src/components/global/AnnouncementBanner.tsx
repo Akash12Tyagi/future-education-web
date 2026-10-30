@@ -22,7 +22,7 @@ export function AnnouncementBanner({ notices }: { notices: PublicNotice[] }) {
       )}
       {banner.attachmentUrl && (
         <a href={banner.attachmentUrl} target="_blank" rel="noreferrer" className="ml-2 font-bold text-white underline">
-          View PDF
+          {banner.attachmentIsImage ? "View image" : "View PDF"}
         </a>
       )}
     </div>

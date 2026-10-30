@@ -31,7 +31,7 @@ export function CallbackSheet() {
           </button>
         </div>
         <p className="mb-4.5 text-sm text-neutral-500">
-          A counsellor calls you within 24 hours. We&apos;re open daily, 10 AM – 8 PM (Sundays by appointment).
+          A counsellor calls you within 24 hours. We&apos;re open daily, 10 AM – 6 PM (Sundays by appointment).
         </p>
         <LeadForm
           variant="micro"

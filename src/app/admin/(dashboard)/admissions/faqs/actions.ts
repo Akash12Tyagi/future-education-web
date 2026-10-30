@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { adminAction } from "@/lib/admin-action";
 
 const faqSchema = z.object({
   category: z.string().min(1),
@@ -30,7 +31,7 @@ async function requireAdmin() {
   return session;
 }
 
-export async function createFaq(
+export const createFaq = adminAction(async function createFaq(
   _prev: { error?: string } | undefined,
   formData: FormData,
 ): Promise<{ error?: string } | undefined> {
@@ -45,9 +46,9 @@ export async function createFaq(
   revalidatePath("/admin/admissions/faqs");
   revalidatePath("/admission-consultancy");
   redirect("/admin/admissions/faqs");
-}
+}, "FAQ created");
 
-export async function updateFaq(
+export const updateFaq = adminAction(async function updateFaq(
   id: string,
   _prev: { error?: string } | undefined,
   formData: FormData,
@@ -63,9 +64,9 @@ export async function updateFaq(
   revalidatePath("/admin/admissions/faqs");
   revalidatePath("/admission-consultancy");
   redirect("/admin/admissions/faqs");
-}
+}, "Changes saved");
 
-export async function deleteFaq(id: string) {
+export const deleteFaq = adminAction(async function deleteFaq(id: string) {
   const session = await requireAdmin();
   await prisma.faq.delete({ where: { id } });
   await prisma.auditLog.create({
@@ -73,4 +74,4 @@ export async function deleteFaq(id: string) {
   });
   revalidatePath("/admin/admissions/faqs");
   revalidatePath("/admission-consultancy");
-}
+});

@@ -3,6 +3,8 @@
 import { useActionState } from "react";
 import { FormField, TextInput, TextArea, Select, SubmitButton } from "@/components/admin/FormField";
 import { MediaPicker, type MediaOption } from "@/components/admin/MediaPicker";
+import { useActionToast } from "@/components/admin/Toaster";
+import { submitKeepingValues } from "@/components/admin/submit-keeping-values";
 
 export interface NewsEventFormValues {
   slug: string;
@@ -33,9 +35,10 @@ export function NewsEventForm({
   mediaAssets: MediaOption[];
 }) {
   const [state, formAction, pending] = useActionState(action, undefined);
+  useActionToast(state);
 
   return (
-    <form action={formAction} className="flex max-w-[560px] flex-col gap-4">
+    <form onSubmit={submitKeepingValues(formAction)} className="flex max-w-[560px] flex-col gap-4">
       <div className="grid grid-cols-2 gap-4">
         <FormField label="Title" name="title">
           <TextInput name="title" defaultValue={initial?.title} required />

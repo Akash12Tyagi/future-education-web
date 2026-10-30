@@ -1,4 +1,5 @@
-export type Stream = "medical" | "engineering" | "management" | "nursing" | "education" | "distance";
+/** A stream key from the database (admins can add streams, so this is open-ended). */
+export type Stream = string;
 export type CourseType = "regular" | "distance";
 export type CollegeType = "government" | "private" | "deemed";
 
@@ -22,6 +23,8 @@ export interface Course {
   feeMax: number;
   outcomes: string[];
   collegeCount: number;
+  minPct: number;
+  abroad: boolean;
 }
 
 export interface College {
@@ -112,7 +115,8 @@ export interface ProcessStep {
 export interface MatcherStep {
   key: string;
   q: string;
-  opts: [string, string][];
+  /** [value, label, optional hint shown under the label] */
+  opts: [string, string, string?][];
 }
 
 export interface OutcomeHighlight {

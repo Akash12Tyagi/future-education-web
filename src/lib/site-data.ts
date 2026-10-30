@@ -11,6 +11,7 @@ import type {
   Stream,
   StreamMeta,
 } from "@/lib/types";
+import { visitPhotos } from "@/data/visit-photos";
 
 const FALLBACK_IMAGE = "/images/campus/campus-01.jpg";
 
@@ -43,6 +44,103 @@ export async function getCourses(): Promise<Course[]> {
     feeMax: c.feeMax,
     outcomes: c.outcomes,
     collegeCount: c._count.colleges,
+    minPct: c.minPct,
+    abroad: c.abroad,
+  }));
+}
+
+/** A stream with at least one active course — the "pick your field" list. */
+export interface CourseCategory {
+  key: string;
+  label: string;
+  examples: string;
+  courseCount: number;
+}
+
+export interface MatcherCollege {
+  slug: string;
+  name: string;
+  city: string;
+  state: string;
+  feeMin: number;
+  feeMax: number;
+  isVerifiedPartner: boolean;
+  accreditationCount: number;
+}
+
+export interface MatcherProgramme {
+  slug: string;
+  name: string;
+  duration: string;
+  durMonths: number;
+  eligibility: string;
+  minPct: number;
+  feeMin: number;
+  feeMax: number;
+  abroad: boolean;
+  colleges: MatcherCollege[];
+}
+
+export interface MatcherCategory extends CourseCategory {
+  programmes: MatcherProgramme[];
+}
+
+// Streams are ordered by their earliest course's display order, so admins
+// control the sequence from Admin → Courses.
+async function loadStreamsWithCourses() {
+  const streams = await prisma.stream.findMany({
+    include: {
+      courses: {
+        where: { active: true },
+        orderBy: { order: "asc" },
+        include: {
+          colleges: {
+            where: { college: { active: true } },
+            include: { college: true },
+            orderBy: { college: { order: "asc" } },
+          },
+        },
+      },
+    },
+  });
+  return streams
+    .filter((s) => s.courses.length > 0)
+    .sort((a, b) => a.courses[0].order - b.courses[0].order || a.label.localeCompare(b.label));
+}
+
+export async function getCourseCategories(): Promise<CourseCategory[]> {
+  const streams = await loadStreamsWithCourses();
+  return streams.map((s) => ({ key: s.key, label: s.label, examples: s.desc, courseCount: s.courses.length }));
+}
+
+export async function getMatcherCategories(): Promise<MatcherCategory[]> {
+  const streams = await loadStreamsWithCourses();
+  return streams.map((s) => ({
+    key: s.key,
+    label: s.label,
+    examples: s.desc,
+    courseCount: s.courses.length,
+    programmes: s.courses.map((c) => ({
+      slug: c.slug,
+      name: c.name,
+      duration: c.duration,
+      durMonths: c.durMonths,
+      eligibility: c.eligibility,
+      minPct: c.minPct,
+      feeMin: c.feeMin,
+      feeMax: c.feeMax,
+      abroad: c.abroad,
+      colleges: c.colleges.map(({ college }) => ({
+        slug: college.slug,
+        name: college.name,
+        city: college.city,
+        state: college.state,
+        feeMin: college.feeMin,
+        feeMax: college.feeMax,
+        isVerifiedPartner: college.isVerifiedPartner,
+        accreditationCount: college.accreditations.length,
+      })),
+    })),
   }));
 }
 
@@ -123,6 +221,8 @@ export async function getCollegeBySlug(slug: string): Promise<{ college: College
     feeMax: cc.course.feeMax,
     outcomes: cc.course.outcomes,
     collegeCount: cc.course._count.colleges,
+    minPct: cc.course.minPct,
+    abroad: cc.course.abroad,
   }));
 
   return { college, profileCourses };
@@ -348,7 +448,28 @@ export interface BannerSlide {
   imageAlt: string;
 }
 
+// Built-in hero slides (team visit photos). They can be hidden from Admin →
+// Banners but not deleted; hidden ids are stored in SiteSetting.
+export const HIDDEN_DEFAULT_BANNERS_KEY = "hiddenDefaultBanners";
+
+export const defaultBannerSlides: BannerSlide[] = visitPhotos.map((p) => ({
+  id: `default-${p.id}`,
+  image: p.src,
+  imageAlt: p.alt,
+  heading: p.caption,
+  subheading: null,
+  ctaLabel: null,
+  ctaHref: null,
+}));
+
+export async function getHiddenDefaultBannerIds(): Promise<string[]> {
+  const setting = await prisma.siteSetting.findUnique({ where: { key: HIDDEN_DEFAULT_BANNERS_KEY } });
+  return Array.isArray(setting?.value) ? setting.value.filter((v): v is string => typeof v === "string") : [];
+}
+
 export async function getActiveBanners(): Promise<BannerSlide[]> {
+  const hidden = new Set(await getHiddenDefaultBannerIds());
+  const defaults = defaultBannerSlides.filter((s) => !hidden.has(s.id));
   const now = new Date();
   const banners = await prisma.banner.findMany({
     where: {
@@ -361,7 +482,7 @@ export async function getActiveBanners(): Promise<BannerSlide[]> {
     orderBy: { order: "asc" },
     include: { image: true },
   });
-  return banners.map((b) => ({
+  const custom = banners.map((b) => ({
     id: b.id,
     heading: b.heading,
     subheading: b.subheading,
@@ -370,6 +491,7 @@ export async function getActiveBanners(): Promise<BannerSlide[]> {
     image: b.image.url,
     imageAlt: b.image.altText ?? b.heading,
   }));
+  return [...custom, ...defaults];
 }
 
 // ---------------------------------------------------------------------------
@@ -383,7 +505,10 @@ export interface PublicNotice {
   type: "POPUP" | "TICKER" | "BANNER";
   linkHref: string | null;
   attachmentUrl: string | null;
+  /** True for JPG/PNG/WebP attachments, false for PDFs and other documents. */
+  attachmentIsImage: boolean;
   pinned: boolean;
+  publishAt: string;
 }
 
 export async function getActiveNotices(): Promise<PublicNotice[]> {
@@ -404,6 +529,8 @@ export async function getActiveNotices(): Promise<PublicNotice[]> {
     type: n.type,
     linkHref: n.linkHref,
     attachmentUrl: n.attachment?.url ?? null,
+    attachmentIsImage: n.attachment?.kind === "IMAGE",
     pinned: n.pinned,
+    publishAt: n.publishAt.toISOString(),
   }));
 }
